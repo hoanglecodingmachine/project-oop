@@ -37,7 +37,7 @@ public class DienThoaiCoDien extends CUAHANGDIENTHOAI{
         super.xuat();
         System.out.printf("%-15s %-20s", banphim ,thoigianthoai );
     }
-    @Override public double Tong_Gia_Tien(){
+     @Override public double Tong_Gia_Tien(){
         return getSoLuong()*getDonGia();
     }
 }

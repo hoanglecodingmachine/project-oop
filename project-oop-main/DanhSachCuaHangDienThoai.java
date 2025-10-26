@@ -565,74 +565,74 @@ public double[] ThongKe_HeDieuHanh(){
 }
 public int[] ThongKe_DungLuong(){
     int gb128 = 0 , gb256 = 0 , gb512 = 0;
-
+    
     for (int i = 0; i < num; i++) {
+    
 
         if (sp[i] instanceof DienThoaiThongMinh) {
             DienThoaiThongMinh sp1 = (DienThoaiThongMinh) sp[i];
             String dl = sp1.getDungLuong();
 
             if (dl.equalsIgnoreCase("128gb")) {
-                gb128++;
-            } else if (dl.equalsIgnoreCase("256")) {
-                gb256++;
+                gb128 ++;
+            } else if (dl.equalsIgnoreCase("256gb")) {
+                gb256 ++;
             } else {
-                gb512++;
+                gb512 ++;
             }
         }
-    }
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co dung luong 128gb la ", gb128);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co dung luong 256gb la :", gb256);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co dung luong 512gb la ", gb512);
-
+    } 
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co dung luong 128gb la ",gb128);
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co dung luong 256gb la :",gb256 );
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co dung luong 512gb la ", gb512);
     return new int[]{gb128,gb256,gb512};
 }
 public int[] ThongKe_BanPhim(){
     int nut = 0 , qwerty = 0 , gap = 0;
-
+    
     for (int i = 0; i < num; i++) {
+    
 
         if (sp[i] instanceof DienThoaiCoDien) {
             DienThoaiCoDien sp1 = (DienThoaiCoDien) sp[i];
             String bp = sp1.getBanPhim();
 
             if (bp.equalsIgnoreCase("12 nut")) {
-                nut++;
+                nut ++;
             } else if (bp.equalsIgnoreCase("qwerty")) {
-                qwerty++;
+                qwerty ++;
             } else {
-                gap++;
+                gap ++;
             }
         }
-    }
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co ban phim 12 nut la ", nut);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co ban phim qwerty nut la  ", qwerty);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co ban phim gap la ", gap);
-
+    } 
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co kieu ban phim 12 nut la ",nut);
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co kieu ban phim qwerty la :",qwerty );
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co kieu ban phim gap la ", gap);
     return new int[]{nut,qwerty,gap};
 }
 public int[] ThongKe_ThoiGianGoi(){
-    int oneday = 0 , oneweek = 0 , onemonth = 0;
-
+    int oneday = 0 , onemonth = 0 , oneweek = 0;
+    
     for (int i = 0; i < num; i++) {
+    
 
         if (sp[i] instanceof DienThoaiCoDien) {
             DienThoaiCoDien sp1 = (DienThoaiCoDien) sp[i];
             int tgt = sp1.getThoiGianThoai();
 
             if (tgt <= 24) {
-                oneday++;
-            } else if (tgt <= 24*7 && tgt > 24) {
-                oneweek++;
+                oneday ++;
+            } else if (tgt > 24 && tgt <= 168) {
+                oneweek ++;
             } else {
-                onemonth++;
+                onemonth ++;
             }
         }
-    }
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 ngay la ", oneday);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 tuan la  ", oneweek);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 thang la ", onemonth);
-
-    return new int[]{oneday,oneweek,onemonth};
+    } 
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co thoi gian goi khoan 1 ngay la ",oneday);
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co thoi gian goi khoan 1 tuan la :",oneweek );
+    System.out.printf("%-40s %.2f%%\n", "so luong dien thoai co thoi gian goi khoan 1 thang la ", onemonth);
+    return new int[]{oneday,onemonth,oneweek};
 }
 }

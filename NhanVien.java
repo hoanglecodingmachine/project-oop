@@ -1,54 +1,55 @@
 import java.util.Scanner;
 
 public class NhanVien {
-    private String maNhanVien;
-    private String hoTen;
+    private String manhanvien;
+    private String ho;
+    private String ten;
     private double luong;
-    private String chucVu;
+    private String chucvu;
 
-    // Constructor không tham số
+
     public NhanVien() {}
 
     // Constructor có tham số
-    public NhanVien(String maNhanVien, String hoTen, double luong, String chucVu) {
-        this.maNhanVien = maNhanVien;
-        this.hoTen = hoTen;
+    public NhanVien(String manhanvien, String ho,String ten, double luong, String chucvu) {
+        this.manhanvien = manhanvien;
+        this.ho = ho;
+        this.ten = ten;
         this.luong = luong;
-        this.chucVu = chucVu;
+        this.chucvu = chucvu;
     }
 
     // Getter và Setter
-    public String getMaNhanVien() { return maNhanVien; }
-    public void setMaNhanVien(String maNhanVien) { this.maNhanVien = maNhanVien; }
+    public String getMaNhanVien() { return manhanvien; }
+    public void setMaNhanVien(String manhanvien) { this.manhanvien = manhanvien; }
 
-    public String getHoTen() { return hoTen; }
-    public void setHoTen(String hoTen) { this.hoTen = hoTen; }
+    public String getHo() { return ho; }
+    public void setHo(String ho) { this.ho = ho; }
+
+    public String getTen() { return ten; }
+    public void setTen(String ten) { this.ten = ten; }
 
     public double getLuong() { return luong; }
     public void setLuong(double luong) { this.luong = luong; }
 
-    public String getChucVu() { return chucVu; }
-    public void setChucVu(String chucVu) { this.chucVu = chucVu; }
+    public String getChucVu() { return chucvu; }
+    public void setChucVu(String chucvu) { this.chucvu = chucvu; }
 
-    // Phương thức nhập thông tin nhân viên
-    public void nhapThongTin() {
+    public void nhap() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Nhập mã nhân viên: ");
-        maNhanVien = sc.nextLine();
-        System.out.print("Nhập họ tên: ");
-        hoTen = sc.nextLine();
+        manhanvien = sc.nextLine();
+        System.out.print("Nhập họ: ");
+        ho = sc.nextLine();
+        System.out.print("Nhập ten: ");
+        ten = sc.nextLine(); 
         System.out.print("Nhập lương: ");
-        luong = Double.parseDouble(sc.nextLine());
+        luong = sc.nextDouble();
+        sc.nextLine();
         System.out.print("Nhập chức vụ: ");
-        chucVu = sc.nextLine();
+        chucvu = sc.nextLine();
     }
-
-    // Phương thức hiển thị thông tin nhân viên
-    public void hienThiThongTin() {
-        System.out.println("\n===== THÔNG TIN NHÂN VIÊN =====");
-        System.out.println("Mã nhân viên: " + maNhanVien);
-        System.out.println("Họ tên: " + hoTen);
-        System.out.println("Lương: " + luong);
-        System.out.println("Chức vụ: " + chucVu);
+    public void xuat() {
+        System.out.printf("%-15s %-20s %-10s %0f %15s",manhanvien,ho,ten,luong,chucvu);
     }
 }
