@@ -6,7 +6,7 @@ public class NhanVien {
     private String ten;
     private double luong;
     private String chucvu;
-
+    private static Scanner sc = new Scanner(System.in);
 
     public NhanVien() {}
 
@@ -36,7 +36,6 @@ public class NhanVien {
     public void setChucVu(String chucvu) { this.chucvu = chucvu; }
 
     public void nhap() {
-        Scanner sc = new Scanner(System.in);
         System.out.print("Nhập mã nhân viên: ");
         manhanvien = sc.nextLine();
         System.out.print("Nhập họ: ");
@@ -50,6 +49,7 @@ public class NhanVien {
         chucvu = sc.nextLine();
     }
     public void xuat() {
-        System.out.printf("%-15s %-20s %-10s %0f %15s",manhanvien,ho,ten,luong,chucvu);
+        System.out.printf("%-15s %-20s %-10s %-10.2f %-15s\n", manhanvien, ho, ten, luong, chucvu);
+
     }
 }
