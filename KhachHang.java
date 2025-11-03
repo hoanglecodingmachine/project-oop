@@ -1,62 +1,54 @@
 import java.util.Scanner;
 
 public class KhachHang {
-    private String maKhachHang;
-    private String tenKhachHang;
+    private String makhachhang;
+    private String tenkhachhang;
     private String email;
-    private String soDienThoai;
-    private String diaChi;
+    private String sodienthoai;
+    private String diachi;
+    private static Scanner sc = new Scanner(System.in);
 
-    // Constructor không tham số
     public KhachHang() {}
 
     // Constructor có tham số
-    public KhachHang(String maKhachHang, String tenKhachHang, String email, String soDienThoai, String diaChi) {
-        this.maKhachHang = maKhachHang;
-        this.tenKhachHang = tenKhachHang;
+    public KhachHang(String makhachhang, String tenkhachhang, String email, String sodienthoai, String diachi) {
+        this.makhachhang = makhachhang;
+        this.tenkhachhang = tenkhachhang;
         this.email = email;
-        this.soDienThoai = soDienThoai;
-        this.diaChi = diaChi;
+        this.sodienthoai = sodienthoai;
+        this.diachi = diachi;
     }
 
     // Getter và Setter
-    public String getMaKhachHang() { return maKhachHang; }
-    public void setMaKhachHang(String maKhachHang) { this.maKhachHang = maKhachHang; }
+    public String getMaKhachHang() { return makhachhang; }
+    public void setMaKhachHang(String makhachhang) { this.makhachhang = makhachhang; }
 
-    public String getTenKhachHang() { return tenKhachHang; }
-    public void setTenKhachHang(String tenKhachHang) { this.tenKhachHang = tenKhachHang; }
+    public String getTenKhachHang() { return tenkhachhang; }
+    public void setTenKhachHang(String tenkhachhang) { this.tenkhachhang = tenkhachhang; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getSoDienThoai() { return soDienThoai; }
-    public void setSoDienThoai(String soDienThoai) { this.soDienThoai = soDienThoai; }
+    public String getSoDienThoai() { return sodienthoai; }
+    public void setSoDienThoai(String sodienthoai) { this.sodienthoai = sodienthoai; }
 
-    public String getDiaChi() { return diaChi; }
-    public void setDiaChi(String diaChi) { this.diaChi = diaChi; }
-
-    // Phương thức nhập thông tin
-    public void nhapThongTin() {
-        Scanner sc = new Scanner(System.in);
+    public String getDiaChi() { return diachi; }
+    public void setDiaChi(String diachi) { this.diachi = diachi; }
+    public void nhap() {
         System.out.print("Nhập mã khách hàng: ");
-        maKhachHang = sc.nextLine();
+        makhachhang = sc.nextLine();
         System.out.print("Nhập tên khách hàng: ");
-        tenKhachHang = sc.nextLine();
+        tenkhachhang = sc.nextLine();
         System.out.print("Nhập email: ");
         email = sc.nextLine();
         System.out.print("Nhập số điện thoại: ");
-        soDienThoai = sc.nextLine();
+        sodienthoai = sc.nextLine();
         System.out.print("Nhập địa chỉ: ");
-        diaChi = sc.nextLine();
+        diachi = sc.nextLine();
     }
 
     // Phương thức hiển thị thông tin
-    public void hienThiThongTin() {
-        System.out.println("\n===== THÔNG TIN KHÁCH HÀNG =====");
-        System.out.println("Mã KH: " + maKhachHang);
-        System.out.println("Tên KH: " + tenKhachHang);
-        System.out.println("Email: " + email);
-        System.out.println("SĐT: " + soDienThoai);
-        System.out.println("Địa chỉ: " + diaChi);
+    public void xuat() {
+     System.out.printf("%-15s %-20s %-10s %-10s %-10s",makhachhang,tenkhachhang,email,sodienthoai,diachi);
     }
 }

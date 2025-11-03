@@ -1,18 +1,22 @@
 import java.util.Scanner;
 public class ChiTietHoaDon {
     private static Scanner sc = new Scanner(System.in);
+    private String mahoadonchitiet;
     private String masanpham;
     private int soluong;
     private double dongia;
     private double thanhgia;
     public ChiTietHoaDon(){};
-    public ChiTietHoaDon(String masanpham,int soluong,double dongia,double thanhgia){
+    public ChiTietHoaDon(String mahoadonchitiet ,String masanpham,int soluong,double dongia,double thanhgia){
+        this.mahoadonchitiet = mahoadonchitiet;
         this.masanpham = masanpham;
         this.soluong = soluong;
         this.dongia = dongia;
         this.thanhgia = thanhgia;
     }
     public void nhap(){
+        System.out.println("nhap ma hoa don chi tiet ");
+        mahoadonchitiet = sc.nextLine();
         System.out.println("nhap ma san pham khach hang mua ");
         masanpham = sc.nextLine();
         System.out.println("nhap so luong san pham khach hang mua ");
@@ -22,7 +26,13 @@ public class ChiTietHoaDon {
         thanhgia = dongia * soluong;
     }
     public void xuat(){
-         System.out.printf("%-10s %-10d %-10f %-10f",masanpham,soluong,dongia,thanhgia);
+         System.out.printf("%-10s %-10s %-10d %-10f %-10f",mahoadonchitiet,masanpham,soluong,dongia,thanhgia);
+    }
+    public String getMaHoaDonChiTiet(){
+        return mahoadonchitiet;
+    }
+    public void setMaHoaDonChiTiet(String mahoadonchitiet){
+        this.mahoadonchitiet = mahoadonchitiet;
     }
     public String getMaSanPham(){
         return masanpham;

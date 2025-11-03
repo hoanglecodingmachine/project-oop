@@ -59,13 +59,13 @@ public void xuat(){
             sp[i].xuat();
         }
     }
-public void ThemSP(CUAHANGDIENTHOAI sp1){
+public void Them(CUAHANGDIENTHOAI sp1){
         sp = Arrays.copyOf(sp,num + 1);
         sp[num] = sp1;
         num++;
         System.out.println("Da them san pham thanh cong !");
     }
-public void ThemSP() {
+public void Them() {
     int choice = 0;
     System.out.println("Vui lòng chọn loại sản phẩm cần thêm:");
     System.out.println("1. Smartphone");
@@ -81,14 +81,14 @@ public void ThemSP() {
             sp1 = new DienThoaiThongMinh();
             System.out.println("Nhập thông tin điện thoại thông minh:");
             sp1.nhap();
-            ThemSP(sp1);
+            Them(sp1);
             break;
 
         case 2:
             sp1 = new DienThoaiCoDien();
             System.out.println("Nhập thông tin điện thoại cổ điển:");
             sp1.nhap();
-            ThemSP(sp1);
+            Them(sp1);
             break;
 
         default:
@@ -120,7 +120,7 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma, int choice , Object ob) {
     boolean found = false;
     for (int i = 0; i < num; i++) {
         if (sp[i].getMaSP().equals(ma)) {
@@ -128,28 +128,28 @@ public void sua(String ma, int choice) {
             switch (choice) {
                 case 1:
                     System.out.println("vui lonng nhap ten san pham moi");
-                    sp[i].setTenSP(sc.nextLine());
+                    sp[i].setTenSP((String)ob);
                     System.out.println("Đã sửa tên thành công!");
                     break;
                 case 2:
                     System.out.println("vui long nhap so luong moi ");
-                    sp[i].setSoLuong(sc.nextInt());
+                    sp[i].setSoLuong((int)ob);
                     System.out.println("Đã sửa số lượng thành công!");
                     break;
                 case 3:
                     System.out.println("vui long nhap don vi tien moi ");
-                    sp[i].setDonViTien(sc.nextLine());
+                    sp[i].setDonViTien((String)ob);
                     System.out.println("Đã sửa đơn vị tiền thành công!");
                     break;
                 case 4:
                     System.out.println("vui long nhap don gia moi ");
-                    sp[i].setDonGia(sc.nextDouble());
+                    sp[i].setDonGia((Double)ob);
                     System.out.println("Đã sửa đơn giá thành công!");
                     break;
                 case 5:
                     if (sp[i] instanceof DienThoaiThongMinh) {
                         System.out.println("vui long nhap he dieu hanh moi ");
-                        ((DienThoaiThongMinh) sp[i]).setHeDieuHanh(sc.nextLine());
+                        ((DienThoaiThongMinh) sp[i]).setHeDieuHanh((String)ob);
                         System.out.println("Đã sửa hệ điều hành thành công!");
                     } else {
                         System.out.println("Sản phẩm này không có hệ điều hành!");
@@ -158,7 +158,7 @@ public void sua(String ma, int choice) {
                 case 6:
                     if (sp[i] instanceof DienThoaiThongMinh) {
                         System.out.println("nhap dung luong moi cho san pham ");
-                        ((DienThoaiThongMinh) sp[i]).setDungLuong(sc.nextLine());
+                        ((DienThoaiThongMinh) sp[i]).setDungLuong((String)ob);
                         System.out.println("Đã sửa dung lượng thành công!");
                     } else {
                         System.out.println("Sản phẩm này không có dung lượng!");
@@ -167,7 +167,7 @@ public void sua(String ma, int choice) {
                 case 7:
                     if (sp[i] instanceof DienThoaiCoDien) {
                         System.out.println("nhap thoi gian thoai moi cho san pham ");
-                        ((DienThoaiCoDien) sp[i]).setBanPhim(sc.nextLine());
+                        ((DienThoaiCoDien) sp[i]).setBanPhim((String)ob);
                         System.out.println("Đã sửa kiểu bàn phím thành công!");
                     } else {
                         System.out.println("Sản phẩm này không có bàn phím!");
@@ -176,7 +176,7 @@ public void sua(String ma, int choice) {
                 case 8:
                     if (sp[i] instanceof DienThoaiCoDien) {
                         System.out.println("nhap thoi gian thoai moi cho san pham ");
-                        ((DienThoaiCoDien) sp[i]).setThoiGianThoai(sc.nextInt());
+                        ((DienThoaiCoDien) sp[i]).setThoiGianThoai((int)ob);
                         System.out.println("Đã sửa thời gian thoại thành công!");
                     } else {
                         System.out.println("Sản phẩm này không có thời gian thoại!");
@@ -203,7 +203,30 @@ public void sua(){
             System.out.println("1 sua san pham, 2 so luong, 3 don vi tien,4 don gia ,5 he dieu thanh , 6 dung luong , 7 kieu ban phim , 8 thoi gian thoai , 0 sua het ");
             int choice = sc.nextInt();
             sc.nextLine();
-            sua(ma,choice); 
+            Object ob = null;
+
+            switch (choice) {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 6:
+                    System.out.print("nhap noi dung can sua moi ");
+                    ob = sc.nextLine();
+                    break;
+                case 2:
+                case 8: 
+                    System.out.print("nhap noi dung can sua moi ");
+                    ob = sc.nextInt();
+                    break;
+                case 4:
+                    System.out.print("nhap noi dung can sua moi ");
+                    ob = sc.nextDouble();
+                    break;
+                default:
+                    System.out.println("lua chon khong hop le ");
+            }
+            sua(ma,choice,ob); 
         }
     }
 }
@@ -225,17 +248,7 @@ public CUAHANGDIENTHOAI Search_Ma(String ma){
 public void Search_Ma(){
       System.out.println("nhap ma san pham can tim ");
       String ma = sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < num ; i++){
-        if(sp[i].getMaSP().toLowerCase().contains(ma.toLowerCase())){
-            found = true;
-            System.out.println("da tim thay san pham can tim ");
-            sp[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay san pham ");
-      }
+      Search_Ma(ma);
 }
 public CUAHANGDIENTHOAI[] Search_Ten(String ten){
       int count = 0;
@@ -260,17 +273,7 @@ public CUAHANGDIENTHOAI[] Search_Ten(String ten){
 public void Search_Ten(){
       System.out.println("nhap ten san pham can tim ");
       String ten = sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < num ; i++){
-        if(sp[i].getMaSP().toLowerCase().contains(ten.toLowerCase())){
-            found = true;
-            System.out.println("da tim thay san pham can tim ");
-            sp[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay san pham ");
-      }
+      Search_Ten(ten);
 }
 public CUAHANGDIENTHOAI[] Search_SoLuong(int soluong){
       int count = 0;
@@ -295,17 +298,7 @@ public CUAHANGDIENTHOAI[] Search_SoLuong(int soluong){
 public void Search_SoLuong(){
       System.out.println("nhap so luong san pham con lai ");
       int soluong = sc.nextInt();
-      boolean found = false;
-      for(int i = 0 ; i < num ; i++){
-        if(sp[i].getSoLuong() == soluong){
-            found = true;
-            System.out.println("da tim thay san pham can tim ");
-            sp[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay san pham ");
-      }
+      Search_SoLuong(soluong);
 }
 
 public CUAHANGDIENTHOAI[] Search_DonGia(double min,double max){
@@ -333,17 +326,7 @@ public void Search_DonGia(){
       double min = sc.nextDouble();
       System.out.println("nhap gia tien lon nhat ");
       double max = sc.nextDouble();
-      boolean found = false;
-      for(int i = 0 ; i < num ; i++){
-        if(sp[i].getDonGia() >= min && sp[i].getDonGia() <= max){
-            found = true;
-            System.out.println("da tim thay san pham can tim ");
-            sp[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay san pham ");
-      }
+      Search_DonGia(min, max);
 }
 public CUAHANGDIENTHOAI[] Search_HeDieuHanh(String hedieuhanh) {
     boolean found = false;
@@ -373,15 +356,7 @@ public CUAHANGDIENTHOAI[] Search_HeDieuHanh(String hedieuhanh) {
 public void Search_HeDieuHanh(){
     System.out.println("nhap he dieu hanh can tim");
     String hdh = sc.nextLine();
-    for(int i = 0 ; i < num; i++){
-        if(sp[i] instanceof DienThoaiThongMinh){
-           DienThoaiThongMinh d1 = (DienThoaiThongMinh) sp[i];
-           if(d1.getHeDieuHanh().toLowerCase().contains(hdh.toLowerCase())){
-            System.out.println("da tim thay san pham ");
-            d1.xuat();
-           }
-        }
-    }
+    Search_HeDieuHanh(hdh);
 }
 public CUAHANGDIENTHOAI[] Search_DungLuong(String dungluong) {
     boolean found = false;
@@ -411,15 +386,7 @@ public CUAHANGDIENTHOAI[] Search_DungLuong(String dungluong) {
 public void Search_DungLuong(){
     System.out.println("nhap dung luong dien thoai can tim(128g,256g,512g)");
     String dl = sc.nextLine();
-    for(int i = 0 ; i < num; i++){
-        if(sp[i] instanceof DienThoaiThongMinh){
-           DienThoaiThongMinh d1 = (DienThoaiThongMinh) sp[i];
-           if(d1.getDungLuong().toLowerCase().contains(dl.toLowerCase())){
-            System.out.println("da tim thay san pham ");
-            d1.xuat();
-           }
-        }
-    }
+    Search_DungLuong(dl);
 }
 public CUAHANGDIENTHOAI[] Search_BanPhim(String banphim) {
     boolean found = false;
@@ -449,15 +416,7 @@ public CUAHANGDIENTHOAI[] Search_BanPhim(String banphim) {
 public void Search_BanPhim(){
     System.out.println("nhap kieu ban phim cua dien thoai can tim( 12 nut , qwerty, flip)");
     String bp = sc.nextLine();
-    for(int i = 0 ; i < num; i++){
-        if(sp[i] instanceof DienThoaiCoDien){
-           DienThoaiCoDien d1 = (DienThoaiCoDien) sp[i];
-           if(d1.getBanPhim().toLowerCase().contains(bp.toLowerCase())){
-            System.out.println("da tim thay san pham ");
-            d1.xuat();
-           }
-        }
-    }
+    Search_BanPhim(bp);
 }
 public CUAHANGDIENTHOAI[] Search_ThoiGianThoai(int min , int max) {
     boolean found = false;
@@ -491,15 +450,7 @@ public void Search_ThoiGianThoai(){
     System.out.print("Nhập thời gian thoại lớn nhất (h): ");
     int max = sc.nextInt();
     sc.nextLine();
-    for(int i = 0 ; i < num; i++){
-        if(sp[i] instanceof DienThoaiCoDien){
-           DienThoaiCoDien d1 = (DienThoaiCoDien) sp[i];
-           if(d1.getThoiGianThoai() >= min && d1.getThoiGianThoai() <= max){
-            System.out.println("da tim thay san pham ");
-            d1.xuat();
-           }
-        }
-    }
+    Search_ThoiGianThoai(min, max);
 }
 public int[] ThongKe_SoLuong(){
     int duoi20 = 0 , tren20 = 0 , tren50 = 0;
@@ -634,5 +585,12 @@ public int[] ThongKe_ThoiGianGoi(){
     System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 thang la ", onemonth);
 
     return new int[]{oneday,oneweek,onemonth};
+}
+public void Sua_SoLuong(String ma,int soluong){
+    for(int i = 0 ; i < num ; i++){
+        if(sp[i].getMaSP().equalsIgnoreCase(ma)){
+             sp[i].setSoLuong(sp[i].getSoLuong() - soluong);
+        }
+    }
 }
 }

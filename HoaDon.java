@@ -14,17 +14,17 @@ public class HoaDon {
         this.manhanvien = manhanvien;
         this.tongtien = tongtien;
     }
-    public String getMahoadon() { return mahoadon; }
-    public void setMahoadon(String mahoadon) { this.mahoadon = mahoadon; }
+    public String getMaHoaDon() { return mahoadon; }
+    public void setMaHoaDon(String mahoadon) { this.mahoadon = mahoadon; }
 
-    public String getMakhachhang() { return makhachhang; }
-    public void setMakhachhang(String makhachhang) { this.makhachhang = makhachhang; }
+    public String getMaKhachHang() { return makhachhang; }
+    public void setMaKhachHang(String makhachhang) { this.makhachhang = makhachhang; }
 
-    public String getManhanvien() { return manhanvien; }
-    public void setManhanvien(String manhanvien) { this.manhanvien = manhanvien; }
+    public String getMaNhanVien() { return manhanvien; }
+    public void setMaNhanVien(String manhanvien) { this.manhanvien = manhanvien; }
 
-    public double getTongtien() { return tongtien; }
-    public void setTongtien(double tongtien) { this.tongtien = tongtien; }
+    public double getTongTien() { return tongtien; }
+    public void setTongTien(double tongtien) { this.tongtien = tongtien; }
 
     public void nhap() {
         System.out.print("Nhập mã hóa đơn: ");
