@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class DienThoaiCoDien extends CUAHANGDIENTHOAI{
+public class DienThoaiCoDien extends CuaHangDienThoai{
     private static Scanner sc = new Scanner(System.in);
     private String banphim;
     private int thoigianthoai;

@@ -1,21 +1,21 @@
   import java.util.Scanner;
 
-  public abstract class CUAHANGDIENTHOAI implements inhapxuat{
+  public abstract class CuaHangDienThoai implements inhapxuat{
     private static final Scanner sc = new Scanner(System.in);
     private String masp;
     private String tensp;
     private int soluong;
     private String donvitien;
     private double dongia;
-    public CUAHANGDIENTHOAI(){}
-    public CUAHANGDIENTHOAI(String masp,String tensp,int soluong,String donvitien ,double dongia){
+    public CuaHangDienThoai(){}
+    public CuaHangDienThoai(String masp,String tensp,int soluong,String donvitien ,double dongia){
       this.masp = masp;
       this.tensp = tensp;
       this.soluong = soluong;
       this.donvitien = donvitien;
       this.dongia = dongia;
     }
-    public CUAHANGDIENTHOAI(CUAHANGDIENTHOAI other){
+    public CuaHangDienThoai(CuaHangDienThoai other){
       this.masp = other.masp;
       this.tensp = other.tensp;
       this.soluong = other.soluong;

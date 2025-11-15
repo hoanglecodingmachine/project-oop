@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class DienThoaiThongMinh extends CUAHANGDIENTHOAI{
+public class DienThoaiThongMinh extends CuaHangDienThoai{
     private static Scanner sc = new Scanner(System.in);
     private String hedieuhanh;
     private String dungluong;
@@ -13,6 +13,10 @@ public class DienThoaiThongMinh extends CUAHANGDIENTHOAI{
         super(other);
         this.hedieuhanh = other.hedieuhanh;
         this.dungluong = other.dungluong;
+    }
+    public DienThoaiThongMinh(String string, String string2, String string3, String string4, int int1, int int2,
+            double double1, int int3, int int4, int int5) {
+        //TODO Auto-generated constructor stub
     }
     public String getHeDieuHanh(){
         return hedieuhanh;

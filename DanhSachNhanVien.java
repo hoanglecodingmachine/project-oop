@@ -1,12 +1,27 @@
 import java.util.Arrays;
 import java.util.Scanner;
-public class MainNhanVien {
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+public class DanhSachNhanVien {
     private static Scanner sc = new Scanner(System.in);
     private NhanVien[] nv;
     private int numnv;
-    public MainNhanVien(){}
-    public MainNhanVien(NhanVien[] nv , int numnv){
+    public DanhSachNhanVien(){}
+    public DanhSachNhanVien(NhanVien[] nv , int numnv){
         this.nv = nv;
+        this.numnv = numnv;
+    }
+    public NhanVien[] getNV() {
+        return nv;
+    }
+    public int getNumNV() {
+        return numnv;
+    }
+    public void setNV(NhanVien[] nv) {
+        this.nv = nv;
+    }
+    public void setNumNV(int numnv) {
         this.numnv = numnv;
     }
     public void nhap(){
@@ -24,17 +39,42 @@ public class MainNhanVien {
             nv[i].xuat();
         }
     }
-    public void ThemNV(NhanVien nv1){
+    public void DocFile(String tenFile){
+        try(Scanner scfile = new Scanner(new File(tenFile))) {
+            int i = 0 ;
+             while(scfile.hasNextLine()){
+                String line = scfile.nextLine().trim();
+                if(line.isEmpty()) continue;
+                String[] parts = line.split("-");
+                if(parts.length == 4){
+                    continue;
+                }
+                String maNV = parts[0];
+                String ho = parts[1];
+                String ten = parts[2];
+                double luong = Double.parseDouble(parts[3]);
+                String chucVu = parts[4];
+                NhanVien nv1 = null;
+                nv1 = new NhanVien(maNV,ho,ten,luong,chucVu);
+                nv[i++] = nv1;
+             }
+                numnv = i;
+                System.out.println("Da doc file thanh cong !");
+        } catch (Exception e) {
+            System.out.println("Loi doc file: " + e.getMessage());
+        }
+    }
+    public void Them(NhanVien nv1){
         nv = Arrays.copyOf(nv,numnv + 1);
         nv[numnv] = nv1;
         numnv++;
         System.out.println("Da them nhan vien moi thanh cong !");
     }
-    public void ThemNV() {
+    public void Them() {
     System.out.println("Vui long nhap thong tin nhan vien moi :");
     NhanVien nv1 = new NhanVien();
     nv1.nhap();
-    ThemNV(nv1);    
+    Them(nv1);    
 }
 public void xoa(String ma){
     boolean found = false;
@@ -129,17 +169,7 @@ public NhanVien Search_Ma(String ma){
 public void Search_Ma(){
       System.out.println("nhap ma nhan vien can tim ");
       String ma = sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < numnv ; i++){
-        if(nv[i].getMaNhanVien().toLowerCase().contains(ma.toLowerCase())){
-            found = true;
-            System.out.println("da tim thay nhan vien can tim ");
-            nv[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay nhan vien ");
-      }
+      Search_Ma(ma);
 }
 public NhanVien[] Search_Ho(String ho){
       boolean found = false;
@@ -164,17 +194,7 @@ public NhanVien[] Search_Ho(String ho){
 public void Search_Ho(){
       System.out.println("nhap ho nhan vien can tim ");
       String ho = sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < numnv ; i++){
-        if(nv[i].getHo().toLowerCase().contains(ho.toLowerCase())){
-            found = true;
-            System.out.println("da tim thay nhan vien can tim ");
-            nv[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay nhan vien ");
-      }
+      Search_Ho(ho);
 }
 public NhanVien[] Search_Ten(String ten){
       boolean found = false;
@@ -199,17 +219,7 @@ public NhanVien[] Search_Ten(String ten){
 public void Search_Ten(){
       System.out.println("nhap ten nhan vien can tim ");
       String ten = sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < numnv ; i++){
-        if(nv[i].getTen().toLowerCase().contains(ten.toLowerCase())){
-            found = true;
-            System.out.println("da tim thay nhan vien can tim ");
-            nv[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay nhan vien ");
-      }
+      Search_Ten(ten);
 }
 public NhanVien[] Search_Luong(Double min , Double max){
       boolean found = false;
@@ -237,17 +247,7 @@ public void Search_Luong(){
       System.out.println("nhap luong lon nhat nhan vien can tim ");
       Double max = sc.nextDouble();
       sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < numnv ; i++){
-        if(nv[i].getLuong() >= min && nv[i].getLuong() <= max){
-            found = true;
-            System.out.println("da tim thay nhan vien can tim ");
-            nv[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay nhan vien ");
-      }
+      Search_Luong(min , max);
 }
 public NhanVien[] Search_ChucVu(String cv){
       boolean found = false;
@@ -272,17 +272,7 @@ public NhanVien[] Search_ChucVu(String cv){
 public void Search_ChucVu(){
       System.out.println("nhap chuc vu nhan vien can tim(ban hang,nhan vien truong,quan ly) ");
       String cv = sc.nextLine();
-      boolean found = false;
-      for(int i = 0 ; i < numnv ; i++){
-        if(nv[i].getChucVu().toLowerCase().contains(cv.toLowerCase())){
-            found = true;
-            System.out.println("da tim thay nhan vien can tim ");
-            nv[i].xuat();
-        }
-      }
-      if(!found){
-        System.out.println("khong tim thay nhan vien ");
-      }
+      Search_ChucVu(cv);
 }
 public int[] ThongKe_Luong(){
      int duoi20tr = 0 , tren20tr = 0 , tren50tr = 0;
@@ -311,5 +301,17 @@ public int[] ThongKe_ChucVu(){
      System.out.printf("%-10s %d%n","so nhan vien co chuc nhan vien truong la ",nhanvientruong);
      System.out.printf("%-10s %d%n","so nhan vien co chuc quan ly la ",quanly);
      return new int[]{banhang,nhanvientruong,quanly};
+}
+public void GhiFile(String tenFile){
+    try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))) {
+        for(int i = 0 ; i < numnv ; i++){
+           String line = "";
+           line = String.join("-", nv[i].getMaNhanVien(), nv[i].getHo(), nv[i].getTen(), String.valueOf(nv[i].getLuong()), nv[i].getChucVu());
+           pw.println(line);
+        }
+        System.out.println("Da ghi file thanh cong !");
+    } catch (Exception e) {
+        System.out.println("Loi ghi file: " + e.getMessage());
+    }
 }
 }

@@ -1,5 +1,8 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.File;    
+import java.io.PrintWriter;
+import java.io.FileWriter;
 public class DanhSachChiTietHoaDon{
     private static Scanner sc = new Scanner(System.in);
     private ChiTietHoaDon[] dscthd;
@@ -36,12 +39,40 @@ public class DanhSachChiTietHoaDon{
             dscthd[i].xuat();
         }
     }
-public double TongThanhGiaCuaHoaDon() {
-    double tong = 0;
-    for (int i = 0; i < numcthd; i++) {
-        tong += dscthd[i].getThanhGia();
+    public void DocFile(String tenFile){
+        try(Scanner scfile = new Scanner(new File(tenFile))){
+          int i = 0;
+          while (scfile.hasNextLine()) {
+            String line = scfile.nextLine().trim();
+            if(line.isEmpty()) continue;
+            String[] p = line.split("-");
+            if(p.length != 6) continue;
+            ChiTietHoaDon hdct = null;
+            String mahoadon = p[0];
+            String mahoadonchitiet = p[1];
+            String masanpham = p[2];
+            int soluong = Integer.parseInt(p[3]);
+            double dongia = Double.parseDouble(p[4]);
+            double thanhgia = Double.parseDouble(p[5]);
+            hdct = new ChiTietHoaDon(mahoadon,mahoadonchitiet,masanpham,soluong,dongia,thanhgia);
+            dscthd[i++] = hdct;
+        }numcthd = i;
+        System.out.println("Da doc file thanh cong !");
+        } catch (Exception e) {
+          System.out.println("Loi doc file: " + e.getMessage());
+        }
     }
-    return tong;
+public void Them(ChiTietHoaDon hdct1){
+        dscthd = Arrays.copyOf(dscthd,numcthd + 1);
+        dscthd[numcthd] = hdct1;
+        numcthd++;
+        System.out.println("Da them hoa don chi tiet thanh cong !");
+    }
+public void Them() {
+            ChiTietHoaDon hdct1 = new ChiTietHoaDon();
+            System.out.println("Nhập thông tin hoa don chi tiet moi:");
+            hdct1.nhap();
+            Them(hdct1);
 }
 
     public void xoa(String ma){
@@ -75,19 +106,19 @@ public void sua(String ma, int choice) {
             found = true;
             switch (choice) {
                 case 1:
+                    System.out.println("vui long nhap ma hoa don moi cho san pham ");
+                    dscthd[i].setMaHoaDon(sc.nextLine());
+                    System.out.println("Đã sửa ma hoa don thành công!");
+                    break;
+                case 2:
                     System.out.println("vui lonng nhap ma san pham moi cho san pham ");
                     dscthd[i].setMaSanPham(sc.nextLine());
                     System.out.println("Đã sửa ma san pham thành công!");
                     break;
-                case 2:
+                case 3:
                     System.out.println("vui long nhap so luong moi cho san pham ");
                     dscthd[i].setSoLuong(sc.nextInt());
                     System.out.println("Đã sửa so luong thành công!");
-                    break;
-                case 3:
-                    System.out.println("vui long nhap luong don gia moi cua san pham ");
-                    dscthd[i].setDonGia(sc.nextDouble());
-                    System.out.println("Đã sửa don gia thành công!");
                     break;
                 case 0:
                     dscthd[i].nhap();
@@ -107,7 +138,7 @@ public void sua(){
     for(int i = 0 ; i < numcthd;i++){
         if(dscthd[i].getMaHoaDonChiTiet().equals(ma)){
             System.out.println("da tim thay chi tiet hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma san pham , 2 so luong, 3 don gia, 0 sua het ");
+            System.out.println("1 ma hoa don ,2 ma san pham , 3 so luong, 0 sua het ");
             int choice = sc.nextInt();
             sc.nextLine();
             sua(ma,choice); 
@@ -133,6 +164,31 @@ public void Search_Ma(){
       System.out.println("nhap ma chi tiet hoa don can tim ");
       String ma = sc.nextLine();
       Search_Ma(ma);
+}
+public ChiTietHoaDon[] Search_MaHoaDon(String mahd){
+      boolean found = false;
+      ChiTietHoaDon[] kq = new ChiTietHoaDon[0];
+      int count = 0 ;
+      for(int i = 0 ; i < numcthd ; i++){
+        if(dscthd[i].getMaHoaDon().toLowerCase().contains(mahd.toLowerCase())){
+            found = true;
+            System.out.println("da tim thay ma hoa don can tim ");
+            dscthd[i].xuat();
+            kq = Arrays.copyOf(kq, count + 1);
+            kq[count] = dscthd[i];
+            count++;
+        }
+      }
+      if(!found){
+        System.out.println("khong tim thay ma hoa don can tim ");
+        return null;
+      }
+      return kq;
+}
+public void Search_MaHoaDon(){
+      System.out.println("nhap ma hoa don can tim ");
+      String mahd = sc.nextLine();
+      Search_MaHoaDon(mahd);
 }
 public ChiTietHoaDon[] Search_MaSanPham(String masp){
       boolean found = false;
@@ -209,5 +265,50 @@ public void Search_DonGia(){
       Double dongia = sc.nextDouble();
       sc.nextLine();
       Search_DonGia(dongia);
+}
+public int[] ThongKe_SoLuong(){
+      int sl20 = 0 , sl50 = 0 , sl100 = 0 ;
+      for(int i = 0 ; i < numcthd ; i++){
+        if(dscthd[i].getSoLuong() < 20){
+            sl20++;
+        }else if(dscthd[i].getSoLuong() >=20 && dscthd[i].getSoLuong() < 50){
+            sl50++;
+        }else{
+            sl100++;
+        }
+      }
+      System.out.println("so luong san pham mua duoi 20 la " + sl20);
+        System.out.println("so luong san pham mua tu 20 den 50 la " + sl50);
+        System.out.println("so luong san pham mua tren 50 la " + sl100);
+        return new int[]{sl20, sl50, sl100};
+}
+public int[] ThongKe_DonGia(){
+      int dg1tr = 0 , dg5tr = 0 , dg10tr = 0 ;
+      for(int i = 0 ; i < numcthd ; i++){
+        if(dscthd[i].getDonGia() < 1000000){
+            dg1tr++;
+        }else if(dscthd[i].getDonGia() >=1000000 && dscthd[i].getDonGia() < 5000000){
+            dg5tr++;
+        }else{
+            dg10tr++;
+        }
+      }
+      System.out.println("so luong san pham co don gia duoi 1 trieu la " + dg1tr);
+        System.out.println("so luong san pham co don gia tu 1 trieu den 5 trieu la " + dg5tr);
+        System.out.println("so luong san pham co don gia tren 5 trieu la " + dg10tr);
+        return new int[]{dg1tr, dg5tr, dg10tr}; 
+    }
+public void GhiFile(String tenFile){
+    try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))){
+        for(int i = 0 ; i < numcthd ; i++){
+            if(dscthd[i] == null) continue;
+            String line = "";
+            line = String.join("-", dscthd[i].getMaHoaDon(), dscthd[i].getMaHoaDonChiTiet(), dscthd[i].getMaSanPham(), String.valueOf(dscthd[i].getSoLuong()),String.valueOf(dscthd[i].getDonGia()), String.valueOf(dscthd[i].getThanhGia()));
+            pw.println(line);
+        }
+        System.out.println("Da ghi file thanh cong !");
+    } catch (Exception e) {
+        System.out.println("Loi ghi file: " + e.getMessage());
+    }
 }
 }
