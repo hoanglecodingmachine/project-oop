@@ -45,7 +45,8 @@ public class PhieuNhapHang {
     ngaythangnam = sc.nextLine();
   }
   public void xuat(){
-    System.out.printf("%-10s %-10s %-10s %-10s",maphieunhap,mancc,ngaythangnam,thanhtien);
+   System.out.printf("%-12s | %-12s | %-12s | %-12.0f%n", maphieunhap, mancc, ngaythangnam, thanhtien);
+
   }
 
 } 

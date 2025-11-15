@@ -24,7 +24,7 @@ public class QLNCC extends MainQLBH{
         break;
       case 5:
         {
-          System.out.println("Nhap lua chon tim kiem (1ma nha cung cap,2so dien thoai,3 dia chi ,4 email,5 thoi gian hop tac )");
+          System.out.println("Nhap lua chon tim kiem (1ma nha cung cap,2so dien thoai,3 dia chi ,4 email)");
           int subChoice = sc.nextInt();
           sc.nextLine();
           switch (subChoice) {
@@ -40,9 +40,6 @@ public class QLNCC extends MainQLBH{
               case 4:
                 dsncc.Search_Email();
                 break;
-              case 5:
-                dsncc.Search_ThoiGianHopTac();
-                break;
               default:
                 System.out.println("Lua chon khong hop le!");
                 break;
@@ -51,15 +48,12 @@ public class QLNCC extends MainQLBH{
         break;
       case 6:
         {
-          System.out.println("Thong ke (1 theo dia chi , 2 theo thoi gian hop tac )");
+          System.out.println("Thong ke (1 theo dia chi  )");
           int tk = sc.nextInt();
           sc.nextLine();  
           switch (tk) {
               case 1:
                 dsncc.ThongKe_DiaChi();
-                break;
-              case 2:
-                dsncc.ThongKe_ThoiGianHopTac();
                 break;
               default:
                 System.out.println("Lua chon khong hop le!");

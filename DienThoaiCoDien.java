@@ -33,10 +33,20 @@ public class DienThoaiCoDien extends CuaHangDienThoai{
         System.out.println("nhap thoi gian thoai ");
         thoigianthoai = sc.nextInt();
     }
-    @Override public void xuat(){
-        super.xuat();
-        System.out.printf("%-15s %-20s", banphim ,thoigianthoai );
-    }
+@Override
+public void xuat() {
+    System.out.printf(
+        "%-15s %-25s %-10d %-12s %-12.2f %-15s %-10d%n",
+        getMaSP(),
+        getTenSP(),
+        getSoLuong(),
+        getDonViTien(),
+        getDonGia(),
+        banphim,
+        thoigianthoai
+    );
+}
+
     @Override public double Tong_Gia_Tien(){
         return getSoLuong()*getDonGia();
     }

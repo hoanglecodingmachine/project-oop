@@ -68,10 +68,11 @@
           dongia = sc.nextDouble();
           sc.nextLine();
       }
-  public void xuat() {
-      System.out.printf("%-15s %-20s %-10d %-10s %-10.2f%n",
-              masp, tensp, soluong, donvitien, dongia);
-  }
+public void xuat() {
+    System.out.printf("%-15s %-25s %-10d %-12s %-12.2f%n",
+            masp, tensp, soluong, donvitien, dongia);
+}
+
   public abstract double Tong_Gia_Tien();
   
   } 

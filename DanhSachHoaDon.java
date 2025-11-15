@@ -50,7 +50,7 @@ public void DocFile(String tenFile){
             String line = scFile.nextLine().trim();
             if(line.isEmpty()) continue;
             String [] p = line.split("-");
-            if(p.length != 5){
+            if(p.length != 6){
                 System.out.println("Du lieu trong file khong hop le ");
                 continue;
             }
@@ -59,8 +59,9 @@ public void DocFile(String tenFile){
             String makhachhang = p[2];  
             String manhanvien = p[3];
             double tongtien = Double.parseDouble(p[4]);
+            String maphukien = p[5];
             HoaDon hd1 = null;
-            hd1 = new HoaDon(mahoadon,ngaynhap,makhachhang,manhanvien,tongtien);
+            hd1 = new HoaDon(mahoadon,ngaynhap,makhachhang,manhanvien,tongtien,maphukien);
             hd[i++] = hd1;
         }
         numhd = i;
@@ -109,6 +110,16 @@ public void sua(String ma, int choice) {
                     hd[i].setMaNhanVien(sc.nextLine());
                     System.out.println("Đã sửa ma nhan vien thành công!");
                     break;
+                case 3:
+                    System.out.println("vui long nhap ngay nhap moi ");
+                    hd[i].setNgayNhap(sc.nextLine());
+                    System.out.println("Đã sửa ngay nhap moi thành công!");
+                    break;
+                case 4:
+                    System.out.println("vui long nhap ma phu kien moi ");
+                    hd[i].setMaPhuKien(sc.nextLine());
+                    System.out.println("Đã sửa ma phu kien thành công!");
+                    break;
                 case 0:
                     hd[i].nhap();
                     System.out.println("sua tat ca thanh cong ");
@@ -139,7 +150,7 @@ public void sua(){
     for(int i = 0 ; i < numhd;i++){
         if(hd[i].getMaHoaDon().equals(ma)){
             System.out.println("da tim thay ma hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma khach hanh , 2 ma nhan vien , 0 sua het ");
+            System.out.println("1 ma khach hanh , 2 ma nhan vien ,3 ngay nhap, 4 ma phu kien,0 sua het ");
             int choice = sc.nextInt();
             sc.nextLine();
             sua(ma,choice); 
@@ -190,6 +201,31 @@ public void Search_MaKhachHang(){
       System.out.println("nhap ma khach hang can tim trong hoa don ");
       String makh = sc.nextLine();
       Search_MaKhachHang(makh);
+}
+public HoaDon[] Search_MaPhuKien(String mapk){
+      boolean found = false;
+      HoaDon[] kq = new HoaDon[0];
+      int count = 0 ;
+      for(int i = 0 ; i < numhd ; i++){
+        if(hd[i].getMaPhuKien().toLowerCase().contains(mapk.toLowerCase())){
+            found = true;
+            System.out.println("da tim thay hoa don co ma phu kien can tim ");
+            hd[i].xuat();
+            kq = Arrays.copyOf(kq, count + 1);
+            kq[count] = hd[i];
+            count++;
+        }
+      }
+      if(!found){
+        System.out.println("khong tim thay hoa don co ma phu kien can tim ");
+        return null;
+      }
+      return kq;
+}
+public void Search_MaPhuKien(){
+      System.out.println("nhap ma phu kien can tim trong hoa don ");
+      String mapk = sc.nextLine();
+      Search_MaPhuKien(mapk);
 }
 public HoaDon[] Search_MaNhanVien(String manv){
       boolean found = false;
@@ -304,9 +340,9 @@ public double[] ThongKe_TongTien() {
     for (int i = 0; i < numhd; i++) {
         double tongTien = hd[i].getTongTien();
 
-        if (tongTien < 1_000_000) {
+        if (tongTien < 1000000) {
             duoi1trieu++;
-        } else if (tongTien <= 5_000_000) {
+        } else if (tongTien <= 5000000) {
             tu1den5trieu++;
         } else {
             tren5trieu++;
@@ -314,7 +350,7 @@ public double[] ThongKe_TongTien() {
     }
 
     System.out.printf("%-40s %.0f\n", "Số hóa đơn dưới 1 triệu:", duoi1trieu);
-    System.out.printf("%-40s %.0f\n", "Số hóa đơn từ 1–5 triệu:", tu1den5trieu);
+    System.out.printf("%-40s %.0f\n", "Số hóa đơn từ 1 - 5 triệu:", tu1den5trieu);
     System.out.printf("%-40s %.0f\n", "Số hóa đơn trên 5 triệu:", tren5trieu);
 
     return new double[]{duoi1trieu, tu1den5trieu, tren5trieu};
@@ -323,7 +359,7 @@ public void GhiFile(String tenFile){
     try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))){
         for(int i = 0 ; i < numhd ; i++){
             String line = "";
-            line = String.join("-",hd[i].getMaHoaDon(),hd[i].getNgayNhap(),hd[i].getMaKhachHang(),hd[i].getMaNhanVien(),String.valueOf(hd[i].getTongTien()));
+            line = String.join("-",hd[i].getMaHoaDon(),hd[i].getNgayNhap(),hd[i].getMaKhachHang(),hd[i].getMaNhanVien(),String.valueOf(hd[i].getTongTien()),hd[i].getMaPhuKien());
             pw.println(line);
         }
         System.out.println("Da ghi file thanh cong ! ");

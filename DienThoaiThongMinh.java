@@ -38,10 +38,19 @@ public class DienThoaiThongMinh extends CuaHangDienThoai{
         System.out.println("nhap dung luong cua may(128g,256g,512g) ");
         dungluong = sc.nextLine();
     }
-    @Override public void xuat(){
-        super.xuat();
-        System.out.printf("15%s 20%s",hedieuhanh, dungluong);
-    }
+    @Override public void xuat() {
+    System.out.printf(
+        "%-15s %-25s %-10d %-12s %-12.2f %-15s %-10s%n",
+        getMaSP(),
+        getTenSP(),
+        getSoLuong(),
+        getDonViTien(),
+        getDonGia(),
+        hedieuhanh,
+        dungluong
+    );
+}
+
     @Override public double Tong_Gia_Tien(){
         return getSoLuong()*getDonGia();
     }

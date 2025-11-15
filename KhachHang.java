@@ -64,6 +64,8 @@ public class KhachHang {
 
     // Phương thức hiển thị thông tin
     public void xuat() {
-     System.out.printf("%-15s %-20s %-10s %-10s %-10s %-10s",makhachhang,hokhachhang,tenkhachhang,email,sodienthoai,gioitinh,ngaysinh);
+    System.out.printf("%-12s | %-15s | %-12s | %-25s | %-12s | %-8s | %-12s%n",
+        makhachhang, hokhachhang, tenkhachhang, email, sodienthoai, gioitinh, ngaysinh);
+
     }
 }

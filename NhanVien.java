@@ -49,7 +49,9 @@ public class NhanVien {
         chucvu = sc.nextLine();
     }
     public void xuat() {
-        System.out.printf("%-15s %-20s %-10s %-10.2f %-15s\n", manhanvien, ho, ten, luong, chucvu);
+       System.out.printf("%-12s | %-15s | %-12s | %-12.2f | %-15s%n",
+        manhanvien, ho, ten, luong, chucvu);
+
 
     }
 }

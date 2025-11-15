@@ -10,6 +10,8 @@ public class MainQLBH {
     public static DanhSachNhaCungCap dsncc = new DanhSachNhaCungCap();
     public static DanhSachPhieuNhapHang dspnh = new DanhSachPhieuNhapHang();
     public static DanhSachChiTietNhapHang dsctpnh = new DanhSachChiTietNhapHang();
+    public static DanhSachBaoHanh dsbh = new DanhSachBaoHanh();
+    public static DanhSachPhuKienDiKem dsphukien = new DanhSachPhuKienDiKem();
 
     // === Đọc tất cả file vào chương trình ===
     public void DocFile() {
@@ -21,6 +23,8 @@ public class MainQLBH {
         dsncc.DocFile("NhaCungCap.txt");
         dspnh.DocFile("PhieuNhap.txt");
         dsctpnh.DocFile("ChiTietPhieuNhap.txt");
+        dsbh.DocFile("BaoHanh.txt");
+        dsphukien.DocFile("PhuKienDiKem.txt");
     }
 
     // === Ghi tất cả dữ liệu ra file ===
@@ -33,6 +37,8 @@ public class MainQLBH {
         dsncc.GhiFile("NhaCungCap.txt");
         dspnh.GhiFile("PhieuNhap.txt");
         dsctpnh.GhiFile("ChiTietPhieuNhap.txt");
+        dsbh.GhiFile("BaoHanh.txt");
+        dsphukien.GhiFile("PhuKienDiKem.txt");
         System.out.println("✅ Dữ liệu đã được lưu thành công!");
     }
 
@@ -47,6 +53,8 @@ public class MainQLBH {
             System.out.println("4. Quản lý nhân viên");
             System.out.println("5. Quản lý nhập hàng");
             System.out.println("6. Quản lý nhà cung cấp");
+            System.out.println("7. Quản lý bảo hành");
+            System.out.println("8. Quản lý phụ kiện đi kèm");
             System.out.println("0. Thoát và lưu dữ liệu");
             System.out.print("Nhập lựa chọn: ");
             chon = sc.nextInt();
@@ -65,6 +73,10 @@ public class MainQLBH {
                     new QLPNH().mainQLPNH(); break;
                 case 6:
                     new QLNCC().MainQLNCC(); break;
+                case 7:
+                    new QLBH().mainQLBH(); break;
+                case 8:
+                    new QLPK().mainQLPKDK(); break;
                 case 0:
                     GhiFile(); // gọi hàm ghi file trước khi thoát
                     System.out.println("Thoát chương trình...");

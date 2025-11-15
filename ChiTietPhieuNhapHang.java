@@ -65,8 +65,12 @@ public class ChiTietPhieuNhapHang {
     dongia = sc.nextDouble();
     tongtien = soluong * dongia;
   }
-  public void xuat(){
-    System.out.printf("%-10s %-10s %-10s %-10s %-10f %-10s",mapnh,machitietpnh,masp,soluong,dongia,tongtien);
-  }
+public void xuat() {
+    System.out.printf(
+        "%-15s %-20s %-15s %-10d %-12.2f %-12.2f\n",
+        mapnh, machitietpnh, masp, soluong, dongia, tongtien
+    );
+}
+
 
 } 

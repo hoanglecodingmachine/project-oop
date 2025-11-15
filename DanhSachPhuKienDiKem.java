@@ -1,0 +1,233 @@
+import java.util.Arrays;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.util.Scanner;
+public class DanhSachPhuKienDiKem {
+    private static Scanner sc = new Scanner(System.in);
+    private PhuKienTangKem[] dsphukien;
+    private int numphukien;
+
+    public DanhSachPhuKienDiKem(){}
+    public DanhSachPhuKienDiKem(PhuKienTangKem[] dsphukien, int numphukien) {
+        this.dsphukien = dsphukien;
+        this.numphukien = numphukien;
+    }
+
+    public PhuKienTangKem[] getDsphukien() {
+        return dsphukien;
+    }
+    public void setDsphukien(PhuKienTangKem[] dsphukien) {
+        this.dsphukien = dsphukien;
+    }
+    public int getNumphukien() {
+        return numphukien;
+    }
+    public void setNumphukien(int numphukien) {
+        this.numphukien = numphukien;
+    }
+    public void nhap(){
+        System.out.print("Nhap so luong phu kien can them: ");
+        int numphukien= sc.nextInt();
+        sc.nextLine();
+        dsphukien= new PhuKienTangKem[numphukien];
+        for(int i=0;i<numphukien;i++){
+            System.out.println("---- Nhap phu kien thu "+(i+1)+" ----");
+            dsphukien[i] = new PhuKienTangKem();
+            dsphukien[i].nhap();
+        }
+    }
+    public void xuat(){
+        for(int i=0;i<numphukien;i++){
+            dsphukien[i].xuat();
+        }
+    }
+    public void DocFile(String tenFile){
+        try(Scanner scfile = new Scanner(new File(tenFile))){
+        int i=0;
+        while(scfile.hasNextLine()){
+            String line = scfile.nextLine().trim();
+            if(line.isEmpty()) continue;
+            String[] p = line.split("-");
+            if(p.length != 3) continue;
+            PhuKienTangKem pk1 = null;
+            String maphukien = p[0];
+            String tenphukien = p[1];
+            String loai = p[2];
+            pk1 = new PhuKienTangKem(maphukien,tenphukien,loai);
+            dsphukien[i++] = pk1;  
+        } numphukien = i;
+        } catch (Exception e) {
+            System.out.println("Loi doc file: " + e.getMessage());
+        }
+    }
+    public void them(PhuKienTangKem pk1){
+        dsphukien = Arrays.copyOf(dsphukien, numphukien + 1);
+        dsphukien[numphukien] = pk1;
+        numphukien++;
+        System.out.println("Da them phu kien thanh cong!");
+    }
+    public void them(){
+        PhuKienTangKem pk1 = new PhuKienTangKem();
+        System.out.println("---- Nhap phu kien can them ----");
+        pk1.nhap();
+        them(pk1);
+    }
+    public void xoa(String ma){
+        boolean found = false;
+        for(int i=0;i<numphukien;i++){
+            if(dsphukien[i].getMaphukien().equalsIgnoreCase(ma)){
+                found = true;
+                for(int j=i;j<numphukien-1;j++){
+                    dsphukien[j] = dsphukien[j+1];
+                }
+                dsphukien = Arrays.copyOf(dsphukien, numphukien - 1);
+                numphukien--;
+                System.out.println("Da xoa phu kien co ma: " + ma);
+                break;
+            }
+        }
+        if(!found){
+            System.out.println("Khong tim thay phu kien co ma: " + ma);
+        }
+    }
+    public void xoa(){
+        System.out.print("Nhap ma phu kien can xoa: ");
+        String ma = sc.nextLine();
+        xoa(ma);
+    }
+    public void sua(String ma){
+        boolean found = false;
+        for(int i=0;i<numphukien;i++){
+            if(dsphukien[i].getMaphukien().equalsIgnoreCase(ma)){
+                found = true;
+                System.out.println("nhap lua chon de sua (1 ten phu kien, 2 loai )");
+                int subChoice = sc.nextInt();
+                switch (subChoice) {
+                    case 1:
+                        System.out.println("---- Nhap ten moi cho san pham ----");
+                        dsphukien[i].setTenphukien(sc.nextLine());
+                        System.out.println("Da sua phu kien co ma: " + ma);
+                        break;
+                    case 2:
+                        System.out.println("---- Nhap loai moi cho san pham ----");
+                        dsphukien[i].setLoai(sc.nextLine());
+                        System.out.println("Da sua phu kien co ma: " + ma);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        if(!found){
+            System.out.println("Khong tim thay phu kien co ma: " + ma);
+        }
+    }
+    public void sua(){
+        System.out.print("Nhap ma phu kien can sua: ");
+        String ma = sc.nextLine();
+        sua(ma);
+    }
+    public PhuKienTangKem Search_Ma(String ma){
+        boolean found = false;
+        for(int i=0;i<numphukien;i++){
+            if(dsphukien[i].getMaphukien().equalsIgnoreCase(ma)){
+                found = true;
+                System.out.println("Phu kien tim thay:");
+                dsphukien[i].xuat();
+                return dsphukien[i];
+            }
+        }
+        if(!found){
+            System.out.println("Khong tim thay phu kien co ma: " + ma);
+        }
+        return null;
+    }
+    public void Search_Ma(){
+        System.out.print("Nhap ma phu kien can tim: ");
+        String ma = sc.nextLine();
+        Search_Ma(ma);
+    }
+    public PhuKienTangKem[] Search_Ten(String ten){
+        boolean found = false;
+        PhuKienTangKem[] result = new PhuKienTangKem[0];
+        int count = 0;
+        for(int i=0;i<numphukien;i++){
+            if(dsphukien[i].getTenphukien().equalsIgnoreCase(ten)){
+                found = true;
+                dsphukien[i].xuat();
+                result = Arrays.copyOf(result, count + 1);
+                result[count] = dsphukien[i];
+                count++;
+            }
+        }
+        if(!found){
+            System.out.println("Khong tim thay phu kien co ten: " + ten);
+            return null;
+        }
+        return result;
+    }
+    public void Search_Ten(){
+        System.out.print("Nhap ten phu kien can tim: ");
+        String ten = sc.nextLine();
+        Search_Ten(ten);
+    }
+    public PhuKienTangKem[] Search_Loai(String loai){
+        boolean found = false;
+        PhuKienTangKem[] kq = new PhuKienTangKem[0];
+        int count = 0;
+        for(int i = 0 ; i < numphukien; i++){
+            if(dsphukien[i].getLoai().equalsIgnoreCase(loai)){
+                found = true;
+                dsphukien[i].xuat();
+                kq = Arrays.copyOf(kq, count ++);
+                kq[count] = dsphukien[i];
+                count++;
+            }
+        }
+        if(!found){
+            System.out.println("khong tim thay loai");
+            return null;
+        }
+        return kq;
+    }
+    public void Search_Loai(){
+        System.out.println("nhap loai phu kien can tim ");
+        String pk1 = sc.nextLine();
+        Search_Loai(pk1);
+    }
+// ...existing code...
+public int[] ThongKe_Loai(){
+    int op_lung = 0, tai_nghe = 0, cuong_luc = 0;
+    if (dsphukien == null) return new int[]{0,0,0};
+
+    for (int i = 0; i < numphukien; i++) {
+        String loai = dsphukien[i].getLoai();
+        if (loai.equalsIgnoreCase("op lung")) {
+            op_lung++;
+        } else if (loai.equalsIgnoreCase("tai nghe")) {
+            tai_nghe++;
+        } else {
+            cuong_luc++;
+        }
+    }
+
+    System.out.println("so luong phu kien op lung la " + op_lung);
+    System.out.println("so luong phu kien tai nghe la " + tai_nghe);
+    System.out.println("so luong phu kien cuong luc la " + cuong_luc);
+
+    return new int[]{op_lung, tai_nghe, cuong_luc};
+}
+// ...existing code...
+    public void GhiFile(String tenFile){
+        try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))){
+            for(int i=0;i<numphukien;i++){
+                String line = "";
+                line = String.join("-", dsphukien[i].getMaphukien(), dsphukien[i].getTenphukien());
+                pw.println(line);
+            }
+        } catch (Exception e) {
+            System.out.println("Loi ghi file: " + e.getMessage());
+        }
+    }
+}

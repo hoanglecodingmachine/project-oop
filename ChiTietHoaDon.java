@@ -1,68 +1,97 @@
 import java.util.Scanner;
+
 public class ChiTietHoaDon {
     private static Scanner sc = new Scanner(System.in);
-    private String mahoadon;
-    private String mahoadonchitiet;
-    private String masanpham;
-    private int soluong;
-    private double dongia;
-    private double thanhgia;
-    public ChiTietHoaDon(){};
-    public ChiTietHoaDon(String mahoadon ,String mahoadonchitiet ,String masanpham,int soluong,double dongia,double thanhgia){
-        this.mahoadon = mahoadon;
-        this.mahoadonchitiet = mahoadonchitiet;
-        this.masanpham = masanpham;
-        this.soluong = soluong;
-        this.dongia = dongia;
-        this.thanhgia = thanhgia;
+
+    private String maHoaDon;
+    private String maHoaDonChiTiet;
+    private String maSanPham;
+    private int soLuong;
+    private double donGia;
+    private double thanhGia;
+
+    public ChiTietHoaDon() {}
+
+    public ChiTietHoaDon(String maHoaDon, String maHoaDonChiTiet, String maSanPham, int soLuong, double donGia, double thanhGia) {
+        this.maHoaDon = maHoaDon;
+        this.maHoaDonChiTiet = maHoaDonChiTiet;
+        this.maSanPham = maSanPham;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.thanhGia = thanhGia;
     }
-    public void nhap(){
-        System.out.println("nhap ma hoa don ");
-        mahoadon = sc.nextLine();
-        System.out.println("nhap ma hoa don chi tiet ");
-        mahoadonchitiet = sc.nextLine();
-        System.out.println("nhap ma san pham khach hang mua ");
-        masanpham = sc.nextLine();
-        System.out.println("nhap so luong san pham khach hang mua ");
-        soluong = sc.nextInt();
+
+    // ========================= NHAP =============================
+    public void nhap() {
+        System.out.print("Nhap ma hoa don: ");
+        maHoaDon = sc.nextLine();
+
+        System.out.print("Nhap ma hoa don chi tiet: ");
+        maHoaDonChiTiet = sc.nextLine();
+
+        System.out.print("Nhap ma san pham khach hang mua: ");
+        maSanPham = sc.nextLine();
+
+        System.out.print("Nhap so luong san pham: ");
+        soLuong = sc.nextInt();
+        sc.nextLine(); // NGĂN TRÔI LỆNH — cần thiết
+        // Không nhập donGia và thanhGia vì bạn set trong QLHD
     }
-    public void xuat(){
-         System.out.printf("%-10s %-10s %-10s %-10d %-10f %-10f",mahoadon,mahoadonchitiet,masanpham,soluong,dongia,thanhgia);
+
+    // ========================= XUAT =============================
+    public void xuat() {
+        System.out.printf(
+            "%-15s %-20s %-15s %-10d %-12.2f %-12.2f\n",
+            maHoaDon, maHoaDonChiTiet, maSanPham, soLuong, donGia, thanhGia
+        );
     }
-    public String getMaHoaDon(){
-        return mahoadon;
+
+    // ========================= GET / SET =========================
+    public String getMaHoaDon() {
+        return maHoaDon;
     }
-    public void setMaHoaDon(String mahoadon){
-        this.mahoadon = mahoadon;
+
+    public void setMaHoaDon(String maHoaDon) {
+        this.maHoaDon = maHoaDon;
     }
-    public String getMaHoaDonChiTiet(){
-        return mahoadonchitiet;
+
+    public String getMaHoaDonChiTiet() {
+        return maHoaDonChiTiet;
     }
-    public void setMaHoaDonChiTiet(String mahoadonchitiet){
-        this.mahoadonchitiet = mahoadonchitiet;
+
+    public void setMaHoaDonChiTiet(String maHoaDonChiTiet) {
+        this.maHoaDonChiTiet = maHoaDonChiTiet;
     }
-    public String getMaSanPham(){
-        return masanpham;
+
+    public String getMaSanPham() {
+        return maSanPham;
     }
-    public void setMaSanPham(String masanpham){
-        this.masanpham = masanpham;
+
+    public void setMaSanPham(String maSanPham) {
+        this.maSanPham = maSanPham;
     }
-    public int getSoLuong(){
-        return soluong;
+
+    public int getSoLuong() {
+        return soLuong;
     }
-    public void setSoLuong(int soluong){
-        this.soluong = soluong;
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
-    public Double getDonGia(){
-        return dongia;
+
+    public double getDonGia() {
+        return donGia;
     }
-    public void setDonGia(Double dongia){
-        this.dongia = dongia;
+
+    public void setDonGia(double donGia) {
+        this.donGia = donGia;
     }
-    public Double getThanhGia(){
-        return thanhgia;
+
+    public double getThanhGia() {
+        return thanhGia;
     }
-    public void setThanhGia(Double thanhgia){
-        this.thanhgia = thanhgia;
+
+    public void setThanhGia(double thanhGia) {
+        this.thanhGia = thanhGia;
     }
 }

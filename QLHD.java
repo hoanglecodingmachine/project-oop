@@ -46,7 +46,7 @@ public class QLHD extends MainQLBH {
         }
     }
 
-    // ✅ Thêm hóa đơn + chi tiết hóa đơn
+    
     public void ThemHoaDon() {
         HoaDon hd = new HoaDon();
         hd.nhap();
@@ -169,7 +169,7 @@ public class QLHD extends MainQLBH {
                 int tk = sc.nextInt();
                 sc.nextLine();
                 if (tk == 1) {
-                    System.out.println("Tìm hóa đơn (1. Mã, 2. Mã KH, 3. Mã NV)");
+                    System.out.println("Tìm hóa đơn (1. Mã, 2. Mã KH, 3. Mã NV, 4 Ma Phu kien)");
                     int subChoice = sc.nextInt();
                     sc.nextLine();
                     switch (subChoice) {
@@ -178,6 +178,8 @@ public class QLHD extends MainQLBH {
                         case 2: dshd.Search_MaKhachHang();
                         break;
                         case 3: dshd.Search_MaNhanVien();
+                        break;
+                        case 4: dshd.Search_MaPhuKien();
                         break;
                         default: System.out.println("Lựa chọn không hợp lệ!");
                         break;

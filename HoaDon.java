@@ -6,15 +6,16 @@ public class HoaDon {
     private String makhachhang;
     private String manhanvien;
     private double tongtien;
-
+    private String maphukien;
     public HoaDon() {}
 
-    public HoaDon(String mahoadon,String ngaynhap ,String makhachhang, String manhanvien, double tongtien) {
+    public HoaDon(String mahoadon,String ngaynhap ,String makhachhang, String manhanvien, double tongtien,String maphukien) {
         this.mahoadon = mahoadon;
         this.ngaynhap = ngaynhap;
         this.makhachhang = makhachhang;
         this.manhanvien = manhanvien;
         this.tongtien = tongtien;
+        this.maphukien = maphukien;
     }
     public String getMaHoaDon() { return mahoadon; }
     public void setMaHoaDon(String mahoadon) { this.mahoadon = mahoadon; }
@@ -31,6 +32,8 @@ public class HoaDon {
     public double getTongTien() { return tongtien; }
     public void setTongTien(double tongtien) { this.tongtien = tongtien; }
 
+    public String getMaPhuKien() { return maphukien; }
+    public void setMaPhuKien(String maphukien) { this.maphukien = maphukien; }
     public void nhap() {
         System.out.print("Nhập mã hóa đơn: ");
         mahoadon = sc.nextLine();
@@ -43,10 +46,15 @@ public class HoaDon {
 
         System.out.print("Nhập mã nhân viên: ");
         manhanvien = sc.nextLine();
+        
+        System.out.println("nhap ma phu kien di kem ");
+        maphukien = sc.nextLine();
     }
 
     public void xuat() {
-        System.out.printf("%-10s| %-10s | %-10s | %-10s | Tổng tiền: %.0fđ%n",
-                mahoadon,ngaynhap, makhachhang, manhanvien, tongtien);
+        
+       System.out.printf("%-12s| %-12s | %-12s | %-12s | %-12s | %-12.0fđ%n",
+        mahoadon, ngaynhap, makhachhang, manhanvien, maphukien, tongtien);
+
     }
 }
