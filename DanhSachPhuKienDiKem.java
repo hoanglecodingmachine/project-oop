@@ -220,7 +220,7 @@ public void DocFile(String tenFile) {
             if(dsphukien[i].getLoai().equalsIgnoreCase(loai)){
                 found = true;
                 dsphukien[i].xuat();
-                kq = Arrays.copyOf(kq, count ++);
+                kq = Arrays.copyOf(kq, count + 1);
                 kq[count] = dsphukien[i];
                 count++;
             }

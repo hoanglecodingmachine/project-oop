@@ -599,9 +599,9 @@ public int[] ThongKe_DungLuong(){
             }
         }
     }
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co dung luong 128gb la ", gb128);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co dung luong 256gb la :", gb256);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co dung luong 512gb la ", gb512);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co dung luong 128gb la ", gb128);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co dung luong 256gb la :", gb256);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co dung luong 512gb la ", gb512);
 
     return new int[]{gb128,gb256,gb512};
 }
@@ -623,9 +623,9 @@ public int[] ThongKe_BanPhim(){
             }
         }
     }
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co ban phim 12 nut la ", nut);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co ban phim qwerty nut la  ", qwerty);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co ban phim gap la ", gap);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co ban phim 12 nut la ", nut);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co ban phim qwerty nut la  ", qwerty);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co ban phim gap la ", gap);
 
     return new int[]{nut,qwerty,gap};
 }
@@ -647,9 +647,9 @@ public int[] ThongKe_ThoiGianGoi(){
             }
         }
     }
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 ngay la ", oneday);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 tuan la  ", oneweek);
-    System.out.printf("%-40s %.2f%%\n", "So luong dien thoai co thoi gian goi trung binh 1 thang la ", onemonth);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co thoi gian goi trung binh 1 ngay la ", oneday);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co thoi gian goi trung binh 1 tuan la  ", oneweek);
+    System.out.printf("%-40s %d\n", "So luong dien thoai co thoi gian goi trung binh 1 thang la ", onemonth);
 
     return new int[]{oneday,oneweek,onemonth};
 }

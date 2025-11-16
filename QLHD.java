@@ -233,7 +233,7 @@ public class QLHD extends MainQLBH {
             int demhd = 0;
             for(int i = 0 ; i < num;i++){
                LocalDate ngaylap = LocalDate.parse(arrHD[i].getNgayNhap(),formatter);
-               if((ngaylap.isEqual(ngaybatdau) || ngaylap.isBefore(ngayketthuc)) && (ngaylap.isEqual(ngayketthuc) || ngaylap.isAfter(ngayketthuc))){
+               if((ngaylap.isEqual(ngaybatdau) || ngaylap.isAfter(ngaybatdau)) && (ngaylap.isEqual(ngayketthuc) || ngaylap.isBefore(ngayketthuc))){
                 tongtien += arrHD[i].getTongTien();
                 demhd++;
                } 
@@ -263,10 +263,10 @@ public class QLHD extends MainQLBH {
                 System.out.println("loi dinh dang ngay nhap dd/MM/yyyy");
             }
         }
-    System.out.printf("%-25s : %.2f\n", "Quy 1 (1–3)", Quy1);
-    System.out.printf("%-25s : %.2f\n", "Quy 2 (4–6)", Quy2);
-    System.out.printf("%-25s : %.2f\n", "Quy 3 (7–9)", Quy3);
-    System.out.printf("%-25s : %.2f\n", "Quy 4 (10–12)", Quy4);
+    System.out.printf("%-25s : %.2f\n", "Quy 1 (1–3)", (double)Quy1);
+    System.out.printf("%-25s : %.2f\n", "Quy 2 (4–6)", (double)Quy2);
+    System.out.printf("%-25s : %.2f\n", "Quy 3 (7–9)", (double)Quy3);
+    System.out.printf("%-25s : %.2f\n", "Quy 4 (10–12)", (double)Quy4);
      return new double[]{Quy1, Quy2, Quy3, Quy4};
     }
     }
