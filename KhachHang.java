@@ -60,6 +60,7 @@ public class KhachHang {
         gioitinh = sc.nextLine();
         System.out.print("do tuoi cua khach la : ");
         dotuoi = sc.nextInt();
+        sc.nextLine();
     }
 
     // Phương thức hiển thị thông tin

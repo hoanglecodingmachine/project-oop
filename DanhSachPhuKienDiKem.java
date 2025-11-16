@@ -44,7 +44,6 @@ public class DanhSachPhuKienDiKem {
     }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
         while (scCount.hasNextLine()) {
@@ -54,15 +53,12 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
-
-        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
         dsphukien = new PhuKienTangKem[count];
         numphukien = 0;
 
-        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
         Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
         int lineNumber = 0;
 
@@ -71,12 +67,11 @@ public void DocFile(String tenFile) {
             lineNumber++;
             if (line.isEmpty()) continue;
 
-            // Loại bỏ BOM nếu có
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
             if (p.length != 3) {
-                System.out.println("⚠️ Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
                 continue;
             }
 
@@ -88,19 +83,19 @@ public void DocFile(String tenFile) {
                 PhuKienTangKem pk1 = new PhuKienTangKem(maphukien, tenphukien, loai);
                 dsphukien[numphukien++] = pk1;
             } catch (Exception ex) {
-                System.out.println("⚠️ Lỗi tạo đối tượng PhuKienTangKem ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Lỗi tạo đối tượng PhuKienTangKem ở dòng " + lineNumber + ": " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println("✅ Đã đọc dữ liệu phụ kiện thành công! Tổng: " + numphukien);
+        System.out.println(" Đã đọc dữ liệu phụ kiện thành công! Tổng: " + numphukien);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -263,14 +258,18 @@ public int[] ThongKe_Loai(){
 
     return new int[]{op_lung, tai_nghe, cuong_luc};
 }
-// ...existing code...
-    public void GhiFile(String tenFile){
-        try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))){
-            for(int i=0;i<numphukien;i++){
-                String line = "";
-                line = String.join("-", dsphukien[i].getMaphukien(), dsphukien[i].getTenphukien());
-                pw.println(line);
-            }
+public void GhiFile(String tenFile){
+try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))){
+ for(int i = 0; i < numphukien; i++){
+    PhuKienTangKem pk = dsphukien[i];
+            String line = String.join("-",
+            pk.getMaphukien(),
+            pk.getTenphukien(),
+            pk.getLoai()
+           );
+           pw.println(line);
+   }
+
         } catch (Exception e) {
             System.out.println("Loi ghi file: " + e.getMessage());
         }

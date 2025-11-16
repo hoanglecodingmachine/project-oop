@@ -30,6 +30,7 @@ public class DanhSachPhieuNhapHang{
     public void nhap(){
         System.out.println("nhap so luong phieu nhap hang ");
         numpnh = sc.nextInt();
+        sc.nextLine();
         pnh = new PhieuNhapHang[numpnh];
         for(int i = 0 ; i < numpnh;i++){
             pnh[i] = new PhieuNhapHang();
@@ -44,7 +45,6 @@ public class DanhSachPhieuNhapHang{
     }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
         while (scCount.hasNextLine()) {
@@ -54,15 +54,12 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
 
-        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
         pnh = new PhieuNhapHang[count];
         numpnh = 0;
-
-        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
         Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
         int lineNumber = 0;
 
@@ -70,13 +67,11 @@ public void DocFile(String tenFile) {
             String line = scFile.nextLine().trim();
             lineNumber++;
             if (line.isEmpty()) continue;
-
-            // Loại bỏ BOM nếu có
             line = line.replace("\uFEFF", "");
 
             String[] parts = line.split("-");
             if (parts.length != 4) {
-                System.out.println("⚠️ Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
                 continue;
             }
 
@@ -89,21 +84,21 @@ public void DocFile(String tenFile) {
                 PhieuNhapHang pnh1 = new PhieuNhapHang(maPhieuNhapHang, maNhaCungCap, ngayThang, thanhTien);
                 pnh[numpnh++] = pnh1;
             } catch (NumberFormatException nfe) {
-                System.out.println("⚠️ Lỗi định dạng số (thanhTien) ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Lỗi định dạng số (thanhTien) ở dòng " + lineNumber + ": " + line);
             } catch (Exception ex) {
-                System.out.println("⚠️ Lỗi tạo đối tượng PhieuNhapHang ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Lỗi tạo đối tượng PhieuNhapHang ở dòng " + lineNumber + ": " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println("✅ Đã đọc dữ liệu phiếu nhập hàng thành công! Tổng: " + numpnh);
+        System.out.println(" Đã đọc dữ liệu phiếu nhập hàng thành công! Tổng: " + numpnh);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -145,11 +140,15 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < numpnh; i++) {
         if (pnh[i].getMaPhieuNhapHang().equals(ma)) {
             found = true;
+            System.out.println("da tim thay ma phieu nhap hang . Vui long nhap lua chon de sua ");
+            System.out.println("1 ma nha cung cap  , 2 ngay thang , 3 thanh tien, 0 sua het ");
+            int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     System.out.println("vui lonng nhap ma nha cung cap moi cho phieu nhap hang ");
@@ -181,15 +180,7 @@ public void sua(String ma, int choice) {
 public void sua(){
     System.out.println("vui long nhap ma phieu nhap hang can sua ");
     String ma = sc.nextLine();
-    for(int i = 0 ; i < numpnh;i++){
-        if(pnh[i].getMaPhieuNhapHang().equals(ma)){
-            System.out.println("da tim thay ma phieu nhap hang . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma nha cung cap  , 2 ngay thang , 3 thanh tien, 0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            sua(ma,choice); 
-        }
-    }
+            sua(ma); 
 }
 public PhieuNhapHang Search_Ma(String ma){
       boolean found = false;
@@ -258,12 +249,12 @@ public void Search_MaNhaCungCap(){
                     count++;
                 }
             } catch (Exception e) {
-                System.out.println("⚠️ Lỗi định dạng ngày ở phiếu nhập: " + pnh[i].getMaPhieuNhapHang());
+                System.out.println(" Lỗi định dạng ngày ở phiếu nhập: " + pnh[i].getMaPhieuNhapHang());
             }
         }
 
         if (!found) {
-            System.out.println("❌ Không tìm thấy phiếu nhập hàng trong khoảng thời gian này.");
+            System.out.println(" Không tìm thấy phiếu nhập hàng trong khoảng thời gian này.");
             return null;
         }
         return kq;
@@ -308,6 +299,7 @@ public PhieuNhapHang[] Search_ThanhTien(double e){
 public void Search_ThanhTien(){
       System.out.println("nhap Thanh Tien phieu nhap hang can tim ");
       double e = sc.nextDouble();
+      sc.nextLine();
       Search_ThanhTien(e);
 }
 public int[] ThongKe_NgayNhap(){

@@ -41,7 +41,6 @@ public void setNumKhachHang(int numkh){
       }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
         while (scCount.hasNextLine()) {
@@ -51,27 +50,23 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
-
-        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
         kh = new KhachHang[count];
         numkh = 0;
-
-        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
         Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
 
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
 
-            // Loại bỏ BOM nếu có
+
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
             if (p.length != 7) {
-                System.out.println("⚠️ Dòng không đủ 7 trường: " + line);
+                System.out.println(" Dòng không đủ 7 trường: " + line);
                 continue;
             }
 
@@ -96,22 +91,22 @@ public void DocFile(String tenFile) {
 
                 kh[numkh++] = kh1;
             } catch (NumberFormatException nfe) {
-                System.out.println("⚠️ Lỗi định dạng số: " + line);
+                System.out.println(" Lỗi định dạng số: " + line);
             } catch (Exception ex) {
-                System.out.println("⚠️ Lỗi tạo đối tượng KhachHang: " + line);
+                System.out.println(" Lỗi tạo đối tượng KhachHang: " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println("✅ Đọc file khách hàng thành công! Tổng: " + numkh);
+        System.out.println(" Đọc file khách hàng thành công! Tổng: " + numkh);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
         fnf.printStackTrace();
 
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -130,35 +125,41 @@ public void DocFile(String tenFile) {
         kh1.nhap();
         them(kh1);
       }
-      public void xoa(String ma){
-        boolean found = false;
-        for(int i = 0 ; i < numkh; i++){
-            if(kh[i].getMaKhachHang().toLowerCase().contains(ma)){
-                found = true;
-                for(int j = i; j < numkh - 1 ; j++){
-                    kh[j] = kh[j + 1];
-                    kh = Arrays.copyOf(kh, numkh - 1);
-                    numkh--;
-                    break;
-                }
+public void xoa(String ma) {
+    boolean found = false;
+    ma = ma.toLowerCase(); // chuẩn hóa chữ
+    for (int i = 0; i < numkh; i++) {
+        if (kh[i].getMaKhachHang().toLowerCase().equals(ma)) { // dùng equals để match chính xác
+            found = true;
+            // shift các phần tử bên phải sang trái
+            for (int j = i; j < numkh - 1; j++) {
+                kh[j] = kh[j + 1];
             }
+            kh[numkh - 1] = null; // xóa tham chiếu cuối
+            numkh--; // giảm số lượng
+            System.out.println("Đã xóa thông tin khách hàng thành công!");
+            return; // thoát luôn sau khi xóa
         }
-        if(found){
-             System.out.println("da xoa thong tin khach hang thanh cong ");
-        }else{
-            System.out.println("khong tim thay thong tin khach hang ");
-        }
-      }
-      public void xoa(){
-        System.out.println("nhap ma khach hang can tim ");
-        String ma = sc.nextLine();
-        xoa(ma);
-      }
-      public void sua(String ma ,int choice){
+    }
+    if (!found) {
+        System.out.println("Không tìm thấy thông tin khách hàng!");
+    }
+}
+
+public void xoa() {
+    System.out.println("Nhập mã khách hàng cần xóa: ");
+    String ma = sc.nextLine().trim();
+    xoa(ma);
+}
+
+ public void sua(String ma ){
         boolean found = false;   
         for(int i = 0 ; i < numkh;i++){
             if(kh[i].getMaKhachHang().toLowerCase().contains(ma.toLowerCase())){
                 found = true;
+                System.out.println("Vui long nhap lua chon sua cua ban (1 ho,2 ten,3 email,4 so dien thoai , 5 gioi tinh,6 ngay sinh , 7 sua het , 0 thoat ) ");
+                int choice = sc.nextInt();
+                sc.nextLine();
                 switch (choice) {
                     case 1:
                         System.out.println("da sua thanh cong ho khach hang ");
@@ -205,10 +206,7 @@ public void DocFile(String tenFile) {
       public void sua(){
         System.out.println("vui long nhap ma khach hang de sua ");
         String ma = sc.nextLine();
-        System.out.println("Vui long nhap lua chon sua cua ban (1 ho,2 ten,3 email,4 so dien thoai , 5 gioi tinh,6 ngay sinh , 7 sua het , 0 thoat ) ");
-        int choice = sc.nextInt();
-        sc.nextLine();
-        sua(ma,choice);
+        sua(ma);
     }
     public KhachHang Search_MaKhachHang(String ma){
         boolean found = false;
@@ -226,20 +224,9 @@ public void DocFile(String tenFile) {
         return null;
     }
     public void Search_MaKhachHang(){
-        boolean found = false;
         System.out.println("vui long nhap ma khach hang can tim ");
         String ma = sc.nextLine();
-        for(int i = 0 ; i < numkh; i ++){
-            if(kh[i].getMaKhachHang().equalsIgnoreCase(ma)){
-                System.out.println("da tim thay ");
-                kh[i].xuat();
-                found = true;
-                return;
-            }
-        }
-        if(!found){
-            System.out.println("khong tim thay ");
-        }
+        Search_MaKhachHang(ma);
     }
     public KhachHang[] Search_TenKhachHang(String ten){
         boolean found = false;
@@ -262,20 +249,9 @@ public void DocFile(String tenFile) {
         return kq;
     }
     public void Search_TenKhachHang(){
-        boolean found = false;
         System.out.println("vui long nhap ten khach hang can tim ");
         String ten = sc.nextLine();
-        for(int i = 0 ; i < numkh; i ++){
-            if(kh[i].getTenKhachHang().equalsIgnoreCase(ten)){
-                System.out.println("da tim thay ");
-                kh[i].xuat();
-                found = true;
-                return;
-            }
-        }
-        if(!found){
-            System.out.println("khong tim thay ");
-        }
+        Search_TenKhachHang(ten);
     }
     public KhachHang[] Search_SoDT_KhachHang(String sdt){
         boolean found = false;
@@ -298,20 +274,9 @@ public void DocFile(String tenFile) {
         return kq;
     }
     public void Search_SoDT_KhachHang(){
-        boolean found = false;
         System.out.println("vui long nhap so dien thoai khach hang can tim ");
         String sdt = sc.nextLine();
-        for(int i = 0 ; i < numkh; i ++){
-            if(kh[i].getSoDienThoai().equalsIgnoreCase(sdt)){
-                System.out.println("da tim thay ");
-                kh[i].xuat();
-                found = true;
-                return;
-            }
-        }
-        if(!found){
-            System.out.println("khong tim thay ");
-        }
+        Search_SoDT_KhachHang(sdt);
     }
     public KhachHang[] Search_EmailKhachHang(String email){
         boolean found = false;
@@ -334,20 +299,9 @@ public void DocFile(String tenFile) {
         return kq;
     }
     public void Search_EmailKhachHang(){
-        boolean found = false;
         System.out.println("vui long nhap email khach hang can tim ");
         String email = sc.nextLine();
-        for(int i = 0 ; i < numkh; i ++){
-            if(kh[i].getEmail().equalsIgnoreCase(email)){
-                System.out.println("da tim thay ");
-                kh[i].xuat();
-                found = true;
-                return;
-            }
-        }
-        if(!found){
-            System.out.println("khong tim thay ");
-        }
+        Search_EmailKhachHang(email);
     }
         public KhachHang[] Search_GioiTinhKhachHang(String gt){
         boolean found = false;
@@ -370,20 +324,9 @@ public void DocFile(String tenFile) {
         return kq;
     }
     public void Search_GioiTinhKhachHang(){
-        boolean found = false;
         System.out.println("vui long nhap gioi tinh khach hang can tim ");
         String gt = sc.nextLine();
-        for(int i = 0 ; i < numkh; i ++){
-            if(kh[i].getGioiTinh().equalsIgnoreCase(gt)){
-                System.out.println("da tim thay ");
-                kh[i].xuat();
-                found = true;
-                return;
-            }
-        }
-        if(!found){
-            System.out.println("khong tim thay ");
-        }
+        Search_GioiTinhKhachHang(gt);
     }
     public KhachHang[] Search_DoTuoiKhachHang(int tuoi){
         boolean found = false;
@@ -408,6 +351,7 @@ public void DocFile(String tenFile) {
     public void Search_DoTuoiKhachHang(){
         System.out.println("vui long nhap do tuoi khach hang can tim ");
         int tuoi = sc.nextInt();
+        sc.nextLine();
         Search_DoTuoiKhachHang(tuoi);
     }
     public int[] ThongKe_GioiTinh(){

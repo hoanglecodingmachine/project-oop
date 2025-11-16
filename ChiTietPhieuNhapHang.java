@@ -61,8 +61,10 @@ public class ChiTietPhieuNhapHang {
     masp = sc.nextLine();
     System.out.println("nhap so luong san pham ");
     soluong = sc.nextInt();
+    sc.nextLine(); 
     System.out.println("nha don gia cua ma san pham ");
     dongia = sc.nextDouble();
+    sc.nextLine(); 
     tongtien = soluong * dongia;
   }
 public void xuat() {

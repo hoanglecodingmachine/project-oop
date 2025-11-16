@@ -32,6 +32,7 @@ public class DienThoaiCoDien extends CuaHangDienThoai{
         banphim = sc.nextLine();
         System.out.println("nhap thoi gian thoai ");
         thoigianthoai = sc.nextInt();
+        sc.nextLine();
     }
 @Override
 public void xuat() {

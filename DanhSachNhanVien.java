@@ -41,7 +41,6 @@ public class DanhSachNhanVien {
     }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
         while (scCount.hasNextLine()) {
@@ -51,27 +50,24 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
 
-        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
         nv = new NhanVien[count];
         numnv = 0;
 
-        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
         Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
 
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
 
-            // Loại bỏ BOM nếu có
             line = line.replace("\uFEFF", "");
 
             String[] parts = line.split("-");
-            if (parts.length != 5) {  // NhanVien có 5 trường
-                System.out.println("⚠️ Dòng không đủ 5 trường: " + line);
+            if (parts.length != 5) {  
+                System.out.println(" Dòng không đủ 5 trường: " + line);
                 continue;
             }
 
@@ -85,21 +81,21 @@ public void DocFile(String tenFile) {
                 NhanVien nv1 = new NhanVien(maNV, ho, ten, luong, chucVu);
                 nv[numnv++] = nv1;
             } catch (NumberFormatException nfe) {
-                System.out.println("⚠️ Lỗi định dạng số (luong) dòng: " + line);
+                System.out.println(" Lỗi định dạng số (luong) dòng: " + line);
             } catch (Exception ex) {
-                System.out.println("⚠️ Lỗi tạo đối tượng NhanVien dòng: " + line);
+                System.out.println(" Lỗi tạo đối tượng NhanVien dòng: " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println("✅ Đọc file nhân viên thành công! Tổng: " + numnv);
+        System.out.println(" Đọc file nhân viên thành công! Tổng: " + numnv);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -141,11 +137,15 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < numnv; i++) {
         if (nv[i].getMaNhanVien().equals(ma)) {
             found = true;
+            System.out.println("da tim thay nhan vien . Vui long nhap lua chon de sua ");
+            System.out.println("1 ho, 2 ten, 3 luong,4 chuc vu , 0 sua het ");
+            int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     System.out.println("vui lonng nhap ho moi cua nhan vien ");
@@ -182,15 +182,7 @@ public void sua(String ma, int choice) {
 public void sua(){
     System.out.println("vui long nhap ma nhan vien can sua ");
     String ma = sc.nextLine();
-    for(int i = 0 ; i < numnv;i++){
-        if(nv[i].getMaNhanVien().equals(ma)){
-            System.out.println("da tim thay nhan vien . Vui long nhap lua chon de sua ");
-            System.out.println("1 ho, 2 ten, 3 luong,4 chuc vu , 0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            sua(ma,choice); 
-        }
-    }
+            sua(ma);
 }
 public NhanVien Search_Ma(String ma){
       boolean found = false;
@@ -285,6 +277,7 @@ public NhanVien[] Search_Luong(Double min , Double max){
 public void Search_Luong(){
       System.out.println("nhap luong nho nhat nhan vien can tim ");
       Double min = sc.nextDouble();
+      sc.nextLine();
       System.out.println("nhap luong lon nhat nhan vien can tim ");
       Double max = sc.nextDouble();
       sc.nextLine();

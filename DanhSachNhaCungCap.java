@@ -27,6 +27,7 @@ public class DanhSachNhaCungCap{
     public void nhap(){
         System.out.println("nhap so luong nha cung cap ");
         numncc = sc.nextInt();
+        sc.nextLine();
         ncc = new NhaCungCap[numncc];
         for(int i = 0 ; i < numncc;i++){
             ncc[i] = new NhaCungCap();
@@ -41,7 +42,6 @@ public class DanhSachNhaCungCap{
     }
 public void DocFile(String TenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
         int count = 0;
         Scanner scCount = new Scanner(new File(TenFile), "UTF-8");
         while (scCount.hasNextLine()) {
@@ -51,27 +51,21 @@ public void DocFile(String TenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
-
-        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
         ncc = new NhaCungCap[count];
         numncc = 0;
-
-        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
         Scanner scFile = new Scanner(new File(TenFile), "UTF-8");
 
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
-
-            // Loại bỏ BOM nếu có
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
-            if (p.length != 4) {  // NhaCungCap chỉ có 4 trường
-                System.out.println("⚠️ Dòng không đủ 4 trường: " + line);
+            if (p.length != 4) {  
+                System.out.println(" Dòng không đủ 4 trường: " + line);
                 continue;
             }
 
@@ -84,19 +78,19 @@ public void DocFile(String TenFile) {
                 NhaCungCap ncc1 = new NhaCungCap(maNhaCungCap, diaChi, soDienThoai, email);
                 ncc[numncc++] = ncc1;
             } catch (Exception ex) {
-                System.out.println("⚠️ Lỗi tạo đối tượng NhaCungCap: " + line);
+                System.out.println(" Lỗi tạo đối tượng NhaCungCap: " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println("✅ Đọc file nhà cung cấp thành công! Tổng: " + numncc);
+        System.out.println(" Đọc file nhà cung cấp thành công! Tổng: " + numncc);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + TenFile);
+        System.out.println(" File không tìm thấy: " + TenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + TenFile + "': " 
+        System.out.println(" Lỗi đọc file '" + TenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -139,11 +133,15 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < numncc; i++) {
         if (ncc[i].getMaNhaCungCap().equals(ma)) {
-            found = true;
+            found = true;            
+            System.out.println("da tim thay ma nha cung cap . Vui long nhap lua chon de sua ");
+            System.out.println("1 dia chi  , 2 so dien thoai, 3 email, 0 sua het ");
+            int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     System.out.println("vui lonng nhap dia chi{HCM,HN,NN} moi cho nha cung cap ");
@@ -175,15 +173,7 @@ public void sua(String ma, int choice) {
 public void sua(){
     System.out.println("vui long nhap ma nha cung cap can sua ");
     String ma = sc.nextLine();
-    for(int i = 0 ; i < numncc;i++){
-        if(ncc[i].getMaNhaCungCap().equals(ma)){
-            System.out.println("da tim thay ma nha cung cap . Vui long nhap lua chon de sua ");
-            System.out.println("1 dia chi  , 2 so dien thoai, 3 email, 0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            sua(ma,choice); 
-        }
-    }
+    sua(ma); 
 }
 public NhaCungCap Search_Ma(String ma){
       boolean found = false;

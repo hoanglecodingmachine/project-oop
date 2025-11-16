@@ -27,6 +27,7 @@ public class DanhSachChiTietHoaDon{
     public void nhap(){
         System.out.println("nhap so luong hoa don chi tiet ");
         numcthd = sc.nextInt();
+        sc.nextLine(); 
         ChiTietHoaDon[] dscthd = new ChiTietHoaDon[numcthd];
         for(int i = 0 ; i < numcthd;i++){
             dscthd[i] = new ChiTietHoaDon();
@@ -41,7 +42,6 @@ public class DanhSachChiTietHoaDon{
     }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile));
 
@@ -52,15 +52,13 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dữ liệu hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dữ liệu hợp lệ!");
             return;
         }
 
-        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
         dscthd = new ChiTietHoaDon[count];
         numcthd = 0;
 
-        // ======= BƯỚC 3: ĐỌC FILE =======
         Scanner scfile = new Scanner(new File(tenFile));
 
         while (scfile.hasNextLine()) {
@@ -72,7 +70,7 @@ public void DocFile(String tenFile) {
             String[] p = line.split("-");
 
             if (p.length != 6) {
-                System.out.println("⚠️ Dòng lỗi (không đủ 6 trường): " + line);
+                System.out.println(" Dòng lỗi (không đủ 6 trường): " + line);
                 continue;
             }
 
@@ -96,13 +94,12 @@ public void DocFile(String tenFile) {
         }
 
         scfile.close();
-
-        System.out.println("✅ Đọc file thành công! Tổng chi tiết hóa đơn: " + numcthd);
+        System.out.println(" Đọc file thành công! Tổng chi tiết hóa đơn: " + numcthd);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " + e.getMessage());
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " + e.getMessage());
     }
 }
 
@@ -113,7 +110,7 @@ public void Them(ChiTietHoaDon hdct1){
         System.out.println("Da them hoa don chi tiet thanh cong !");
     }
 public void Them() {
-            ChiTietHoaDon hdct1 = new ChiTietHoaDon();
+            ChiTietHoaDon hdct1 = new ChiTietHoaDon(); 
             System.out.println("Nhập thông tin hoa don chi tiet moi:");
             hdct1.nhap();
             Them(hdct1);
@@ -143,11 +140,15 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < numcthd; i++) {
         if (dscthd[i].getMaHoaDonChiTiet().equals(ma)) {
             found = true;
+            System.out.println("da tim thay chi tiet hoa don . Vui long nhap lua chon de sua ");
+            System.out.println("1 ma hoa don ,2 ma san pham , 3 so luong, 0 sua het ");
+            int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     System.out.println("vui long nhap ma hoa don moi cho san pham ");
@@ -177,17 +178,11 @@ public void sua(String ma, int choice) {
     }
 }
 public void sua(){
+    sc.nextLine();
     System.out.println("vui long nhap ma chi tiet hoa don can sua ");
     String ma = sc.nextLine();
-    for(int i = 0 ; i < numcthd;i++){
-        if(dscthd[i].getMaHoaDonChiTiet().equals(ma)){
-            System.out.println("da tim thay chi tiet hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma hoa don ,2 ma san pham , 3 so luong, 0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            sua(ma,choice); 
-        }
-    }
+    sua(ma); 
+    
 }
 public ChiTietHoaDon Search_Ma(String ma){
       boolean found = false;
@@ -282,6 +277,7 @@ public ChiTietHoaDon[] Search_SoLuong(int soluong){
 public void Search_SoLuong(){
       System.out.println("nhap so luong can tim ");
       int soluong = sc.nextInt();
+      sc.nextLine();
       Search_SoLuong(soluong);
 }
 public ChiTietHoaDon[] Search_DonGia(double dongia){

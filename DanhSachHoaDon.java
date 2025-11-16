@@ -45,7 +45,7 @@ public class DanhSachHoaDon {
     }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
+
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile));
 
@@ -56,28 +56,22 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
-
-        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
         hd = new HoaDon[count];
         numhd = 0;
-
-        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
         Scanner scFile = new Scanner(new File(tenFile));
 
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
-
-            // Loại bỏ BOM nếu có
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
 
             if (p.length != 6) {
-                System.out.println("⚠️ Dòng không đủ 6 trường: " + line);
+                System.out.println(" Dòng không đủ 6 trường: " + line);
                 continue;
             }
 
@@ -101,14 +95,14 @@ public void DocFile(String tenFile) {
         }
 
         scFile.close();
-        System.out.println("✅ Đọc file hóa đơn thành công! Tổng: " + numhd);
+        System.out.println(" Đọc file hóa đơn thành công! Tổng: " + numhd);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
         fnf.printStackTrace();
 
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -137,11 +131,15 @@ public void xoa(){
     String ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < numhd; i++) {
         if (hd[i].getMaHoaDon().equals(ma)) {
             found = true;
+            System.out.println("da tim thay ma hoa don . Vui long nhap lua chon de sua ");
+            System.out.println("1 ma khach hanh , 2 ma nhan vien ,3 ngay nhap, 4 ma phu kien,0 sua het ");
+            int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     System.out.println("vui lonng nhap ma khach hang moi ");
@@ -175,6 +173,12 @@ public void sua(String ma, int choice) {
         System.out.println("Không tìm thay ma hoa don : " + ma);
     }
 }
+public void sua(){
+    System.out.println("vui long nhap ma hoa don can sua ");
+    String ma = sc.nextLine();
+    sua(ma); 
+
+}
 public void Them(HoaDon hd1){
         hd = Arrays.copyOf(hd,numhd + 1);
         hd[numhd] = hd1;
@@ -187,19 +191,7 @@ public void Them() {
             hd1.nhap();
             Them(hd1);
 }
-public void sua(){
-    System.out.println("vui long nhap ma hoa don can sua ");
-    String ma = sc.nextLine();
-    for(int i = 0 ; i < numhd;i++){
-        if(hd[i].getMaHoaDon().equals(ma)){
-            System.out.println("da tim thay ma hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma khach hanh , 2 ma nhan vien ,3 ngay nhap, 4 ma phu kien,0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            sua(ma,choice); 
-        }
-    }
-}
+
 public HoaDon Search_Ma(String ma){
       boolean found = false;
       for(int i = 0 ; i < numhd ; i++){

@@ -39,7 +39,6 @@ public class DanhSachBaoHanh {
         }
     }
     public void xuat(){
-        System.out.printf("%-15s %-15s %-15s %-20s\n", "Ma Bao Hanh", "Ma San Pham", "Ngay Mua", "Thoi Gian Bao Hanh (thang)");
         for(int i=0;i<numbh;i++){
             dsbh[i].xuat();
         }
@@ -95,12 +94,12 @@ public class DanhSachBaoHanh {
 
         scfile.close();
 
-        System.out.println("✅ Đọc file thành công! Tổng bảo hành: " + numbh);
+        System.out.println(" Đọc file thành công! Tổng bảo hành: " + numbh);
 
     } catch (FileNotFoundException fnf) {
-        System.out.println("❌ Không tìm thấy file: " + tenFile);
+        System.out.println(" Không tìm thấy file: " + tenFile);
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " + e.getMessage());
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " + e.getMessage());
     }
 }
 
@@ -197,6 +196,7 @@ public class DanhSachBaoHanh {
         Search_Ma(ma);
     }
     public void Search_MaSanPham(){
+        sc.nextLine(); 
         System.out.print("Nhap ma san pham can tim: ");
         String maSP = sc.nextLine();
         Search_MaSanPham(maSP);

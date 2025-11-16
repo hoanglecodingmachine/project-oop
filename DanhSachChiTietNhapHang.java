@@ -27,6 +27,7 @@ public class DanhSachChiTietNhapHang{
     public void nhap(){
         System.out.println("nhap so luong hoa don chi tiet ");
         numctpnh = sc.nextInt();
+        sc.nextLine();
         ChiTietPhieuNhapHang[] dsctpnh = new ChiTietPhieuNhapHang[numctpnh];
         for(int i = 0 ; i < numctpnh;i++){
             dsctpnh[i] = new ChiTietPhieuNhapHang();
@@ -41,7 +42,6 @@ public class DanhSachChiTietNhapHang{
     }
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG HỢP LỆ =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile));
 
@@ -52,15 +52,13 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
             return;
         }
 
-        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
         dsctpnh = new ChiTietPhieuNhapHang[count];
         numctpnh = 0;
 
-        // ======= BƯỚC 3: ĐỌC FILE =======
         Scanner scFile = new Scanner(new File(tenFile));
 
         while (scFile.hasNextLine()) {
@@ -97,12 +95,12 @@ public void DocFile(String tenFile) {
         }
 
         scFile.close();
-        System.out.println("✅ Đọc file chi tiết phiếu nhập thành công! Tổng: " + numctpnh);
+        System.out.println(" Đọc file chi tiết phiếu nhập thành công! Tổng: " + numctpnh);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println("❌ File không tìm thấy: " + tenFile);
+        System.out.println(" File không tìm thấy: " + tenFile);
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " + e.getMessage());
+        System.out.println(" Lỗi đọc file '" + tenFile + "': " + e.getMessage());
     }
 }
 
@@ -143,11 +141,15 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma, int choice) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < numctpnh; i++) {
         if (dsctpnh[i].getMaPhieuNhapHangChiTiet().equals(ma)) {
             found = true;
+            System.out.println("da tim thay chi tiet hoa don . Vui long nhap lua chon de sua ");
+            System.out.println("1 ma phieu nhap hang ,2 ma san pham , 3 so luong, 4 don gia, 0 sua het ");
+            int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case 1:
                     System.out.println("vui long nhap ma phieu nhap hang moi cho phieu nhap hang chi tiet ");
@@ -183,16 +185,8 @@ public void sua(String ma, int choice) {
 }
 public void sua(){
     System.out.println("vui long nhap ma chi tiet hoa don can sua ");
-    String ma = sc.nextLine();
-    for(int i = 0 ; i < numctpnh;i++){
-        if(dsctpnh[i].getMaPhieuNhapHangChiTiet().equals(ma)){
-            System.out.println("da tim thay chi tiet hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma phieu nhap hang ,2 ma san pham , 3 so luong, 4 don gia, 0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            sua(ma,choice); 
-        }
-    }
+    String ma = sc.nextLine();   
+    sua(ma); 
 }
 public ChiTietPhieuNhapHang Search_Ma(String ma){
       boolean found = false;
@@ -287,6 +281,7 @@ public ChiTietPhieuNhapHang[] Search_SoLuong(int soluong){
 public void Search_SoLuong(){
       System.out.println("nhap so luong can tim ");
       int soluong = sc.nextInt();
+      sc.nextLine();
       Search_SoLuong(soluong);
 }
 public ChiTietPhieuNhapHang[] Search_DonGia(double dongia){
