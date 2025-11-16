@@ -42,31 +42,73 @@ public class DanhSachPhieuNhapHang{
             pnh[i].xuat();
         }
     }
-public void DocFile(String tenFile){
-    try(Scanner scFile = new Scanner(new File(tenFile))) {
-        int i = 0 ;
-        while(scFile.hasNextLine()){
-            String line = scFile.nextLine().trim();
-            if(line.isEmpty()) continue;
-            String[] parts = line.split("-");
-            if(parts.length == 4){
-                continue;  } else {
-                System.out.println("Dữ liệu không hợp lệ ở dòng " + (i + 1));
-            }
-            String maPhieuNhapHang = parts[0];
-            String maNhaCungCap = parts[1];
-            String ngayThang = parts[2];
-            double thanhTien = Double.parseDouble(parts[3]);
-            PhieuNhapHang pnh1 = null;
-            pnh1 = new PhieuNhapHang(maPhieuNhapHang, maNhaCungCap, ngayThang, thanhTien);
-            pnh[i++] = pnh1;
+public void DocFile(String tenFile) {
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) count++;
         }
-        numpnh = i;
-        System.out.println("Đã đọc dữ liệu từ file thành công.");
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
+        pnh = new PhieuNhapHang[count];
+        numpnh = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
+        Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
+        int lineNumber = 0;
+
+        while (scFile.hasNextLine()) {
+            String line = scFile.nextLine().trim();
+            lineNumber++;
+            if (line.isEmpty()) continue;
+
+            // Loại bỏ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
+            String[] parts = line.split("-");
+            if (parts.length != 4) {
+                System.out.println("⚠️ Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
+                continue;
+            }
+
+            try {
+                String maPhieuNhapHang = parts[0].trim();
+                String maNhaCungCap = parts[1].trim();
+                String ngayThang = parts[2].trim();
+                double thanhTien = Double.parseDouble(parts[3].trim());
+
+                PhieuNhapHang pnh1 = new PhieuNhapHang(maPhieuNhapHang, maNhaCungCap, ngayThang, thanhTien);
+                pnh[numpnh++] = pnh1;
+            } catch (NumberFormatException nfe) {
+                System.out.println("⚠️ Lỗi định dạng số (thanhTien) ở dòng " + lineNumber + ": " + line);
+            } catch (Exception ex) {
+                System.out.println("⚠️ Lỗi tạo đối tượng PhieuNhapHang ở dòng " + lineNumber + ": " + line);
+                ex.printStackTrace();
+            }
+        }
+
+        scFile.close();
+        System.out.println("✅ Đã đọc dữ liệu phiếu nhập hàng thành công! Tổng: " + numpnh);
+
+    } catch (java.io.FileNotFoundException fnf) {
+        System.out.println("❌ File không tìm thấy: " + tenFile);
+        fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println("Lỗi khi đọc file: " + e.getMessage());
+        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
+        e.printStackTrace();
     }
 }
+
 public void Them(PhieuNhapHang pnh1){
         pnh = Arrays.copyOf(pnh,numpnh + 1);
         pnh[numpnh] = pnh1;

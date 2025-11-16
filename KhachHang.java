@@ -7,20 +7,20 @@ public class KhachHang {
     private String email;
     private String sodienthoai;
     private String gioitinh;
-    private String ngaysinh;
+    private int dotuoi;
     private static Scanner sc = new Scanner(System.in);
 
     public KhachHang() {}
 
     // Constructor có tham số
-    public KhachHang(String makhachhang,String hokhachhang ,String tenkhachhang, String email, String sodienthoai, String gioitinh, String ngaysinh) {
+    public KhachHang(String makhachhang,String hokhachhang ,String tenkhachhang, String email, String sodienthoai, String gioitinh, int dotuoi) {
         this.makhachhang = makhachhang;
         this.hokhachhang = hokhachhang;
         this.tenkhachhang = tenkhachhang;
         this.email = email;
         this.sodienthoai = sodienthoai;
         this.gioitinh = gioitinh;
-        this.ngaysinh = ngaysinh;
+        this.dotuoi = dotuoi;
     }
 
     // Getter và Setter
@@ -42,8 +42,8 @@ public class KhachHang {
     public String getGioiTinh() { return gioitinh; }
     public void setGioiTinh(String gioitinh) { this.gioitinh = gioitinh; }
     
-    public String getNgaySinh() { return ngaysinh; }
-    public void setNgaySinh(String ngaysinh) { this.ngaysinh = ngaysinh; }
+    public int getDoTuoi() { return dotuoi; }
+    public void setDoTuoi(int dotuoi) { this.dotuoi = dotuoi; }
 
     public void nhap() {
         System.out.print("Nhập mã khách hàng: ");
@@ -58,14 +58,14 @@ public class KhachHang {
         sodienthoai = sc.nextLine();
         System.out.print("Nhập gioi tinh(nam/nu): ");
         gioitinh = sc.nextLine();
-        System.out.print("Nhập ngày sinh (dd/mm/yyyy): ");
-        ngaysinh = sc.nextLine();
+        System.out.print("do tuoi cua khach la : ");
+        dotuoi = sc.nextInt();
     }
 
     // Phương thức hiển thị thông tin
     public void xuat() {
-    System.out.printf("%-12s | %-15s | %-12s | %-25s | %-12s | %-8s | %-12s%n",
-        makhachhang, hokhachhang, tenkhachhang, email, sodienthoai, gioitinh, ngaysinh);
+    System.out.printf("%-12s | %-15s | %-12s | %-25s | %-12s | %-8s | %-12d%n",
+        makhachhang, hokhachhang, tenkhachhang, email, sodienthoai, gioitinh, dotuoi);
 
     }
 }

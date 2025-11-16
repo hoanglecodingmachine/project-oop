@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.FileWriter;
 public class DanhSachBaoHanh {
@@ -43,26 +44,66 @@ public class DanhSachBaoHanh {
             dsbh[i].xuat();
         }
     }
-    public void DocFile(String tenFile){
-        try(Scanner scfile = new Scanner(new File(tenFile))){
-        int i=0;
-        while(scfile.hasNextLine()){
-            String line = scfile.nextLine().trim();
-            if(line.isEmpty()) continue;
-            String[] p = line.split("-");
-            if(p.length != 3) continue;
-            BaoHanh bh1 = null;
-            String maBaoHanh = p[0];
-            String maSanPham = p[1];
-            int thoiGianBaoHanh = Integer.parseInt(p[2]);
-            bh1 = new BaoHanh(maBaoHanh,maSanPham,thoiGianBaoHanh);
-            dsbh[i++] = bh1;  
-        } numbh = i;
-        System.out.println("Da doc file thanh cong !");
-        } catch (Exception e) {
-          System.out.println("Loi doc file: " + e.getMessage());
+ public void DocFile(String tenFile) {
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG HỢP LỆ =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile));
+
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) {
+                count++;
+            }
         }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File trống hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
+        dsbh = new BaoHanh[count];
+        numbh = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE VÀ ĐƯA DỮ LIỆU VÀO MẢNG =======
+        Scanner scfile = new Scanner(new File(tenFile));
+
+        while (scfile.hasNextLine()) {
+            String line = scfile.nextLine().trim();
+            if (line.isEmpty()) continue;
+
+            // Gỡ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
+            String[] p = line.split("-");
+
+            if (p.length != 3) {
+                System.out.println("⚠️ Dòng lỗi (không đủ 3 trường): " + line);
+                continue;
+            }
+
+            String maBaoHanh = p[0].trim();
+            String maSanPham = p[1].trim();
+            int thoiGianBaoHanh = Integer.parseInt(p[2].trim());
+
+            BaoHanh bh1 = new BaoHanh(maBaoHanh, maSanPham, thoiGianBaoHanh);
+
+            dsbh[numbh++] = bh1;
+        }
+
+        scfile.close();
+
+        System.out.println("✅ Đọc file thành công! Tổng bảo hành: " + numbh);
+
+    } catch (FileNotFoundException fnf) {
+        System.out.println("❌ Không tìm thấy file: " + tenFile);
+    } catch (Exception e) {
+        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " + e.getMessage());
     }
+}
+
     public void them(){
         dsbh = Arrays.copyOf(dsbh, numbh + 1);
         System.out.println("Nhap Phieu bao Hanh Moi");

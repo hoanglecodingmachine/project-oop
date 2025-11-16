@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Arrays;    
 import java.io.FileWriter;
@@ -8,11 +9,15 @@ public class DanhSachSanPham{
 private static Scanner sc = new Scanner(System.in);
 private int num;
 private CuaHangDienThoai[] sp;
-public DanhSachSanPham(){}
+public DanhSachSanPham(){
+
+}
 public DanhSachSanPham(int num,CuaHangDienThoai[] sp){
         this.num = num;
         this.sp = sp;
     }
+
+
 public int getNum(){
         return num;
     }
@@ -29,59 +34,83 @@ public void setSP(CuaHangDienThoai[] sp){
 
 
 public void DocFile(String tenFile) {
-    try (Scanner scFile = new Scanner(new File(tenFile))) {
-        int i = 0;
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG HỢP LỆ =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile));
+
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) {
+                count++;
+            }
+        }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File trống hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
+        sp = new CuaHangDienThoai[count];
+        num = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE VÀ ĐỔ DỮ LIỆU VÀO MẢNG =======
+        Scanner scFile = new Scanner(new File(tenFile));
+
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
 
+            // Gỡ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
             String[] p = line.split("-");
 
-            if (p.length < 7) {
-                System.out.println("⚠️ Dòng dữ liệu sai định dạng: " + line);
+            if (p.length < 8) {
+                System.out.println(" Dòng lỗi (thiếu dữ liệu): " + line);
                 continue;
             }
+
             CuaHangDienThoai spdt = null;
-            String loai = p[0].trim().toUpperCase(); // Loại sản phẩm: DTM / DTC
+            String loai = p[0].trim().toUpperCase();
+
             if (loai.equals("DTM")) {
-                // Điện thoại thông minh
-                String ma = p[1];
-                String ten = p[2];
-                int sl = Integer.parseInt(p[3]);
-                String donViTien = p[4];
-                double donGia = Double.parseDouble(p[5]);
-                String heDieuHanh = p[6];
-                String dungLuong = p[7];
-
-                spdt = new DienThoaiThongMinh(ma, ten, sl, donViTien, donGia, heDieuHanh, dungLuong);
-            } 
-            else if (loai.equals("DTC")) {
-                // Điện thoại cổ điển
-                String ma = p[1];
-                String ten = p[2];
-                int sl = Integer.parseInt(p[3]);
-                String donViTien = p[4];
-                double donGia = Double.parseDouble(p[5]);
-                String banPhim = p[6];
-                int thoiGianThoai = Integer.parseInt(p[7]);
-
-                // DienThoaiCoDien constructor expects a float for donGia; cast explicitly
-                spdt = new DienThoaiCoDien(ma, ten, sl, donViTien, (float) donGia, banPhim, thoiGianThoai);
-            } 
-            else {
+                spdt = new DienThoaiThongMinh(
+                        p[1], p[2],
+                        Integer.parseInt(p[3]),
+                        p[4],
+                        Double.parseDouble(p[5]),
+                        p[6], p[7]
+                );
+            } else if (loai.equals("DTC")) {
+                spdt = new DienThoaiCoDien(
+                        p[1], p[2],
+                        Integer.parseInt(p[3]),
+                        p[4],
+                        Float.parseFloat(p[5]),
+                        p[6],
+                        Integer.parseInt(p[7])
+                );
+            } else {
                 System.out.println("⚠️ Loại sản phẩm không hợp lệ: " + line);
                 continue;
             }
-            // Lưu vào mảng sản phẩm
-            sp[i++] = spdt;
-        }
-        num = i; // Cập nhật số lượng sản phẩm
-        System.out.println("✅ Đọc file thành công! Tổng sản phẩm: " + num);
 
+            sp[num++] = spdt;
+        }
+
+        scFile.close();
+        System.out.println(" Đọc file thành công! Tổng sản phẩm: " + num);
+
+    } catch (FileNotFoundException fnf) {
+        System.out.println(" Không tìm thấy file: " + tenFile);
     } catch (Exception e) {
-        System.out.println("❌ Lỗi đọc file: " + e.getMessage());
+        System.out.println(" Lỗi đọc file: " + e.getMessage());
     }
 }
+
 
 public void nhap(){
         System.out.println("vui long nhap so luong san pham ban dau ");
@@ -584,7 +613,7 @@ public int[] ThongKe_BanPhim(){
             DienThoaiCoDien sp1 = (DienThoaiCoDien) sp[i];
             String bp = sp1.getBanPhim();
 
-            if (bp.equalsIgnoreCase("12 nut")) {
+            if (bp.equalsIgnoreCase("12nut")) {
                 nut++;
             } else if (bp.equalsIgnoreCase("qwerty")) {
                 qwerty++;

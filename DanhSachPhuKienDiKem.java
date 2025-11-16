@@ -42,25 +42,70 @@ public class DanhSachPhuKienDiKem {
             dsphukien[i].xuat();
         }
     }
-    public void DocFile(String tenFile){
-        try(Scanner scfile = new Scanner(new File(tenFile))){
-        int i=0;
-        while(scfile.hasNextLine()){
-            String line = scfile.nextLine().trim();
-            if(line.isEmpty()) continue;
-            String[] p = line.split("-");
-            if(p.length != 3) continue;
-            PhuKienTangKem pk1 = null;
-            String maphukien = p[0];
-            String tenphukien = p[1];
-            String loai = p[2];
-            pk1 = new PhuKienTangKem(maphukien,tenphukien,loai);
-            dsphukien[i++] = pk1;  
-        } numphukien = i;
-        } catch (Exception e) {
-            System.out.println("Loi doc file: " + e.getMessage());
+public void DocFile(String tenFile) {
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) count++;
         }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
+        dsphukien = new PhuKienTangKem[count];
+        numphukien = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
+        Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
+        int lineNumber = 0;
+
+        while (scFile.hasNextLine()) {
+            String line = scFile.nextLine().trim();
+            lineNumber++;
+            if (line.isEmpty()) continue;
+
+            // Loại bỏ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
+            String[] p = line.split("-");
+            if (p.length != 3) {
+                System.out.println("⚠️ Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
+                continue;
+            }
+
+            try {
+                String maphukien = p[0].trim();
+                String tenphukien = p[1].trim();
+                String loai = p[2].trim();
+
+                PhuKienTangKem pk1 = new PhuKienTangKem(maphukien, tenphukien, loai);
+                dsphukien[numphukien++] = pk1;
+            } catch (Exception ex) {
+                System.out.println("⚠️ Lỗi tạo đối tượng PhuKienTangKem ở dòng " + lineNumber + ": " + line);
+                ex.printStackTrace();
+            }
+        }
+
+        scFile.close();
+        System.out.println("✅ Đã đọc dữ liệu phụ kiện thành công! Tổng: " + numphukien);
+
+    } catch (java.io.FileNotFoundException fnf) {
+        System.out.println("❌ File không tìm thấy: " + tenFile);
+        fnf.printStackTrace();
+    } catch (Exception e) {
+        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
+        e.printStackTrace();
     }
+}
+
     public void them(PhuKienTangKem pk1){
         dsphukien = Arrays.copyOf(dsphukien, numphukien + 1);
         dsphukien[numphukien] = pk1;
@@ -203,9 +248,9 @@ public int[] ThongKe_Loai(){
 
     for (int i = 0; i < numphukien; i++) {
         String loai = dsphukien[i].getLoai();
-        if (loai.equalsIgnoreCase("op lung")) {
+        if (loai.equalsIgnoreCase("oplung")) {
             op_lung++;
-        } else if (loai.equalsIgnoreCase("tai nghe")) {
+        } else if (loai.equalsIgnoreCase("tainghe")) {
             tai_nghe++;
         } else {
             cuong_luc++;

@@ -39,30 +39,69 @@ public class DanhSachNhaCungCap{
             ncc[i].xuat();
         }
     }
-    public void DocFile(String TenFile){
-        try(Scanner scFile = new Scanner(new File(TenFile))){
-            int i = 0 ;
-            while(scFile.hasNextLine()){
-                String line = scFile.nextLine().trim();
-                if(!line.isEmpty()) continue;
-                String []p = line.split("-");
-                if(p.length != 5){
-                   continue;
-                }
-                String maNhaCungCap = p[0];
-                String diaChi = p[1];
-                String soDienThoai = p[2];
-                String email = p[3];
-                NhaCungCap ncc1 = null;
-                ncc1 = new NhaCungCap(maNhaCungCap,diaChi,soDienThoai,email);
-                ncc[i++] = ncc1;
+public void DocFile(String TenFile) {
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(TenFile), "UTF-8");
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) count++;
+        }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
+        ncc = new NhaCungCap[count];
+        numncc = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
+        Scanner scFile = new Scanner(new File(TenFile), "UTF-8");
+
+        while (scFile.hasNextLine()) {
+            String line = scFile.nextLine().trim();
+            if (line.isEmpty()) continue;
+
+            // Loại bỏ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
+            String[] p = line.split("-");
+            if (p.length != 4) {  // NhaCungCap chỉ có 4 trường
+                System.out.println("⚠️ Dòng không đủ 4 trường: " + line);
+                continue;
             }
-            numncc = i;
-            System.out.println("Da doc file thanh cong ");
-    }catch(Exception e){
-        System.out.println("Loi doc file " + e.getMessage());
+
+            try {
+                String maNhaCungCap = p[0].trim();
+                String diaChi = p[1].trim();
+                String soDienThoai = p[2].trim();
+                String email = p[3].trim();
+
+                NhaCungCap ncc1 = new NhaCungCap(maNhaCungCap, diaChi, soDienThoai, email);
+                ncc[numncc++] = ncc1;
+            } catch (Exception ex) {
+                System.out.println("⚠️ Lỗi tạo đối tượng NhaCungCap: " + line);
+                ex.printStackTrace();
+            }
+        }
+
+        scFile.close();
+        System.out.println("✅ Đọc file nhà cung cấp thành công! Tổng: " + numncc);
+
+    } catch (java.io.FileNotFoundException fnf) {
+        System.out.println("❌ File không tìm thấy: " + TenFile);
+        fnf.printStackTrace();
+    } catch (Exception e) {
+        System.out.println("❌ Lỗi đọc file '" + TenFile + "': " 
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
+        e.printStackTrace();
     }
 }
+
      public void them(NhaCungCap ncc1){
         ncc = Arrays.copyOf(ncc, numncc + 1);
         ncc[numncc] = ncc1;

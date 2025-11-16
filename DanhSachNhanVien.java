@@ -39,31 +39,72 @@ public class DanhSachNhanVien {
             nv[i].xuat();
         }
     }
-    public void DocFile(String tenFile){
-        try(Scanner scfile = new Scanner(new File(tenFile))) {
-            int i = 0 ;
-             while(scfile.hasNextLine()){
-                String line = scfile.nextLine().trim();
-                if(line.isEmpty()) continue;
-                String[] parts = line.split("-");
-                if(parts.length == 4){
-                    continue;
-                }
-                String maNV = parts[0];
-                String ho = parts[1];
-                String ten = parts[2];
-                double luong = Double.parseDouble(parts[3]);
-                String chucVu = parts[4];
-                NhanVien nv1 = null;
-                nv1 = new NhanVien(maNV,ho,ten,luong,chucVu);
-                nv[i++] = nv1;
-             }
-                numnv = i;
-                System.out.println("Da doc file thanh cong !");
-        } catch (Exception e) {
-            System.out.println("Loi doc file: " + e.getMessage());
+public void DocFile(String tenFile) {
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) count++;
         }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
+        nv = new NhanVien[count];
+        numnv = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
+        Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
+
+        while (scFile.hasNextLine()) {
+            String line = scFile.nextLine().trim();
+            if (line.isEmpty()) continue;
+
+            // Loại bỏ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
+            String[] parts = line.split("-");
+            if (parts.length != 5) {  // NhanVien có 5 trường
+                System.out.println("⚠️ Dòng không đủ 5 trường: " + line);
+                continue;
+            }
+
+            try {
+                String maNV = parts[0].trim();
+                String ho = parts[1].trim();
+                String ten = parts[2].trim();
+                double luong = Double.parseDouble(parts[3].trim());
+                String chucVu = parts[4].trim();
+
+                NhanVien nv1 = new NhanVien(maNV, ho, ten, luong, chucVu);
+                nv[numnv++] = nv1;
+            } catch (NumberFormatException nfe) {
+                System.out.println("⚠️ Lỗi định dạng số (luong) dòng: " + line);
+            } catch (Exception ex) {
+                System.out.println("⚠️ Lỗi tạo đối tượng NhanVien dòng: " + line);
+                ex.printStackTrace();
+            }
+        }
+
+        scFile.close();
+        System.out.println("✅ Đọc file nhân viên thành công! Tổng: " + numnv);
+
+    } catch (java.io.FileNotFoundException fnf) {
+        System.out.println("❌ File không tìm thấy: " + tenFile);
+        fnf.printStackTrace();
+    } catch (Exception e) {
+        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
+        e.printStackTrace();
     }
+}
+
     public void Them(NhanVien nv1){
         nv = Arrays.copyOf(nv,numnv + 1);
         nv[numnv] = nv1;
@@ -291,9 +332,9 @@ public int[] ThongKe_Luong(){
 public int[] ThongKe_ChucVu(){
      int banhang = 0 , nhanvientruong = 0 , quanly = 0;
      for(int i = 0 ; i < numnv ; i++){
-        if(nv[i].getChucVu().toLowerCase().contains(" ban hang")){
+        if(nv[i].getChucVu().toLowerCase().contains(" banhang")){
             banhang++;
-        } else if(nv[i].getChucVu().toLowerCase().contains("nhan vien truong")){
+        } else if(nv[i].getChucVu().toLowerCase().contains("nhanvientruong")){
             nhanvientruong++;
         } else quanly++;
      }

@@ -16,7 +16,7 @@ public class DienThoaiThongMinh extends CuaHangDienThoai{
     }
     public DienThoaiThongMinh(String string, String string2, String string3, String string4, int int1, int int2,
             double double1, int int3, int int4, int int5) {
-        //TODO Auto-generated constructor stub
+        
     }
     public String getHeDieuHanh(){
         return hedieuhanh;

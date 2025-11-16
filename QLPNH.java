@@ -25,174 +25,153 @@ public class QLPNH extends MainQLBH {
     }
   }
 
-  // Menu tối thiểu cho quản lý phieu nhan hang (đảm bảo cú pháp hợp lệ)
-  public void mainQLPNH() {
-    PhieuNhapHang[] arrPNH = dspnh.getDanhSachPhieuNhapHang();
-    ChiTietPhieuNhapHang[] arrCT = dsctpnh.getChiTietPhieuNhapHang();
-    int soPNH = dspnh.getSoLuongDanhSachPhieuNhapHang();
-    int soCT = dsctpnh.getSoLuongChiTietPhieuNhapHang();
-    System.out.println("Nhap lua chon (1xuat,2them,3sua,4xoa,5timkiem,6thongke)");
-    int choice = sc.nextInt();
-    sc.nextLine();
-    switch (choice) {
-      case 1:
-    TinhTienTong();
-    if (soPNH == 0) {
-        System.out.println("Chua co phieu nhap hang nao!");
-        return;
-    }
 
-    for (int i = 0; i < soPNH; i++) {
-        if (arrPNH[i] == null) continue;
+public void mainQLPNH() {
+    int choice;
+    do {
+        System.out.println("\n=== MENU QUAN LY PHIEU NHAP HANG ===");
+        System.out.println("1. Xuat danh sach");
+        System.out.println("2. Them phieu nhap hang");
+        System.out.println("3. Sua thong tin");
+        System.out.println("4. Xoa du lieu");
+        System.out.println("5. Tim kiem");
+        System.out.println("6. Thong ke");
+        System.out.println("0. Quay lai MENU CHINH");
+        System.out.print("Nhap lua chon: ");
+        choice = sc.nextInt();
+        sc.nextLine();
 
-        System.out.println("\n==============================");
-        System.out.println("Phieu Nhap Hang: " + arrPNH[i].getMaPhieuNhapHang());
-        arrPNH[i].xuat(); // giả sử bạn có hàm xuat() trong PhieuNhapHang
+        switch (choice) {
+            case 1:
+                TinhTienTong();
+                PhieuNhapHang[] arrPNH = dspnh.getDanhSachPhieuNhapHang();
+                ChiTietPhieuNhapHang[] arrCT = dsctpnh.getChiTietPhieuNhapHang();
+                int soPNH = dspnh.getSoLuongDanhSachPhieuNhapHang();
+                int soCT = dsctpnh.getSoLuongChiTietPhieuNhapHang();
 
-        System.out.println("---- CHI TIẾT Phieu Nhap Hang ----");
-        for (int j = 0; j < soCT; j++) {
-            if (arrCT[j] == null) continue;
-            if (arrPNH[i].getMaPhieuNhapHang().equalsIgnoreCase(arrCT[j].getMaPhieuNhapHang())) {
-                arrCT[j].xuat(); // giả sử bạn có hàm xuat() trong ChiTietPhieuNhapHang
-            }
-        }     
-    }
-        break;
-      case 2:
-        ThemPhieuNhapHang();
-        break;
-      case 3:
-        System.out.println("=== SỬA THÔNG TIN ===");
-        System.out.println("1. Sửa phieu nhap hang");
-        System.out.println("2. Sửa chi tiết phieu nhap hang");
-        System.out.println("3. Quay lại");
-        System.out.print("Nhập lựa chọn: ");
-    
-    int ch = sc.nextInt();
-    sc.nextLine();
-    switch (ch) {
-        case 1:
-            dspnh.sua(); // gọi phương thức sửa 
-            break;
-        case 2:
-            dsctpnh.sua(); // gọi phương thức sửa chi tiết 
-            break;
-        case 3:
-            return;
-        default:
-            System.out.println("Lựa chọn không hợp lệ!");
-    }
-        break;
-      case 4:
-            System.out.println("=== XÓA DỮ LIỆU ===");
-    System.out.println("1. Xóa phieu nhap hang");
-    System.out.println("2. Xóa chi tiết phieu nhap hang");
-    System.out.println("3. Quay lại");
-    System.out.print("Nhập lựa chọn: ");
-    
-    int ch1 = sc.nextInt();
-    sc.nextLine();
-    switch (ch1) {
-        case 1:
-            dspnh.xoa(); // xóa phieu nhap hang
-            break;
-        case 2:
-            dsctpnh.xoa(); // xóa chi tiết phieu nhap hang
-            break;
-        case 3:
-            return;
-        default:
-            System.out.println("Lựa chọn không hợp lệ!");
-    }
-        break;
-      case 5:
-        {
-          System.out.println("tim kiem (1 phieu nhap hang,2 chi tiet phieu nhap hang) ");
-          int ch2 = sc.nextInt();
-          sc.nextLine();
-          if(ch2 == 1){
-            System.out.println("tim kiem (1 ma phieu nhap hang , 2 ma nha cung cap , 3 ngay thang , 4 thanh tien )");
-            int ch3 = sc.nextInt();
-            sc.nextLine();
-            switch(ch3){
-              case 1:
-                dspnh.Search_Ma();
+                if (soPNH == 0) {
+                    System.out.println("Chua co phieu nhap hang nao!");
+                    break;
+                }
+
+                for (int i = 0; i < soPNH; i++) {
+                    if (arrPNH[i] == null) continue;
+                    System.out.println("\n==============================");
+                    System.out.println("Phieu Nhap Hang: " + arrPNH[i].getMaPhieuNhapHang());
+                    arrPNH[i].xuat();
+
+                    System.out.println("---- CHI TIET Phieu Nhap Hang ----");
+                    for (int j = 0; j < soCT; j++) {
+                        if (arrCT[j] == null) continue;
+                        if (arrPNH[i].getMaPhieuNhapHang().equalsIgnoreCase(arrCT[j].getMaPhieuNhapHang())) {
+                            arrCT[j].xuat();
+                        }
+                    }
+                }
                 break;
-              case 2:
-                dspnh.Search_MaNhaCungCap();
+
+            case 2:
+                ThemPhieuNhapHang();
                 break;
-              case 3:
-                dspnh.Search_NgayThang();
+
+            case 3:
+                System.out.println("=== SUA THONG TIN ===");
+                System.out.println("1. Sua phieu nhap hang");
+                System.out.println("2. Sua chi tiet phieu nhap hang");
+                System.out.println("3. Quay lai");
+                int ch = sc.nextInt();
+                sc.nextLine();
+                switch (ch) {
+                    case 1: dspnh.sua(); break;
+                    case 2: dsctpnh.sua(); break;
+                    case 3: break;
+                    default: System.out.println("Lua chon khong hop le!"); break;
+                }
                 break;
-              case 4:
-                dspnh.Search_ThanhTien();
+
+            case 4:
+                System.out.println("=== XOA DU LIEU ===");
+                System.out.println("1. Xoa phieu nhap hang");
+                System.out.println("2. Xoa chi tiet phieu nhap hang");
+                System.out.println("3. Quay lai");
+                int ch1 = sc.nextInt();
+                sc.nextLine();
+                switch (ch1) {
+                    case 1: dspnh.xoa(); break;
+                    case 2: dsctpnh.xoa(); break;
+                    case 3: break;
+                    default: System.out.println("Lua chon khong hop le!"); break;
+                }
                 break;
-              default:
-                System.out.println("Lua chon khong hop le.");
-            }
-          }else{
-            System.out.println("tim kiem chi tiet (1 ma chi tiet , 2 ma san pham, 3 so luong , 4 don gia) ");
-            int ch4 = sc.nextInt();
-            sc.nextLine();
-            switch(ch4){
-              case 1:
-                dsctpnh.Search_Ma();
+
+            case 5:
+                System.out.println("Tim kiem (1 phieu nhap hang, 2 chi tiet phieu nhap hang): ");
+                int ch2 = sc.nextInt();
+                sc.nextLine();
+                if (ch2 == 1) {
+                    System.out.println("Tim kiem (1 ma phieu nhap hang, 2 ma nha cung cap, 3 ngay thang, 4 thanh tien):");
+                    int ch3 = sc.nextInt();
+                    sc.nextLine();
+                    switch(ch3) {
+                        case 1: dspnh.Search_Ma(); break;
+                        case 2: dspnh.Search_MaNhaCungCap(); break;
+                        case 3: dspnh.Search_NgayThang(); break;
+                        case 4: dspnh.Search_ThanhTien(); break;
+                        default: System.out.println("Lua chon khong hop le."); break;
+                    }
+                } else if (ch2 == 2) {
+                    System.out.println("Tim kiem chi tiet (1 ma chi tiet, 2 ma san pham, 3 so luong, 4 don gia):");
+                    int ch4 = sc.nextInt();
+                    sc.nextLine();
+                    switch(ch4) {
+                        case 1: dsctpnh.Search_Ma(); break;
+                        case 2: dsctpnh.Search_MaSanPham(); break;
+                        case 3: dsctpnh.Search_SoLuong(); break;
+                        case 4: dsctpnh.Search_DonGia(); break;
+                        default: System.out.println("Lua chon khong hop le."); break;
+                    }
+                } else {
+                    System.out.println("Lua chon khong hop le.");
+                }
                 break;
-              case 2:
-                dsctpnh.Search_MaSanPham();
+
+            case 6:
+                System.out.println("Thong ke (1 phieu nhap hang, 2 chi tiet phieu nhap hang): ");
+                int ch5 = sc.nextInt();
+                sc.nextLine();
+                if(ch5 == 1) {
+                    System.out.println("Thong ke (1 theo don gia, 2 theo ngay thang): ");
+                    int ch6 = sc.nextInt();
+                    sc.nextLine();
+                    switch(ch6) {
+                        case 1: dspnh.ThongKe_ThanhTien(); break;
+                        case 2: dspnh.ThongKe_NgayNhap(); break;
+                        default: System.out.println("Lua chon khong hop le."); break;
+                    }
+                } else if(ch5 == 2) {
+                    System.out.println("Thong ke chi tiet (1 theo don gia, 2 theo so luong): ");
+                    int ch7 = sc.nextInt();
+                    sc.nextLine();
+                    switch(ch7) {
+                        case 1: dsctpnh.ThongKe_DonGia(); break;
+                        case 2: dsctpnh.ThongKe_SoLuong(); break;
+                        default: System.out.println("Lua chon khong hop le."); break;
+                    }
+                } else {
+                    System.out.println("Lua chon khong hop le.");
+                }
                 break;
-              case 3:
-                dsctpnh.Search_SoLuong();
+
+            case 0:
+                System.out.println("Quay lai MENU CHINH...");
                 break;
-              case 4:
-                dsctpnh.Search_DonGia();
-                break;
-              default:
-                System.out.println("Lua chon khong hop le.");
-            }
-          }
-        break;
-          }
-      case 6:
-        {
-          System.out.println("thong ke (1 phieu nhap hang,2 chi tiet phieu nhap hang) ");
-          int ch5 = sc.nextInt();
-          sc.nextLine();
-          if(ch5 == 1){
-            System.out.println("thong ke (1 theo don gia , 2 theo ngay thang )");
-            int ch6 = sc.nextInt();
-            sc.nextLine();
-            switch(ch6){
-              case 1:
-                dspnh.ThongKe_ThanhTien();
-                break;
-              case 2:
-                dspnh.ThongKe_NgayNhap();
-                break;
-              default:
-                System.out.println("Lua chon khong hop le.");
-            }
-          }else{
-            System.out.println("thong ke chi tiet (1 theo don gia , 2 theo so luong )");
-            int ch7 = sc.nextInt();
-            sc.nextLine();
-            switch(ch7){
-              case 1:
-                dsctpnh.ThongKe_DonGia();
-                break;
-              case 2:
-                dsctpnh.ThongKe_SoLuong();
-                break;
-              default:
-                System.out.println("Lua chon khong hop le.");
-            }
-          }
+
+            default:
+                System.out.println("Lua chon khong hop le!");
         }
-        break;
-      default:
-        System.out.println("Lua chon khong hop le.");
-    }
-  }
+    } while(choice != 0); // chạy liên tục cho tới khi nhấn 0
+}
+
 public void ThemPhieuNhapHang() {
     // Nhập thông tin phiếu nhập
     PhieuNhapHang pnh = new PhieuNhapHang();

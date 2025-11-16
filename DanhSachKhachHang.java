@@ -1,8 +1,5 @@
 import java.util.Arrays;
 import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileWriter;
@@ -43,30 +40,83 @@ public void setNumKhachHang(int numkh){
         }
       }
 public void DocFile(String tenFile) {
-        try (Scanner scFile = new Scanner(new File(tenFile))){
-        int i = 0;
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile), "UTF-8");
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) count++;
+        }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: CẤP PHÁT MẢNG =======
+        kh = new KhachHang[count];
+        numkh = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE THẬT =======
+        Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
+
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
-            if(line.isEmpty()) continue;
+            if (line.isEmpty()) continue;
+
+            // Loại bỏ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
             String[] p = line.split("-");
-            if(p.length != 7) continue;
-            KhachHang kh1 = null;
-            String makhachhang = p[0];
-            String hokhachhang = p[1];
-            String tenkhachhang = p[2];
-            String email = p[3];
-            String sodienthoai = p[4];
-            String gioitinh = p[5];
-            String ngaysinh = p[6];
-            kh1 = new KhachHang(makhachhang,hokhachhang,tenkhachhang,email,sodienthoai,gioitinh,ngaysinh);
-            kh[i++] = kh1;
+            if (p.length != 7) {
+                System.out.println("⚠️ Dòng không đủ 7 trường: " + line);
+                continue;
+            }
+
+            try {
+                String makhachhang = p[0].trim();
+                String hokhachhang = p[1].trim();
+                String tenkhachhang = p[2].trim();
+                String email = p[3].trim();
+                String sodienthoai = p[4].trim();
+                String gioitinh = p[5].trim();
+                int dotuoi = Integer.parseInt(p[6].trim());
+
+                KhachHang kh1 = new KhachHang(
+                        makhachhang,
+                        hokhachhang,
+                        tenkhachhang,
+                        email,
+                        sodienthoai,
+                        gioitinh,
+                        dotuoi
+                );
+
+                kh[numkh++] = kh1;
+            } catch (NumberFormatException nfe) {
+                System.out.println("⚠️ Lỗi định dạng số: " + line);
+            } catch (Exception ex) {
+                System.out.println("⚠️ Lỗi tạo đối tượng KhachHang: " + line);
+                ex.printStackTrace();
+            }
         }
-        numkh = i;
-        System.out.println("Da doc file thanh cong !");
-    }catch(Exception e) {
-        System.out.println("Loi doc file: " + e.getMessage());
+
+        scFile.close();
+        System.out.println("✅ Đọc file khách hàng thành công! Tổng: " + numkh);
+
+    } catch (java.io.FileNotFoundException fnf) {
+        System.out.println("❌ File không tìm thấy: " + tenFile);
+        fnf.printStackTrace();
+
+    } catch (Exception e) {
+        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " 
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
+        e.printStackTrace();
     }
 }
+
       public void them(KhachHang kh1){
         kh = Arrays.copyOf(kh, numkh + 1);
         kh[numkh] = kh1;
@@ -132,7 +182,7 @@ public void DocFile(String tenFile) {
                         break;
                     case 6:
                         System.out.println("da sua thanh cong ngay sinh cua khach hang ");
-                        kh[i].setNgaySinh(sc.nextLine());
+                        kh[i].setDoTuoi(sc.nextInt());
                         break;
                     case 7:
                         kh[i].nhap();
@@ -340,7 +390,7 @@ public void DocFile(String tenFile) {
         KhachHang[] kq = new KhachHang[0];
         int count = 0 ; 
         for(int i = 0 ; i < numkh ; i++){
-            if(Tinh_DoTuoi(kh[i].getNgaySinh()) == tuoi){
+            if(kh[i].getDoTuoi() == tuoi){
                 found = true;
                 System.out.println("Da tim thay danh sach khach hang co do tuoi can tim ");
                 kh[i].xuat();
@@ -356,21 +406,9 @@ public void DocFile(String tenFile) {
         return kq;
     }
     public void Search_DoTuoiKhachHang(){
-        boolean found = false;
         System.out.println("vui long nhap do tuoi khach hang can tim ");
         int tuoi = sc.nextInt();
-        sc.nextLine();
-        for(int i = 0 ; i < numkh; i ++){
-            if(Tinh_DoTuoi(kh[i].getNgaySinh()) == tuoi){
-                System.out.println("da tim thay ");
-                kh[i].xuat();
-                found = true;
-                return;
-            }
-        }
-        if(!found){
-            System.out.println("khong tim thay ");
-        }
+        Search_DoTuoiKhachHang(tuoi);
     }
     public int[] ThongKe_GioiTinh(){
        int nam = 0 , nu = 0;
@@ -385,16 +423,11 @@ public void DocFile(String tenFile) {
          System.out.println("so luong khach hang nu la : " + nu);
          return new int[]{nam,nu};
     }
-    public int Tinh_DoTuoi(String ngaysinh){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate birthDate = LocalDate.parse(ngaysinh, formatter);
-        LocalDate currentDate = LocalDate.now();
-        return (int) ChronoUnit.YEARS.between(birthDate, currentDate);
-    }
+
     public int[] ThongKe_DoTuoi(){
         int duoi20 = 0 , tu20den40 = 0 , tren40 = 0;
         for(int i = 0 ; i < numkh ; i++){
-            int tuoi = Tinh_DoTuoi(kh[i].getNgaySinh());
+            int tuoi = kh[i].getDoTuoi();
             if(tuoi < 20){
                 duoi20++;
             }else if(tuoi >=20 && tuoi <=40){
@@ -412,7 +445,7 @@ public void DocFile(String tenFile) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(tenFile))) {
             for (int i = 0; i < numkh; i++) {
                 String line = "";
-                line = String.join("-",kh[i].getMaKhachHang(),kh[i].getHoKhachHang(),kh[i].getTenKhachHang(),kh[i].getEmail(),kh[i].getSoDienThoai(),kh[i].getGioiTinh(),kh[i].getNgaySinh());
+                line = String.join("-",kh[i].getMaKhachHang(),kh[i].getHoKhachHang(),kh[i].getTenKhachHang(),kh[i].getEmail(),kh[i].getSoDienThoai(),kh[i].getGioiTinh(),String.valueOf(kh[i].getDoTuoi()));
                 pw.println(line);
             }
             System.out.println("Da ghi file thanh cong !");

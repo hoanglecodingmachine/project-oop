@@ -39,29 +39,73 @@ public class DanhSachChiTietNhapHang{
             dsctpnh[i].xuat();
         }
     }
-public void DocFile(String tenFile){
-    try(Scanner scFile = new Scanner(new File(tenFile))){
-        int i = 0;
-        while(scFile.hasNextLine()){
-            String Line = scFile.nextLine().trim();
-            if(Line.isEmpty()) continue;
-            String[] p = Line.split("-");
-            if(p.length != 6) continue;
-            ChiTietPhieuNhapHang ctpnh = null;
-            String mapnh = p[0];
-            String machitietpnh = p[1];
-            String masp = p[2];
-            int soluong = Integer.parseInt(p[3]);
-            double dongia = Double.parseDouble(p[4]);
-            double tongtien = Double.parseDouble(p[5]);
-            ctpnh = new ChiTietPhieuNhapHang(mapnh,machitietpnh,masp,soluong,dongia,tongtien);
-            dsctpnh[i++] = ctpnh;
-    } numctpnh = i;
-            System.out.println("Da doc file chi tiet phieu nhap hang thanh cong !");
-}catch(Exception e){
-        System.out.println("Loi doc file: " + e.getMessage());
+public void DocFile(String tenFile) {
+    try {
+        // ======= BƯỚC 1: ĐẾM SỐ DÒNG HỢP LỆ =======
+        int count = 0;
+        Scanner scCount = new Scanner(new File(tenFile));
+
+        while (scCount.hasNextLine()) {
+            String line = scCount.nextLine().trim();
+            if (!line.isEmpty()) count++;
+        }
+        scCount.close();
+
+        if (count == 0) {
+            System.out.println("⚠️ File rỗng hoặc không có dòng hợp lệ!");
+            return;
+        }
+
+        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
+        dsctpnh = new ChiTietPhieuNhapHang[count];
+        numctpnh = 0;
+
+        // ======= BƯỚC 3: ĐỌC FILE =======
+        Scanner scFile = new Scanner(new File(tenFile));
+
+        while (scFile.hasNextLine()) {
+            String line = scFile.nextLine().trim();
+            if (line.isEmpty()) continue;
+
+            // Gỡ BOM nếu có
+            line = line.replace("\uFEFF", "");
+
+            String[] p = line.split("-");
+
+            if (p.length != 6) {
+                System.out.println("⚠️ Dòng sai định dạng (không đủ 6 trường): " + line);
+                continue;
+            }
+
+            String mapnh = p[0].trim();
+            String machitietpnh = p[1].trim();
+            String masp = p[2].trim();
+            int soluong = Integer.parseInt(p[3].trim());
+            double dongia = Double.parseDouble(p[4].trim());
+            double tongtien = Double.parseDouble(p[5].trim());
+
+            ChiTietPhieuNhapHang ctpnh = new ChiTietPhieuNhapHang(
+                    mapnh,
+                    machitietpnh,
+                    masp,
+                    soluong,
+                    dongia,
+                    tongtien
+            );
+
+            dsctpnh[numctpnh++] = ctpnh;
+        }
+
+        scFile.close();
+        System.out.println("✅ Đọc file chi tiết phiếu nhập thành công! Tổng: " + numctpnh);
+
+    } catch (java.io.FileNotFoundException fnf) {
+        System.out.println("❌ File không tìm thấy: " + tenFile);
+    } catch (Exception e) {
+        System.out.println("❌ Lỗi đọc file '" + tenFile + "': " + e.getMessage());
     }
 }
+
 public void Them(ChiTietPhieuNhapHang ctpnh1){
         dsctpnh = Arrays.copyOf(dsctpnh,numctpnh + 1);
         dsctpnh[numctpnh] = ctpnh1;

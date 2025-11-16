@@ -39,7 +39,7 @@ public class MainQLBH {
         dsctpnh.GhiFile("ChiTietPhieuNhap.txt");
         dsbh.GhiFile("BaoHanh.txt");
         dsphukien.GhiFile("PhuKienDiKem.txt");
-        System.out.println("✅ Dữ liệu đã được lưu thành công!");
+        System.out.println(" Dữ liệu đã được lưu thành công!");
     }
 
     // === Ví dụ menu tổng ===
@@ -48,13 +48,23 @@ public class MainQLBH {
         do {
             System.out.println("\n==== MENU CHÍNH ====");
             System.out.println("1. Quản lý sản phẩm");
+            QLSP qlsp = new QLSP();
             System.out.println("2. Quản lý hóa đơn");
+            QLHD qlhd = new QLHD();
             System.out.println("3. Quản lý khách hàng");
+            QLKH qlkh = new QLKH();
             System.out.println("4. Quản lý nhân viên");
+            QLNV qlnv = new QLNV();
             System.out.println("5. Quản lý nhập hàng");
+            QLPNH qlpnh = new QLPNH();
             System.out.println("6. Quản lý nhà cung cấp");
+            QLNCC qlncc = new QLNCC();
             System.out.println("7. Quản lý bảo hành");
+            QLBH qlbh = new QLBH();
             System.out.println("8. Quản lý phụ kiện đi kèm");
+            QLPK qlpk = new QLPK();
+            System.out.println("9. Thong Ke Tien Trong Khoang Thoi Gian Ban");
+            System.out.println("10. Thong Ke Tien Theo Quy");
             System.out.println("0. Thoát và lưu dữ liệu");
             System.out.print("Nhập lựa chọn: ");
             chon = sc.nextInt();
@@ -62,21 +72,25 @@ public class MainQLBH {
 
             switch (chon) {
                 case 1:
-                    new QLSP().mainQLSP(); break;
+                    qlsp.mainQLSP(); break;
                 case 2:
-                    new QLHD().mainQLHD(); break;
+                    qlhd.mainQLHD(); break;
                 case 3:
-                    new QLKH().mainQLKH(); break;
+                    qlkh.mainQLKH(); break;
                 case 4:
-                    new QLNV().mainQLNV(); break;
+                    qlnv.mainQLNV(); break;
                 case 5:
-                    new QLPNH().mainQLPNH(); break;
+                    qlpnh.mainQLPNH(); break;
                 case 6:
-                    new QLNCC().MainQLNCC(); break;
+                    qlncc.MainQLNCC(); break;
                 case 7:
-                    new QLBH().mainQLBH(); break;
+                    qlbh.mainQLBH(); break;
                 case 8:
-                    new QLPK().mainQLPKDK(); break;
+                    qlpk.mainQLPKDK(); break;
+                case 9:
+                    qlhd.ThongKe_TongTienTuNgay(); break;
+                case 10:
+                    qlhd.ThongKe_TheoQuy(); break;
                 case 0:
                     GhiFile(); // gọi hàm ghi file trước khi thoát
                     System.out.println("Thoát chương trình...");
