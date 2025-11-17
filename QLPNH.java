@@ -192,15 +192,7 @@ public void ThemPhieuNhapHang() {
 
         // Thêm chi tiết vào danh sách chi tiết phiếu nhập
         dsctpnh.Them(ct);
-
-        // **Cập nhật số lượng sản phẩm trong kho (TĂNG SỐ LƯỢNG)**
-        for (int j = 0; j < dssp.getNum(); j++) {
-            if (dssp.getSP()[j].getMaSP().equalsIgnoreCase(ct.getMaSanPham())) {
-                int soLuongMoi = dssp.getSP()[j].getSoLuong() + ct.getSoLuong();
-                dssp.getSP()[j].setSoLuong(soLuongMoi);
-                break;
-            }
-        }
+        dssp.Sua_SoLuong(ct.getMaSanPham(),- ( ct.getSoLuong()));
     }
 
     // Cập nhật tổng tiền cho phiếu nhập

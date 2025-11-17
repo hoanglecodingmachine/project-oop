@@ -48,22 +48,21 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File trống hoặc không có dòng hợp lệ!");
+            System.out.println(" File trống hoặc không có dòng hợp lệ!");
             return;
         }
 
-        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
+  
         sp = new CuaHangDienThoai[count];
         num = 0;
 
-        // ======= BƯỚC 3: ĐỌC FILE VÀ ĐỔ DỮ LIỆU VÀO MẢNG =======
+
         Scanner scFile = new Scanner(new File(tenFile));
 
         while (scFile.hasNextLine()) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
 
-            // Gỡ BOM nếu có
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
@@ -94,7 +93,7 @@ public void DocFile(String tenFile) {
                         Integer.parseInt(p[7])
                 );
             } else {
-                System.out.println("⚠️ Loại sản phẩm không hợp lệ: " + line);
+                System.out.println(" Loại sản phẩm không hợp lệ: " + line);
                 continue;
             }
 
