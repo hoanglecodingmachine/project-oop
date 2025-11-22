@@ -35,16 +35,16 @@ public class HoaDon {
     public String getMaPhuKien() { return maphukien; }
     public void setMaPhuKien(String maphukien) { this.maphukien = maphukien; }
     public void nhap() {
-        System.out.print("Nhập mã hóa đơn: ");
+        System.out.print("Nhap ma hoa don: ");
         mahoadon = sc.nextLine();
 
-        System.out.println("Nhập ngày nhập (dd/mm/yyyy): ");
+        System.out.println("Nhap ngay nhap (dd/mm/yyyy): ");
         ngaynhap = sc.nextLine();
 
-        System.out.print("Nhập mã khách hàng: ");
+        System.out.print("Nhap ma khach hang: ");
         makhachhang = sc.nextLine();
 
-        System.out.print("Nhập mã nhân viên: ");
+        System.out.print("Nhap ma nhan vien: ");
         manhanvien = sc.nextLine();
         
         System.out.println("nhap ma phu kien di kem ");

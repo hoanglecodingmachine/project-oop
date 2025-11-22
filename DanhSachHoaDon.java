@@ -27,17 +27,20 @@ public class DanhSachHoaDon {
     public void setSoLuongHoaDon(int numhd){
         this.numhd = numhd;
     }
-    public void nhap() {
-        System.out.print("Nhập số lượng hóa đơn: ");
-        numhd = sc.nextInt();
-        sc.nextLine();
-        hd = new HoaDon[numhd];
-        for (int i = 0; i < numhd; i++) {
-            System.out.println("\n=== Nhập hóa đơn thứ " + (i + 1) + " ===");
-            hd[i] = new HoaDon();
-            hd[i].nhap();
-        }
+public void nhap() {
+    System.out.print("Nhap so luong hoa don: ");
+    numhd = sc.nextInt();
+    sc.nextLine();
+
+    hd = new HoaDon[numhd];
+
+    for (int i = 0; i < numhd; i++) {
+        System.out.println("\n=== Nhap hoa don thu " + (i + 1) + " ===");
+        hd[i] = new HoaDon();
+        hd[i].nhap();
     }
+}
+
     public void xuat() {
         for (int i = 0; i < numhd; i++) {
             hd[i].xuat();
@@ -56,7 +59,7 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rong hoac khong co dong hop le!");
             return;
         }
         hd = new HoaDon[count];
@@ -71,7 +74,7 @@ public void DocFile(String tenFile) {
             String[] p = line.split("-");
 
             if (p.length != 6) {
-                System.out.println(" Dòng không đủ 6 trường: " + line);
+                System.out.println(" Dong khong đu 6 truong: " + line);
                 continue;
             }
 
@@ -95,14 +98,14 @@ public void DocFile(String tenFile) {
         }
 
         scFile.close();
-        System.out.println(" Đọc file hóa đơn thành công! Tổng: " + numhd);
+        System.out.println(" doc file hoa don thanh cong! Tong: " + numhd);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println(" File không tìm thấy: " + tenFile);
+        System.out.println(" File khong tim thay: " + tenFile);
         fnf.printStackTrace();
 
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Loi đoc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -133,42 +136,52 @@ public void xoa(){
 }
 public void sua(String ma) {
     boolean found = false;
-    for (int i = 0; i < numhd; i++) {
-        if (hd[i].getMaHoaDon().equals(ma)) {
-            found = true;
-            System.out.println("da tim thay ma hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma khach hanh , 2 ma nhan vien ,3 ngay nhap, 4 ma phu kien,0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            switch (choice) {
-                case 1:
-                    System.out.println("vui lonng nhap ma khach hang moi ");
-                    hd[i].setMaKhachHang(sc.nextLine());
-                    System.out.println("Đã sửa ma khach hang thành công!");
-                    break;
-                case 2:
-                    System.out.println("vui long nhap ma nhan vien moi ");
-                    hd[i].setMaNhanVien(sc.nextLine());
-                    System.out.println("Đã sửa ma nhan vien thành công!");
-                    break;
-                case 3:
-                    System.out.println("vui long nhap ngay nhap moi ");
-                    hd[i].setNgayNhap(sc.nextLine());
-                    System.out.println("Đã sửa ngay nhap moi thành công!");
-                    break;
-                case 4:
-                    System.out.println("vui long nhap ma phu kien moi ");
-                    hd[i].setMaPhuKien(sc.nextLine());
-                    System.out.println("Đã sửa ma phu kien thành công!");
-                    break;
-                case 0:
-                    hd[i].nhap();
-                    System.out.println("sua tat ca thanh cong ");
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
+for (int i = 0; i < numhd; i++) {
+    if (hd[i].getMaHoaDon().equals(ma)) {
+        found = true;
+        System.out.println("Da tim thay ma hoa don. Vui long nhap lua chon de sua");
+        System.out.println("1 ma khach hang, 2 ma nhan vien, 3 ngay nhap, 4 ma phu kien, 0 sua het");
+        
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        switch (choice) {
+            case 1:
+                System.out.println("Vui long nhap ma khach hang moi");
+                hd[i].setMaKhachHang(sc.nextLine());
+                System.out.println("Da sua ma khach hang thanh cong!");
+                break;
+
+            case 2:
+                System.out.println("Vui long nhap ma nhan vien moi");
+                hd[i].setMaNhanVien(sc.nextLine());
+                System.out.println("Da sua ma nhan vien thanh cong!");
+                break;
+
+            case 3:
+                System.out.println("Vui long nhap ngay nhap moi");
+                hd[i].setNgayNhap(sc.nextLine());
+                System.out.println("Da sua ngay nhap moi thanh cong!");
+                break;
+
+            case 4:
+                System.out.println("Vui long nhap ma phu kien moi");
+                hd[i].setMaPhuKien(sc.nextLine());
+                System.out.println("Da sua ma phu kien thanh cong!");
+                break;
+
+            case 0:
+                hd[i].nhap();
+                System.out.println("Sua tat ca thanh cong!");
+                break;
+
+            default:
+                System.out.println("Lua chon khong hop le!");
+                break;
         }
     }
+}
+
     if (!found) {
         System.out.println("Không tìm thay ma hoa don : " + ma);
     }
@@ -301,7 +314,7 @@ public HoaDon[] Search_NgayThang(LocalDate tuNgay, LocalDate denNgay) {
                     (ngayNhap.isEqual(denNgay) || ngayNhap.isBefore(denNgay))) {
 
                     found = true;
-                    System.out.println("Đã tìm thấy hoa don trong khoảng ngày:");
+                    System.out.println("da tim thay hoa don trong khoang ngay:");
                     hd[i].xuat();
 
                     kq = Arrays.copyOf(kq, count + 1);
@@ -309,35 +322,35 @@ public HoaDon[] Search_NgayThang(LocalDate tuNgay, LocalDate denNgay) {
                     count++;
                 }
             } catch (Exception e) {
-                System.out.println(" Lỗi định dạng ngày ở phiếu nhập: " );
+                System.out.println(" Loi dinh dang ngay o phieu nhap: " );
             }
         }
+if (!found) {
+    System.out.println("Khong tim thay hoa don trong khoang thoi gian nay.");
+    return null;
+}
 
-        if (!found) {
-            System.out.println(" Không tìm thấy hoa don trong khoảng thời gian này.");
-            return null;
-        }
         return kq;
     }
 
-    public void Search_NgayThang() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+public void Search_NgayThang() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.print("Nhập ngày bắt đầu (dd/MM/yyyy): ");
-        String startStr = sc.nextLine();
+    System.out.print("Nhap ngay bat dau (dd/MM/yyyy): ");
+    String startStr = sc.nextLine();
 
-        System.out.print("Nhập ngày kết thúc (dd/MM/yyyy): ");
-        String endStr = sc.nextLine();
+    System.out.print("Nhap ngay ket thuc (dd/MM/yyyy): ");
+    String endStr = sc.nextLine();
 
-        try {
-            LocalDate tuNgay = LocalDate.parse(startStr, formatter);
-            LocalDate denNgay = LocalDate.parse(endStr, formatter);
+    try {
+        LocalDate tuNgay = LocalDate.parse(startStr, formatter);
+        LocalDate denNgay = LocalDate.parse(endStr, formatter);
 
-            Search_NgayThang(tuNgay, denNgay);
-        } catch (Exception e) {
-            System.out.println(" Định dạng ngày không hợp lệ. Vui lòng nhập theo dạng dd/MM/yyyy.");
-        }
+        Search_NgayThang(tuNgay, denNgay);
+    } catch (Exception e) {
+        System.out.println("Dinh dang ngay khong hop le. Vui long nhap theo dang dd/MM/yyyy.");
     }
+}
 
 
 public int[] ThongKe_NgayLap() {
@@ -359,16 +372,17 @@ public int[] ThongKe_NgayLap() {
                 tren3thang++;
             }
         } catch (Exception e) {
-            System.out.println("Lỗi định dạng ngày ở hóa đơn: " + hd[i].getMaHoaDon());
+            System.out.println("Loi dinh dang ngay o hoa don: " + hd[i].getMaHoaDon());
         }
     }
 
-    System.out.printf("%-40s %d\n", "Số hóa đơn dưới 1 tháng:", duoi1thang);
-    System.out.printf("%-40s %d\n", "Số hóa đơn từ 1–3 tháng:", tu1den3thang);
-    System.out.printf("%-40s %d\n", "Số hóa đơn trên 3 tháng:", tren3thang);
+    System.out.printf("%-40s %d\n", "So hoa don duoi 1 thang:", duoi1thang);
+    System.out.printf("%-40s %d\n", "So hoa don tu 1-3 thang:", tu1den3thang);
+    System.out.printf("%-40s %d\n", "So hoa don tren 3 thang:", tren3thang);
 
     return new int[]{duoi1thang, tu1den3thang, tren3thang};
 }
+
 public double[] ThongKe_TongTien() {
     double duoi1trieu = 0, tu1den5trieu = 0, tren5trieu = 0;
 
@@ -384,12 +398,13 @@ public double[] ThongKe_TongTien() {
         }
     }
 
-    System.out.printf("%-40s %.0f\n", "Số hóa đơn dưới 1 triệu:", duoi1trieu);
-    System.out.printf("%-40s %.0f\n", "Số hóa đơn từ 1 - 5 triệu:", tu1den5trieu);
-    System.out.printf("%-40s %.0f\n", "Số hóa đơn trên 5 triệu:", tren5trieu);
+    System.out.printf("%-40s %.0f\n", "So hoa don duoi 1 trieu:", duoi1trieu);
+    System.out.printf("%-40s %.0f\n", "So hoa don tu 1 - 5 trieu:", tu1den5trieu);
+    System.out.printf("%-40s %.0f\n", "So hoa don tren 5 trieu:", tren5trieu);
 
     return new double[]{duoi1trieu, tu1den5trieu, tren5trieu};
 }
+
 public void GhiFile(String tenFile){
     try(PrintWriter pw = new PrintWriter(new FileWriter(tenFile))){
         for(int i = 0 ; i < numhd ; i++){
@@ -401,6 +416,7 @@ public void GhiFile(String tenFile){
     }
     catch(Exception e){
         System.out.println("Loi ghi file : " + e.getMessage());
-    }
+
+}
 }
 }

@@ -5,10 +5,9 @@ import java.time.format.DateTimeFormatter;
 public class QLHD extends MainQLBH {
     private static Scanner sc = new Scanner(System.in);
 
-    // ✅ Cập nhật đơn giá & thành giá cho từng chi tiết hóa đơn
     public void capNhatGiaTriChiTiet() {
         ChiTietHoaDon[] arrCT = dscthd.getChiTietHoaDon();
-        CuaHangDienThoai[] arrSP = dssp.getSP();
+        DienThoai[] arrSP = dssp.getSP();
         int soCT = dscthd.getSoLuongChiTietHoaDon();
         int soSP = dssp.getNum();
 
@@ -26,7 +25,6 @@ public class QLHD extends MainQLBH {
         }
     }
 
-    // ✅ Tính tổng tiền cho từng hóa đơn
     public void TinhTienTong() {
         HoaDon[] arrHD = dshd.getHoaDon();
         ChiTietHoaDon[] arrCT = dscthd.getChiTietHoaDon();
@@ -49,44 +47,49 @@ public class QLHD extends MainQLBH {
     }
 
     
-    public void ThemHoaDon() {
-        HoaDon hd = new HoaDon();
-        hd.nhap();
-        dshd.Them(hd);
+public void ThemHoaDon() {
+    HoaDon hd = new HoaDon();
+    hd.nhap();
+    dshd.Them(hd);
 
-        System.out.print("Nhập số lượng chi tiết hóa đơn: ");
-        int soLuongCT = sc.nextInt();
-        sc.nextLine();
+    System.out.print("Nhap so luong chi tiet hoa don: ");
+    int soLuongCT = sc.nextInt();
+    sc.nextLine();
 
-        for (int i = 0; i < soLuongCT; i++) {
-            System.out.println("---- Nhập chi tiết hóa đơn thứ " + (i + 1) + " ----");
-            ChiTietHoaDon ct = new ChiTietHoaDon();
-            ct.nhap();
+    for (int i = 0; i < soLuongCT; i++) {
+        System.out.println("---- Nhap chi tiet hoa don thu " + (i + 1) + " ----");
+        ChiTietHoaDon ct = new ChiTietHoaDon();
 
-            // Gắn mã hóa đơn vào chi tiết
-            ct.setMaHoaDon(hd.getMaHoaDon());
+        System.out.print("Nhap ma hoa don chi tiet: ");
+        ct.setMaHoaDonChiTiet(sc.nextLine()); 
+        System.out.print("Nhap ma san pham khach hang mua: ");
+        ct.setMaSanPham(sc.nextLine());
+        System.out.print("Nhap so luong san pham: ");
+        ct.setSoLuong(sc.nextInt());
+        sc.nextLine(); // bo ki tu newline con lai
 
-            dscthd.Them(ct);
+        // Gan ma hoa don cho chi tiet
+        ct.setMaHoaDon(hd.getMaHoaDon());
+        dscthd.Them(ct);
 
-            // Giảm số lượng sản phẩm trong kho
-            dssp.Sua_SoLuong(ct.getMaSanPham(), ct.getSoLuong());
-        }
-
-        // Cập nhật đơn giá, thành giá, tổng tiền
-        capNhatGiaTriChiTiet();
-        TinhTienTong();
-
-        System.out.println(">> Đã thêm hóa đơn và chi tiết thành công!");
+        // Giam so luong san pham trong kho
+        dssp.Sua_SoLuong(ct.getMaSanPham(), ct.getSoLuong());
     }
+
+    capNhatGiaTriChiTiet();
+    TinhTienTong();
+
+    System.out.println(">> Da them hoa don va chi tiet thanh cong!");
+}
 
     public void mainQLHD() {
         int choice;
         do {
-            System.out.println("\n=== MENU QUẢN LÝ HÓA ĐƠN ===");
-            System.out.println("1. Xuat hóa đơn");
-            System.out.println("2. Them hóa đơn");
-            System.out.println("3. Sua hóa đơn");
-            System.out.println("4. Xoa hóa đơn");
+            System.out.println("\n=== MENU QUAN LY HOA DON ===");
+            System.out.println("1. Xuat hoa don");
+            System.out.println("2. Them hoa don");
+            System.out.println("3. Sua hoa don");
+            System.out.println("4. Xoa hoa don");
             System.out.println("5. Tim kiem");
             System.out.println("6. Thong ke");
             System.out.println("0. Quay lai MENU CHINH");
@@ -101,11 +104,26 @@ public class QLHD extends MainQLBH {
 
             switch (choice) {
                 case 1:
+                   {
+                    System.out.println("nhap lua chon (1 hoa don rieng , 2 hoa don chi tiet rieng , 3 hoa don va hoa don chi tiet )");
+                    int sucb = sc.nextInt();
+                    sc.nextLine();
+                    switch (sucb) {
+                        case 1:
                     capNhatGiaTriChiTiet();
                     TinhTienTong();
-
+                        dshd.xuat();
+                            break;
+                        case 2:
+                    capNhatGiaTriChiTiet();
+                    TinhTienTong();    
+                        dscthd.xuat();
+                            break;
+                        case 3:
+                    capNhatGiaTriChiTiet();
+                    TinhTienTong();
                     if (soHD == 0) {
-                        System.out.println("Chưa có hóa đơn nào!");
+                        System.out.println("Chua co hoa don nao!");
                         break;
                     }
 
@@ -113,10 +131,10 @@ public class QLHD extends MainQLBH {
                         if (arrHD[i] == null) continue;
 
                         System.out.println("\n==============================");
-                        System.out.println("HÓA ĐƠN: " + arrHD[i].getMaHoaDon());
+                        System.out.println("HOA DON: " + arrHD[i].getMaHoaDon());
                         arrHD[i].xuat();
 
-                        System.out.println("---- CHI TIẾT HÓA ĐƠN ----");
+                        System.out.println("---- CHI TIET HOA DON ----");
                         for (int j = 0; j < soCT; j++) {
                             if (arrCT[j] == null) continue;
                             if (arrHD[i].getMaHoaDon().equalsIgnoreCase(arrCT[j].getMaHoaDon())) {
@@ -124,96 +142,102 @@ public class QLHD extends MainQLBH {
                             }
                         }
                     }
+                        default:
+                        System.out.println("lua chon khong hop le ");
+                            break;
+                    }
+                   }
                     break;
 
                 case 2: ThemHoaDon(); break;
 
                 case 3:
-                    System.out.println("=== SỬA THÔNG TIN ===");
-                    System.out.println("1. Sửa hóa đơn");
-                    System.out.println("2. Sửa chi tiết hóa đơn");
+                    System.out.println("=== SUA THONG TIN ===");
+                    System.out.println("1. Sua hoa don");
+                    System.out.println("2. Sua chi tiết hoa don");
                     System.out.println("3. Quay lại");
-                    System.out.print("Nhập lựa chọn: ");
+                    System.out.print("Nhap lua chon: ");
                     int ch = sc.nextInt(); sc.nextLine();
                     switch (ch) {
                         case 1: dshd.sua(); break;
                         case 2: dscthd.sua(); break;
                         case 3: break;
-                        default: System.out.println("Lựa chọn không hợp lệ!"); break;
+                        default: System.out.println("Lua chon khong hop le!"); break;
                     }
                     break;
 
                 case 4:
-                    System.out.println("=== XÓA DỮ LIỆU ===");
-                    System.out.println("1. Xóa hóa đơn");
-                    System.out.println("2. Xóa chi tiết hóa đơn");
+                    System.out.println("=== XOA DU LIEU ===");
+                    System.out.println("1. Xoa hoa don");
+                    System.out.println("2. Xoa chi tiết hoa don");
                     System.out.println("3. Quay lại");
-                    System.out.print("Nhập lựa chọn: ");
+                    System.out.print("Nhap lua chon: ");
                     int ch1 = sc.nextInt(); sc.nextLine();
                     switch (ch1) {
                         case 1: dshd.xoa(); break;
                         case 2: dscthd.xoa(); break;
                         case 3: break;
-                        default: System.out.println("Lựa chọn không hợp lệ!"); break;
+                        default: System.out.println("Lua chon khong hop le!"); break;
                     }
                     break;
 
-                case 5:
-                    System.out.println("Tìm kiếm (1. Hóa đơn, 2. Chi tiết hóa đơn)");
-                    int tk = sc.nextInt(); sc.nextLine();
-                    if (tk == 1) {
-                        System.out.println("Tìm hóa đơn (1. Mã, 2. Mã KH, 3. Mã NV, 4. Mã phụ kiện)");
-                        int subChoice = sc.nextInt(); sc.nextLine();
-                        switch (subChoice) {
-                            case 1: dshd.Search_Ma(); break;
-                            case 2: dshd.Search_MaKhachHang(); break;
-                            case 3: dshd.Search_MaNhanVien(); break;
-                            case 4: dshd.Search_MaPhuKien(); break;
-                            default: System.out.println("Lựa chọn không hợp lệ!"); break;
-                        }
-                    } else {
-                        System.out.println("Tìm chi tiết HĐ (1. Mã CTHĐ, 2. Mã HĐ, 3. Mã SP, 4. SL, 5. Đơn giá)");
-                        int subChoice = sc.nextInt(); sc.nextLine();
-                        switch (subChoice) {
-                            case 1: dscthd.Search_Ma(); break;
-                            case 2: dscthd.Search_MaHoaDon(); break;
-                            case 3: dscthd.Search_MaSanPham(); break;
-                            case 4: dscthd.Search_SoLuong(); break;
-                            case 5: dscthd.Search_DonGia(); break;
-                            default: System.out.println("Lựa chọn không hợp lệ!"); break;
-                        }
-                    }
-                    break;
+ case 5:
+    System.out.println("Tim kiem (1. Hoa don, 2. Chi tiet hoa don)");
+    int tk = sc.nextInt(); sc.nextLine();
+    if (tk == 1) {
+        System.out.println("Tim hoa don (1. Ma, 2. Ma KH, 3. Ma NV, 4. Ma phu kien)");
+        int subChoice = sc.nextInt(); sc.nextLine();
+        switch (subChoice) {
+            case 1: dshd.Search_Ma(); break;
+            case 2: dshd.Search_MaKhachHang(); break;
+            case 3: dshd.Search_MaNhanVien(); break;
+            case 4: dshd.Search_MaPhuKien(); break;
+            default: System.out.println("Lua chon khong hop le!"); break;
+        }
+    } else {
+        System.out.println("Tim chi tiet HD (1. Ma CTHD, 2. Ma HD, 3. Ma SP, 4. SL, 5. Don gia)");
+        int subChoice = sc.nextInt(); sc.nextLine();
+        switch (subChoice) {
+            case 1: dscthd.Search_Ma(); break;
+            case 2: dscthd.Search_MaHoaDon(); break;
+            case 3: dscthd.Search_MaSanPham(); break;
+            case 4: dscthd.Search_SoLuong(); break;
+            case 5: dscthd.Search_DonGia(); break;
+            default: System.out.println("Lua chon khong hop le!"); break;
+        }
+    }
+    break;
 
-                case 6:
-                    System.out.println("Thống kê (1. Hóa đơn, 2. Chi tiết hóa đơn)");
-                    int tk2 = sc.nextInt(); sc.nextLine();
-                    if (tk2 == 1) {
-                        System.out.println("Thống kê hóa đơn (1. Theo tổng tiền, 2. Theo ngày lập)");
-                        int subChoice = sc.nextInt(); sc.nextLine();
-                        switch (subChoice) {
-                            case 1: dshd.ThongKe_TongTien(); break;
-                            case 2: dshd.ThongKe_NgayLap(); break;
-                            default: System.out.println("Lựa chọn không hợp lệ!"); break;
-                        }
-                    } else {
-                        System.out.println("Thống kê chi tiết HĐ (1. Theo đơn giá, 2. Theo số lượng)");
-                        int subChoice = sc.nextInt(); sc.nextLine();
-                        switch (subChoice) {
-                            case 1: dscthd.ThongKe_DonGia(); break;
-                            case 2: dscthd.ThongKe_SoLuong(); break;
-                            default: System.out.println("Lựa chọn không hợp lệ!"); break;
-                        }
-                    }
-                    break;
+case 6:
+    System.out.println("Thong ke (1. Hoa don, 2. Chi tiet hoa don)");
+    int tk2 = sc.nextInt(); sc.nextLine();
+    if (tk2 == 1) {
+        System.out.println("Thong ke hoa don (1. Theo tong tien, 2. Theo ngay lap)");
+        int subChoice = sc.nextInt(); sc.nextLine();
+        switch (subChoice) {
+            case 1: dshd.ThongKe_TongTien(); break;
+            case 2: dshd.ThongKe_NgayLap(); break;
+            default: System.out.println("Lua chon khong hop le!"); break;
+        }
+    } else {
+        System.out.println("Thong ke chi tiet HD (1. Theo don gia, 2. Theo so luong)");
+        int subChoice = sc.nextInt(); sc.nextLine();
+        switch (subChoice) {
+            case 1: dscthd.ThongKe_DonGia(); break;
+            case 2: dscthd.ThongKe_SoLuong(); break;
+            default: System.out.println("Lua chon khong hop le!"); break;
+        }
+    }
+    break;
 
-                case 0:
-                    System.out.println("Quay lại MENU CHINH...");
-                    break;
+case 0:
+    System.out.println("Quay lai MENU CHINH...");
+    break;
 
-                default:
-                    System.out.println("Lựa chọn không hợp lệ.");
-                    break;
+default:
+    System.out.println("Lua chon khong hop le.");
+    break;
+
             }
 
         } while (choice != 0);
@@ -244,30 +268,48 @@ public class QLHD extends MainQLBH {
             System.out.println("loi dinh dang hay nhap kieu dd/MM/yyyy");
         }  
     }
-    public double[] ThongKe_TheoQuy(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        int Quy1 = 0 , Quy2 = 0 , Quy3 = 0,Quy4 = 0;
-        HoaDon[] arrHD = dshd.getHoaDon();
-        int numhd = dshd.getSoLuongHoaDon();
-        for(int i = 0 ; i < numhd ; i++){
-            if(arrHD[i] == null) continue;   
-        try{
-                LocalDate Quy = LocalDate.parse(arrHD[i].getNgayNhap(),formatter);
-                int thang = Quy.getMonthValue();
-                if (thang >= 1 && thang <= 3) Quy1 += arrHD[i].getTongTien();
-                else if (thang >= 4 && thang <= 6) Quy2+=arrHD[i].getTongTien();
-                else if (thang >= 7 && thang <= 9) Quy3+=arrHD[i].getTongTien();
-                else Quy4+=arrHD[i].getTongTien();
+public double[] ThongKe_TheoQuy() {
+    System.out.println("vui long nhap nam de thong ke theo quy: ");
+    int year = Integer.parseInt(sc.nextLine());  // tránh lỗi xuống dòng
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    double Quy1 = 0, Quy2 = 0, Quy3 = 0, Quy4 = 0;
+
+    HoaDon[] arrHD = dshd.getHoaDon();
+    int numhd = dshd.getSoLuongHoaDon();
+
+    for (int i = 0; i < numhd; i++) {
+
+        if (arrHD[i] == null) continue;
+
+        try {
+            LocalDate ngay = LocalDate.parse(arrHD[i].getNgayNhap(), formatter);
+
+            int thang = ngay.getMonthValue();
+            int nam = ngay.getYear();
+
+            if (nam == year) {
+                double tien = arrHD[i].getTongTien();
+
+                if (thang >= 1 && thang <= 3) Quy1 += tien;
+                else if (thang >= 4 && thang <= 6) Quy2 += tien;
+                else if (thang >= 7 && thang <= 9) Quy3 += tien;
+                else Quy4 += tien;
             }
-            catch(Exception e){
-                System.out.println("loi dinh dang ngay nhap dd/MM/yyyy");
-            }
+
+        } catch (Exception e) {
+            System.out.println("Loi dinh dang ngay (dd/MM/yyyy): " + arrHD[i].getNgayNhap());
         }
-    System.out.printf("%-25s : %.2f\n", "Quy 1 (1–3)", (double)Quy1);
-    System.out.printf("%-25s : %.2f\n", "Quy 2 (4–6)", (double)Quy2);
-    System.out.printf("%-25s : %.2f\n", "Quy 3 (7–9)", (double)Quy3);
-    System.out.printf("%-25s : %.2f\n", "Quy 4 (10–12)", (double)Quy4);
-     return new double[]{Quy1, Quy2, Quy3, Quy4};
     }
+
+    System.out.printf("%-25s : %.2f\n", "Quy 1 (1–3)", Quy1);
+    System.out.printf("%-25s : %.2f\n", "Quy 2 (4–6)", Quy2);
+    System.out.printf("%-25s : %.2f\n", "Quy 3 (7–9)", Quy3);
+    System.out.printf("%-25s : %.2f\n", "Quy 4 (10–12)", Quy4);
+
+    return new double[]{Quy1, Quy2, Quy3, Quy4};
+}
+
     }
 

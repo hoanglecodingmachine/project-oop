@@ -52,7 +52,7 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File rỗng hoặc không có dữ liệu hợp lệ!");
+            System.out.println("File rong hoac khong co du lieu hop le!");
             return;
         }
 
@@ -65,12 +65,13 @@ public void DocFile(String tenFile) {
             String line = scfile.nextLine().trim();
             if (line.isEmpty()) continue;
 
-            line = line.replace("\uFEFF", ""); // Gỡ BOM
+            // Go BOM neu co
+            line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
 
             if (p.length != 6) {
-                System.out.println(" Dòng lỗi (không đủ 6 trường): " + line);
+                System.out.println("Dong loi (khong du 6 truong): " + line);
                 continue;
             }
 
@@ -82,24 +83,24 @@ public void DocFile(String tenFile) {
             double thanhgia = Double.parseDouble(p[5].trim());
 
             ChiTietHoaDon hdct = new ChiTietHoaDon(
-                    mahoadon,
-                    mahoadonchitiet,
-                    masanpham,
-                    soluong,
-                    dongia,
-                    thanhgia
+                mahoadon,
+                mahoadonchitiet,
+                masanpham,
+                soluong,
+                dongia,
+                thanhgia
             );
 
             dscthd[numcthd++] = hdct;
         }
 
         scfile.close();
-        System.out.println(" Đọc file thành công! Tổng chi tiết hóa đơn: " + numcthd);
+        System.out.println("Doc file thanh cong! Tong chi tiet hoa don: " + numcthd);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println(" File không tìm thấy: " + tenFile);
+        System.out.println("File khong tim thay: " + tenFile);
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + tenFile + "': " + e.getMessage());
+        System.out.println("Loi doc file '" + tenFile + "': " + e.getMessage());
     }
 }
 
@@ -111,7 +112,7 @@ public void Them(ChiTietHoaDon hdct1){
     }
 public void Them() {
             ChiTietHoaDon hdct1 = new ChiTietHoaDon(); 
-            System.out.println("Nhập thông tin hoa don chi tiet moi:");
+            System.out.println("Nhap thong tin hoa don chi tiet moi:");
             hdct1.nhap();
             Them(hdct1);
 }
@@ -145,38 +146,49 @@ public void sua(String ma) {
     for (int i = 0; i < numcthd; i++) {
         if (dscthd[i].getMaHoaDonChiTiet().equals(ma)) {
             found = true;
-            System.out.println("da tim thay chi tiet hoa don . Vui long nhap lua chon de sua ");
-            System.out.println("1 ma hoa don ,2 ma san pham , 3 so luong, 0 sua het ");
+            System.out.println("Da tim thay chi tiet hoa don. Vui long nhap lua chon de sua:");
+            System.out.println("1. Ma hoa don");
+            System.out.println("2. Ma san pham");
+            System.out.println("3. So luong");
+            System.out.println("0. Sua tat ca");
             int choice = sc.nextInt();
             sc.nextLine();
+
             switch (choice) {
                 case 1:
-                    System.out.println("vui long nhap ma hoa don moi cho san pham ");
+                    System.out.println("Vui long nhap ma hoa don moi:");
                     dscthd[i].setMaHoaDon(sc.nextLine());
-                    System.out.println("Đã sửa ma hoa don thành công!");
+                    System.out.println("Da sua ma hoa don thanh cong!");
                     break;
+
                 case 2:
-                    System.out.println("vui lonng nhap ma san pham moi cho san pham ");
+                    System.out.println("Vui long nhap ma san pham moi:");
                     dscthd[i].setMaSanPham(sc.nextLine());
-                    System.out.println("Đã sửa ma san pham thành công!");
+                    System.out.println("Da sua ma san pham thanh cong!");
                     break;
+
                 case 3:
-                    System.out.println("vui long nhap so luong moi cho san pham ");
+                    System.out.println("Vui long nhap so luong moi:");
                     dscthd[i].setSoLuong(sc.nextInt());
-                    System.out.println("Đã sửa so luong thành công!");
+                    System.out.println("Da sua so luong thanh cong!");
                     break;
+
                 case 0:
                     dscthd[i].nhap();
-                    System.out.println("sua tat ca thanh cong ");
+                    System.out.println("Sua tat ca thanh cong!");
+                    break;
+
                 default:
-                    System.out.println("Lựa chọn không hợp lệ!");
+                    System.out.println("Lua chon khong hop le!");
             }
         }
     }
+
     if (!found) {
-        System.out.println("Không tìm thay chi tiet hoa don : " + ma);
+        System.out.println("Khong tim thay chi tiet hoa don: " + ma);
     }
 }
+
 public void sua(){
     sc.nextLine();
     System.out.println("vui long nhap ma chi tiet hoa don can sua ");

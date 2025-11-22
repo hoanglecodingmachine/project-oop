@@ -43,7 +43,18 @@ public void mainQLPNH() {
 
         switch (choice) {
             case 1:
-                TinhTienTong();
+{
+    System.out.println("vui long nhap lua chon de xuat (1 phieu nhap hang , 2 phieu nhap chi tiet , 3 phieu nhap hang voi phieu nhap hang chi tiet )");
+    int sucb = sc.nextInt();
+    switch (sucb) {
+        case 1:
+            dspnh.xuat();
+            break;
+        case 2:
+            dsctpnh.xuat();
+            break;
+        case 3:
+                            TinhTienTong();
                 PhieuNhapHang[] arrPNH = dspnh.getDanhSachPhieuNhapHang();
                 ChiTietPhieuNhapHang[] arrCT = dsctpnh.getChiTietPhieuNhapHang();
                 int soPNH = dspnh.getSoLuongDanhSachPhieuNhapHang();
@@ -68,6 +79,11 @@ public void mainQLPNH() {
                         }
                     }
                 }
+        default:
+            System.out.println("vui long nhap lai ");
+            break;
+    }
+}
                 break;
 
             case 2:
@@ -173,32 +189,39 @@ public void mainQLPNH() {
 }
 
 public void ThemPhieuNhapHang() {
-    // Nhập thông tin phiếu nhập
+    // Nhap thong tin phieu nhap
     PhieuNhapHang pnh = new PhieuNhapHang();
     pnh.nhap();
     dspnh.Them(pnh);
 
-    System.out.print("Nhập số lượng chi tiết phiếu nhập hàng: ");
+    System.out.print("Nhap so luong chi tiet phieu nhap hang: ");
     int soLuongCT = sc.nextInt();
     sc.nextLine();
 
     for (int i = 0; i < soLuongCT; i++) {
-        System.out.println("---- Nhập chi tiết phiếu nhập hàng thứ " + (i + 1) + " ----");
+        System.out.println("---- Nhap chi tiet phieu nhap hang thu " + (i + 1) + " ----");
         ChiTietPhieuNhapHang ct = new ChiTietPhieuNhapHang();
-        ct.nhap();
+        System.out.println("nhap ma chi tiet phieu nhap hang ");
+        ct.setMaPhieuNhapHangChiTiet(sc.nextLine());
+        System.out.println("nhap ma nha ma san pham ");
+        ct.setMaSanPham(sc.nextLine());
+        System.out.println("nhap so luong san pham ");
+        ct.setSoLuong(sc.nextInt());
+        System.out.println("nhap don gia cua ma san pham ");
+        ct.setDonGia(sc.nextDouble());
+        sc.nextLine(); // de bo ki tu newline con lai
 
-        // Gắn mã phiếu nhập cho chi tiết
+        // Gan ma phieu nhap cho chi tiet
         ct.setMaPhieuNhapHang(pnh.getMaPhieuNhapHang());
-
-        // Thêm chi tiết vào danh sách chi tiết phiếu nhập
+        // Them chi tiet vao
         dsctpnh.Them(ct);
-        dssp.Sua_SoLuong(ct.getMaSanPham(),- ( ct.getSoLuong()));
+        dssp.Sua_SoLuong(ct.getMaSanPham(), -ct.getSoLuong());
     }
 
-    // Cập nhật tổng tiền cho phiếu nhập
+    // Cap nhat tong tien cho phieu nhap
     TinhTienTong();
 
-    System.out.println(">> Đã thêm phiếu nhập hàng và chi tiết thành công!");
+    System.out.println(">> Da them phieu nhap hang va chi tiet thanh cong!");
 }
 
 

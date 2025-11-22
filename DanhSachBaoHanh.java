@@ -43,9 +43,9 @@ public class DanhSachBaoHanh {
             dsbh[i].xuat();
         }
     }
- public void DocFile(String tenFile) {
+public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG HỢP LỆ =======
+        // ======= BUOC 1: DEM SO DONG HOP LE =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile));
 
@@ -58,28 +58,28 @@ public class DanhSachBaoHanh {
         scCount.close();
 
         if (count == 0) {
-            System.out.println("⚠️ File trống hoặc không có dòng hợp lệ!");
+            System.out.println("File trong hoac khong co dong hop le!");
             return;
         }
 
-        // ======= BƯỚC 2: TẠO MẢNG ĐÚNG KÍCH THƯỚC =======
+        // ======= BUOC 2: TAO MANG DUNG KICH THUOC =======
         dsbh = new BaoHanh[count];
         numbh = 0;
 
-        // ======= BƯỚC 3: ĐỌC FILE VÀ ĐƯA DỮ LIỆU VÀO MẢNG =======
+        // ======= BUOC 3: DOC FILE VA DUA DU LIEU VAO MANG =======
         Scanner scfile = new Scanner(new File(tenFile));
 
         while (scfile.hasNextLine()) {
             String line = scfile.nextLine().trim();
             if (line.isEmpty()) continue;
 
-            // Gỡ BOM nếu có
+            // Go BOM neu co
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
 
             if (p.length != 3) {
-                System.out.println("⚠️ Dòng lỗi (không đủ 3 trường): " + line);
+                System.out.println("Dong loi (khong du 3 truong): " + line);
                 continue;
             }
 
@@ -94,12 +94,12 @@ public class DanhSachBaoHanh {
 
         scfile.close();
 
-        System.out.println(" Đọc file thành công! Tổng bảo hành: " + numbh);
+        System.out.println("Doc file thanh cong! Tong so bao hanh: " + numbh);
 
     } catch (FileNotFoundException fnf) {
-        System.out.println(" Không tìm thấy file: " + tenFile);
+        System.out.println("Khong tim thay file: " + tenFile);
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + tenFile + "': " + e.getMessage());
+        System.out.println("Loi doc file '" + tenFile + "': " + e.getMessage());
     }
 }
 

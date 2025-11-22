@@ -53,7 +53,7 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rong hoac khong co dong hop le!");
             return;
         }
         dsphukien = new PhuKienTangKem[count];
@@ -71,7 +71,7 @@ public void DocFile(String tenFile) {
 
             String[] p = line.split("-");
             if (p.length != 3) {
-                System.out.println(" Dữ liệu không hợp lệ ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Du lieu khong hop le o dong " + lineNumber + ": " + line);
                 continue;
             }
 
@@ -83,19 +83,19 @@ public void DocFile(String tenFile) {
                 PhuKienTangKem pk1 = new PhuKienTangKem(maphukien, tenphukien, loai);
                 dsphukien[numphukien++] = pk1;
             } catch (Exception ex) {
-                System.out.println(" Lỗi tạo đối tượng PhuKienTangKem ở dòng " + lineNumber + ": " + line);
+                System.out.println(" Loi tao doi tuong PhuKienTangKem o dong " + lineNumber + ": " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println(" Đã đọc dữ liệu phụ kiện thành công! Tổng: " + numphukien);
+        System.out.println(" da doc du lieu phu kien thanh cong! Tong: " + numphukien);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println(" File không tìm thấy: " + tenFile);
+        System.out.println(" File khong tim thay: " + tenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Loi doc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }

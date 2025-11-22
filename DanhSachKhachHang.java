@@ -50,9 +50,10 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println("File rong hoac khong co dong hop le!");
             return;
         }
+
         kh = new KhachHang[count];
         numkh = 0;
         Scanner scFile = new Scanner(new File(tenFile), "UTF-8");
@@ -61,12 +62,11 @@ public void DocFile(String tenFile) {
             String line = scFile.nextLine().trim();
             if (line.isEmpty()) continue;
 
-
             line = line.replace("\uFEFF", "");
 
             String[] p = line.split("-");
             if (p.length != 7) {
-                System.out.println(" Dòng không đủ 7 trường: " + line);
+                System.out.println("Dong khong du 7 truong: " + line);
                 continue;
             }
 
@@ -91,26 +91,27 @@ public void DocFile(String tenFile) {
 
                 kh[numkh++] = kh1;
             } catch (NumberFormatException nfe) {
-                System.out.println(" Lỗi định dạng số: " + line);
+                System.out.println("Loi dinh dang so: " + line);
             } catch (Exception ex) {
-                System.out.println(" Lỗi tạo đối tượng KhachHang: " + line);
+                System.out.println("Loi tao doi tuong KhachHang: " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println(" Đọc file khách hàng thành công! Tổng: " + numkh);
+        System.out.println("Doc file khach hang thanh cong! Tong: " + numkh);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println(" File không tìm thấy: " + tenFile);
+        System.out.println("File khong tim thay: " + tenFile);
         fnf.printStackTrace();
 
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
+        System.out.println("Loi doc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
 }
+
 
       public void them(KhachHang kh1){
         kh = Arrays.copyOf(kh, numkh + 1);
@@ -137,17 +138,17 @@ public void xoa(String ma) {
             }
             kh[numkh - 1] = null; // xóa tham chiếu cuối
             numkh--; // giảm số lượng
-            System.out.println("Đã xóa thông tin khách hàng thành công!");
+            System.out.println("da xoa thong tin khach hang thanh cong!");
             return; // thoát luôn sau khi xóa
         }
     }
     if (!found) {
-        System.out.println("Không tìm thấy thông tin khách hàng!");
+        System.out.println("Khong tim thay thong tin khach hang!");
     }
 }
 
 public void xoa() {
-    System.out.println("Nhập mã khách hàng cần xóa: ");
+    System.out.println("Nhap ma khach hang can xoa: ");
     String ma = sc.nextLine().trim();
     xoa(ma);
 }

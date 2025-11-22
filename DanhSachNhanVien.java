@@ -50,7 +50,7 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println(" File rong hoac khong co dong hop le!");
             return;
         }
 
@@ -67,7 +67,7 @@ public void DocFile(String tenFile) {
 
             String[] parts = line.split("-");
             if (parts.length != 5) {  
-                System.out.println(" Dòng không đủ 5 trường: " + line);
+                System.out.println(" Dong khong du 5 truong: " + line);
                 continue;
             }
 
@@ -81,25 +81,26 @@ public void DocFile(String tenFile) {
                 NhanVien nv1 = new NhanVien(maNV, ho, ten, luong, chucVu);
                 nv[numnv++] = nv1;
             } catch (NumberFormatException nfe) {
-                System.out.println(" Lỗi định dạng số (luong) dòng: " + line);
+                System.out.println(" Loi dinh dang so (luong) dong: " + line);
             } catch (Exception ex) {
-                System.out.println(" Lỗi tạo đối tượng NhanVien dòng: " + line);
+                System.out.println(" Loi tao doi tuong NhanVien dong: " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println(" Đọc file nhân viên thành công! Tổng: " + numnv);
+        System.out.println(" Doc file nhan vien thanh cong! Tong: " + numnv);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println(" File không tìm thấy: " + tenFile);
+        System.out.println(" File khong tim thay: " + tenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + tenFile + "': " 
+        System.out.println(" Loi doc file '" + tenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
 }
+
 
     public void Them(NhanVien nv1){
         nv = Arrays.copyOf(nv,numnv + 1);
@@ -142,43 +143,46 @@ public void sua(String ma) {
     for (int i = 0; i < numnv; i++) {
         if (nv[i].getMaNhanVien().equals(ma)) {
             found = true;
-            System.out.println("da tim thay nhan vien . Vui long nhap lua chon de sua ");
-            System.out.println("1 ho, 2 ten, 3 luong,4 chuc vu , 0 sua het ");
+            System.out.println("Da tim thay nhan vien. Vui long nhap lua chon de sua");
+            System.out.println("1 ho, 2 ten, 3 luong, 4 chuc vu, 0 sua het");
             int choice = sc.nextInt();
             sc.nextLine();
             switch (choice) {
                 case 1:
-                    System.out.println("vui lonng nhap ho moi cua nhan vien ");
+                    System.out.println("Vui long nhap ho moi cua nhan vien");
                     nv[i].setHo(sc.nextLine());
-                    System.out.println("Đã sửa ho thành công!");
+                    System.out.println("Da sua ho thanh cong!");
                     break;
                 case 2:
-                    System.out.println("vui long nhap ten moi cho nhan vien ");
+                    System.out.println("Vui long nhap ten moi cua nhan vien");
                     nv[i].setTen(sc.nextLine());
-                    System.out.println("Đã sửa ten thành công!");
+                    System.out.println("Da sua ten thanh cong!");
                     break;
                 case 3:
-                    System.out.println("vui long nhap luong moi cua nhan vien ");
+                    System.out.println("Vui long nhap luong moi cua nhan vien");
                     nv[i].setLuong(sc.nextDouble());
-                    System.out.println("Đã sửa luong thành công!");
+                    sc.nextLine();
+                    System.out.println("Da sua luong thanh cong!");
                     break;
                 case 4:
-                    System.out.println("vui long nhap chuc vu moi cua nhan vien");
+                    System.out.println("Vui long nhap chuc vu moi cua nhan vien");
                     nv[i].setChucVu(sc.nextLine());
-                    System.out.println("Đã sửa chuc vu thành công!");
+                    System.out.println("Da sua chuc vu thanh cong!");
                     break;
                 case 0:
                     nv[i].nhap();
-                    System.out.println("sua tat ca thanh cong ");
+                    System.out.println("Sua tat ca thanh cong");
+                    break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ!");
+                    System.out.println("Lua chon khong hop le!");
             }
         }
     }
     if (!found) {
-        System.out.println("Không tìm thấy nhan vien co mã: " + ma);
+        System.out.println("Khong tim thay nhan vien co ma: " + ma);
     }
 }
+
 public void sua(){
     System.out.println("vui long nhap ma nhan vien can sua ");
     String ma = sc.nextLine();

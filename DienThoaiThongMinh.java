@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class DienThoaiThongMinh extends CuaHangDienThoai{
+public class DienThoaiThongMinh extends DienThoai{
     private static Scanner sc = new Scanner(System.in);
     private String hedieuhanh;
     private String dungluong;
@@ -38,20 +38,13 @@ public class DienThoaiThongMinh extends CuaHangDienThoai{
         System.out.println("nhap dung luong cua may(128g,256g,512g) ");
         dungluong = sc.nextLine();
     }
-    @Override public void xuat() {
-    System.out.printf(
-        "%-15s %-25s %-10d %-12s %-12.2f %-15s %-10s%n",
-        getMaSP(),
-        getTenSP(),
-        getSoLuong(),
-        getDonViTien(),
-        getDonGia(),
-        hedieuhanh,
-        dungluong
-    );
-}
+    @Override
+    public void xuat() {
+        super.xuat();   // kế thừa phần in chung
+        System.out.printf(" %-15s %-10s%n", hedieuhanh, dungluong);
+    }
 
-    @Override public double Tong_Gia_Tien(){
+    @Override public double Tinh_Tien_SanPham(){
         return getSoLuong()*getDonGia();
     }
 }

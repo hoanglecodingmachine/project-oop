@@ -46,17 +46,17 @@ public class KhachHang {
     public void setDoTuoi(int dotuoi) { this.dotuoi = dotuoi; }
 
     public void nhap() {
-        System.out.print("Nhập mã khách hàng: ");
+        System.out.print("Nhap ma khach hang: ");
         makhachhang = sc.nextLine();
-        System.out.println("Nhập họ khách hàng: ");
+        System.out.println("Nhap ho khach hang: ");
         hokhachhang = sc.nextLine();
-        System.out.print("Nhập tên khách hàng: ");
+        System.out.print("Nhap ten khach hang: ");
         tenkhachhang = sc.nextLine();
-        System.out.print("Nhập email: ");
+        System.out.print("Nhap email: ");
         email = sc.nextLine();
-        System.out.print("Nhập số điện thoại: ");
+        System.out.print("Nhap so dien thoai: ");
         sodienthoai = sc.nextLine();
-        System.out.print("Nhập gioi tinh(nam/nu): ");
+        System.out.print("Nhap gioi tinh(nam/nu): ");
         gioitinh = sc.nextLine();
         System.out.print("do tuoi cua khach la : ");
         dotuoi = sc.nextInt();

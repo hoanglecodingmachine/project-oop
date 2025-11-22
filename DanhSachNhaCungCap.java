@@ -51,9 +51,10 @@ public void DocFile(String TenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File rỗng hoặc không có dòng hợp lệ!");
+            System.out.println("File rong hoac khong co dong hop le!");
             return;
         }
+
         ncc = new NhaCungCap[count];
         numncc = 0;
         Scanner scFile = new Scanner(new File(TenFile), "UTF-8");
@@ -65,7 +66,7 @@ public void DocFile(String TenFile) {
 
             String[] p = line.split("-");
             if (p.length != 4) {  
-                System.out.println(" Dòng không đủ 4 trường: " + line);
+                System.out.println("Dong khong du 4 truong: " + line);
                 continue;
             }
 
@@ -78,19 +79,19 @@ public void DocFile(String TenFile) {
                 NhaCungCap ncc1 = new NhaCungCap(maNhaCungCap, diaChi, soDienThoai, email);
                 ncc[numncc++] = ncc1;
             } catch (Exception ex) {
-                System.out.println(" Lỗi tạo đối tượng NhaCungCap: " + line);
+                System.out.println("Loi tao doi tuong NhaCungCap: " + line);
                 ex.printStackTrace();
             }
         }
 
         scFile.close();
-        System.out.println(" Đọc file nhà cung cấp thành công! Tổng: " + numncc);
+        System.out.println("Doc file nha cung cap thanh cong! Tong: " + numncc);
 
     } catch (java.io.FileNotFoundException fnf) {
-        System.out.println(" File không tìm thấy: " + TenFile);
+        System.out.println("File khong tim thay: " + TenFile);
         fnf.printStackTrace();
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file '" + TenFile + "': " 
+        System.out.println("Loi doc file '" + TenFile + "': " 
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         e.printStackTrace();
     }
@@ -134,41 +135,42 @@ public void xoa(){
     xoa(ma);
 }
 public void sua(String ma) {
-    boolean found = false;
-    for (int i = 0; i < numncc; i++) {
-        if (ncc[i].getMaNhaCungCap().equals(ma)) {
-            found = true;            
-            System.out.println("da tim thay ma nha cung cap . Vui long nhap lua chon de sua ");
-            System.out.println("1 dia chi  , 2 so dien thoai, 3 email, 0 sua het ");
-            int choice = sc.nextInt();
-            sc.nextLine();
-            switch (choice) {
-                case 1:
-                    System.out.println("vui lonng nhap dia chi{HCM,HN,NN} moi cho nha cung cap ");
-                    ncc[i].setDiaChi(sc.nextLine());
-                    System.out.println("Đã sửa dia chi nha cung cap thành công!");
-                    break;
-                case 2:
-                    System.out.println("vui long nhap so dien thoai moi cho nha cung cap ");
-                    ncc[i].setSoDienThoai(sc.nextLine());
-                    System.out.println("Đã sửa so dien thoai thành công!");
-                    break;
-                case 3:
-                    System.out.println("vui long nhap email moi cho nha cung cap ");
-                    ncc[i].setEmail(sc.nextLine());
-                    System.out.println("Đã sua email thành công!");
-                    break;
-                case 0:
-                    ncc[i].nhap();
-                    System.out.println("sua tat ca thanh cong ");
-                default:
-                    System.out.println("Lựa chọn không hợp lệ!");
-            }
+boolean found = false;
+for (int i = 0; i < numncc; i++) {
+    if (ncc[i].getMaNhaCungCap().equals(ma)) {
+        found = true;            
+        System.out.println("Da tim thay ma nha cung cap. Vui long nhap lua chon de sua");
+        System.out.println("1 dia chi, 2 so dien thoai, 3 email, 0 sua het");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+            case 1:
+                System.out.println("Vui long nhap dia chi moi cho nha cung cap");
+                ncc[i].setDiaChi(sc.nextLine());
+                System.out.println("Da sua dia chi nha cung cap thanh cong!");
+                break;
+            case 2:
+                System.out.println("Vui long nhap so dien thoai moi cho nha cung cap");
+                ncc[i].setSoDienThoai(sc.nextLine());
+                System.out.println("Da sua so dien thoai thanh cong!");
+                break;
+            case 3:
+                System.out.println("Vui long nhap email moi cho nha cung cap");
+                ncc[i].setEmail(sc.nextLine());
+                System.out.println("Da sua email thanh cong!");
+                break;
+            case 0:
+                ncc[i].nhap();
+                System.out.println("Sua tat ca thanh cong");
+                break;
+            default:
+                System.out.println("Lua chon khong hop le!");
         }
     }
-    if (!found) {
-        System.out.println("Không tìm thay ma nha cung cap : " + ma);
-    }
+}
+if (!found) {
+    System.out.println("Khong tim thay ma nha cung cap: " + ma);
+}
 }
 public void sua(){
     System.out.println("vui long nhap ma nha cung cap can sua ");

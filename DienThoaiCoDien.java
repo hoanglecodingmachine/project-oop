@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class DienThoaiCoDien extends CuaHangDienThoai{
+public class DienThoaiCoDien extends DienThoai{
     private static Scanner sc = new Scanner(System.in);
     private String banphim;
     private int thoigianthoai;
@@ -36,19 +36,12 @@ public class DienThoaiCoDien extends CuaHangDienThoai{
     }
 @Override
 public void xuat() {
-    System.out.printf(
-        "%-15s %-25s %-10d %-12s %-12.2f %-15s %-10d%n",
-        getMaSP(),
-        getTenSP(),
-        getSoLuong(),
-        getDonViTien(),
-        getDonGia(),
-        banphim,
-        thoigianthoai
-    );
+    super.xuat(); // gọi hàm xuất của DienThoai
+    System.out.printf(" %-15s %-10d%n", banphim, thoigianthoai);
 }
 
-    @Override public double Tong_Gia_Tien(){
+
+    @Override public double Tinh_Tien_SanPham(){
         return getSoLuong()*getDonGia();
     }
 }

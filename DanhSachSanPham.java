@@ -8,34 +8,40 @@ import java.io.FileWriter;
 public class DanhSachSanPham{
 private static Scanner sc = new Scanner(System.in);
 private int num;
-private CuaHangDienThoai[] sp;
+private DienThoai[] sp;
 public DanhSachSanPham(){
 
 }
-public DanhSachSanPham(int num,CuaHangDienThoai[] sp){
+public DanhSachSanPham(int num,DienThoai[] sp){
         this.num = num;
         this.sp = sp;
     }
-
-
+public DanhSachSanPham(DienThoai[] other) {
+    if (other == null) {
+        this.sp = new DienThoai[0];
+        this.num = 0;
+    } else {
+        this.sp = Arrays.copyOf(other, other.length);
+        this.num = other.length;
+    }
+}
 public int getNum(){
         return num;
     }
 public void setNum(int num){
         this.num = num;
-        sp = new CuaHangDienThoai[num];
+        sp = new DienThoai[num];
     }
-public CuaHangDienThoai[] getSP(){
+public DienThoai[] getSP(){
         return sp;
     }
-public void setSP(CuaHangDienThoai[] sp){
+public void setSP(DienThoai[] sp){
         this.sp = sp;
     }
 
 
 public void DocFile(String tenFile) {
     try {
-        // ======= BƯỚC 1: ĐẾM SỐ DÒNG HỢP LỆ =======
         int count = 0;
         Scanner scCount = new Scanner(new File(tenFile));
 
@@ -48,12 +54,12 @@ public void DocFile(String tenFile) {
         scCount.close();
 
         if (count == 0) {
-            System.out.println(" File trống hoặc không có dòng hợp lệ!");
+            System.out.println(" File trong hoac khong co dong hop le!");
             return;
         }
 
   
-        sp = new CuaHangDienThoai[count];
+        sp = new DienThoai[count];
         num = 0;
 
 
@@ -68,11 +74,11 @@ public void DocFile(String tenFile) {
             String[] p = line.split("-");
 
             if (p.length < 8) {
-                System.out.println(" Dòng lỗi (thiếu dữ liệu): " + line);
+                System.out.println(" Dong loi (thieu du lieu): " + line);
                 continue;
             }
 
-            CuaHangDienThoai spdt = null;
+            DienThoai spdt = null;
             String loai = p[0].trim().toUpperCase();
 
             if (loai.equals("DTM")) {
@@ -93,7 +99,7 @@ public void DocFile(String tenFile) {
                         Integer.parseInt(p[7])
                 );
             } else {
-                System.out.println(" Loại sản phẩm không hợp lệ: " + line);
+                System.out.println(" Loai san pham khong hop le: " + line);
                 continue;
             }
 
@@ -101,12 +107,12 @@ public void DocFile(String tenFile) {
         }
 
         scFile.close();
-        System.out.println(" Đọc file thành công! Tổng sản phẩm: " + num);
+        System.out.println(" doc file thanh cong! Tong san pham: " + num);
 
     } catch (FileNotFoundException fnf) {
-        System.out.println(" Không tìm thấy file: " + tenFile);
+        System.out.println(" Khong tim thay file: " + tenFile);
     } catch (Exception e) {
-        System.out.println(" Lỗi đọc file: " + e.getMessage());
+        System.out.println(" Loi doc file: " + e.getMessage());
     }
 }
 
@@ -114,7 +120,7 @@ public void DocFile(String tenFile) {
 public void nhap(){
         System.out.println("vui long nhap so luong san pham ban dau ");
         num = sc.nextInt();
-        sp = new CuaHangDienThoai[num];
+        sp = new DienThoai[num];
         int i = 0;
         while(i < num){
             int choice = 0;
@@ -148,7 +154,7 @@ public void xuat(){
             sp[i].xuat();
         }
     }
-public void Them(CuaHangDienThoai sp1){
+public void Them(DienThoai sp1){
         sp = Arrays.copyOf(sp,num + 1);
         sp[num] = sp1;
         num++;
@@ -156,32 +162,32 @@ public void Them(CuaHangDienThoai sp1){
     }
 public void Them() {
     int choice = 0;
-    System.out.println("Vui lòng chọn loại sản phẩm cần thêm:");
+    System.out.println("Vui long chon loai san pham can them:");
     System.out.println("1. Smartphone");
     System.out.println("2. Ordinary Phone");
-    System.out.print("Lựa chọn của bạn: ");
+    System.out.print("Lua chon cua ban: ");
     choice = sc.nextInt();
     sc.nextLine();
 
-    CuaHangDienThoai sp1;
+    DienThoai sp1;
 
     switch (choice) {
         case 1:
             sp1 = new DienThoaiThongMinh();
-            System.out.println("Nhập thông tin điện thoại thông minh:");
+            System.out.println("Nhap thong tin dien thoai thong minh:");
             sp1.nhap();
             Them(sp1);
             break;
 
         case 2:
             sp1 = new DienThoaiCoDien();
-            System.out.println("Nhập thông tin điện thoại cổ điển:");
+            System.out.println("Nhap thong tin dien thoai co dien:");
             sp1.nhap();
             Them(sp1);
             break;
 
         default:
-            System.out.println("Lựa chọn không hợp lệ. Vui lòng thử lại!");
+            System.out.println("Lua chon khong hop le. Vui long thu lai!");
             break;
     }
 }
@@ -210,7 +216,7 @@ public void xoa(){
     ma = sc.nextLine();
     xoa(ma);
 }
-public void sua(String ma ) {
+public void sua(String ma) {
     boolean found = false;
     for (int i = 0; i < num; i++) {
         if (sp[i].getMaSP().equals(ma)) {
@@ -220,80 +226,82 @@ public void sua(String ma ) {
             found = true;
             switch (choice) {
                 case 1:
-                    System.out.println("vui lonng nhap ten san pham moi");
+                    System.out.println("vui long nhap ten san pham moi");
                     sp[i].setTenSP(sc.nextLine());
-                    System.out.println("Đã sửa tên thành công!");
+                    System.out.println("da sua ten thanh cong!");
                     break;
                 case 2:
-                    System.out.println("vui long nhap so luong moi ");
+                    System.out.println("vui long nhap so luong moi");
                     sp[i].setSoLuong(sc.nextInt());
-                    System.out.println("Đã sửa số lượng thành công!");
+                    System.out.println("da sua so luong thanh cong!");
                     break;
                 case 3:
-                    System.out.println("vui long nhap don vi tien moi ");
+                    System.out.println("vui long nhap don vi tien moi");
                     sp[i].setDonViTien(sc.nextLine());
-                    System.out.println("Đã sửa đơn vị tiền thành công!");
+                    System.out.println("da sua don vi tien thanh cong!");
                     break;
                 case 4:
-                    System.out.println("vui long nhap don gia moi ");
+                    System.out.println("vui long nhap don gia moi");
                     sp[i].setDonGia(sc.nextDouble());
-                    System.out.println("Đã sửa đơn giá thành công!");
+                    System.out.println("da sua don gia thanh cong!");
                     break;
                 case 5:
                     if (sp[i] instanceof DienThoaiThongMinh) {
-                        System.out.println("vui long nhap he dieu hanh moi ");
+                        System.out.println("vui long nhap he dieu hanh moi");
                         ((DienThoaiThongMinh) sp[i]).setHeDieuHanh(sc.nextLine());
-                        System.out.println("Đã sửa hệ điều hành thành công!");
+                        System.out.println("da sua he dieu hanh thanh cong!");
                     } else {
-                        System.out.println("Sản phẩm này không có hệ điều hành!");
+                        System.out.println("San pham nay khong co he dieu hanh!");
                     }
                     break;
                 case 6:
                     if (sp[i] instanceof DienThoaiThongMinh) {
-                        System.out.println("nhap dung luong moi cho san pham ");
+                        System.out.println("nhap dung luong moi cho san pham");
                         ((DienThoaiThongMinh) sp[i]).setDungLuong(sc.nextLine());
-                        System.out.println("Đã sửa dung lượng thành công!");
+                        System.out.println("da sua dung luong thanh cong!");
                     } else {
-                        System.out.println("Sản phẩm này không có dung lượng!");
+                        System.out.println("San pham nay khong co dung luong!");
                     }
                     break;
                 case 7:
                     if (sp[i] instanceof DienThoaiCoDien) {
-                        System.out.println("nhap thoi gian thoai moi cho san pham ");
+                        System.out.println("nhap thoi gian thoai moi cho san pham");
                         ((DienThoaiCoDien) sp[i]).setBanPhim(sc.nextLine());
-                        System.out.println("Đã sửa kiểu bàn phím thành công!");
+                        System.out.println("da sua kieu ban phim thanh cong!");
                     } else {
-                        System.out.println("Sản phẩm này không có bàn phím!");
+                        System.out.println("San pham nay khong co ban phim!");
                     }
                     break;
                 case 8:
                     if (sp[i] instanceof DienThoaiCoDien) {
-                        System.out.println("nhap thoi gian thoai moi cho san pham ");
+                        System.out.println("nhap thoi gian thoai moi cho san pham");
                         ((DienThoaiCoDien) sp[i]).setThoiGianThoai(sc.nextInt());
-                        System.out.println("Đã sửa thời gian thoại thành công!");
+                        System.out.println("da sua thoi gian thoai thanh cong!");
                     } else {
-                        System.out.println("Sản phẩm này không có thời gian thoại!");
+                        System.out.println("San pham nay khong co thoi gian thoai!");
                     }
                     break;
                 case 0:
                     sp[i].nhap();
-                    System.out.println("sua tat ca thanh cong ");
+                    System.out.println("sua tat ca thanh cong");
+                    break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ!");
+                    System.out.println("Lua chon khong hop le!");
             }
         }
     }
     if (!found) {
-        System.out.println("Không tìm thấy sản phẩm có mã: " + ma);
+        System.out.println("Khong tim thay san pham co ma: " + ma);
     }
 }
+
 public void sua(){
     System.out.println("vui long nhap ma can sua ");
     String ma = sc.nextLine();       
             sua(ma); 
 
 }
-public CuaHangDienThoai Search_Ma(String ma){
+public DienThoai Search_Ma(String ma){
       boolean found = false;
       for(int i = 0 ; i < num ; i++){
         if(sp[i].getMaSP().toLowerCase().contains(ma.toLowerCase())){
@@ -313,9 +321,9 @@ public void Search_Ma(){
       String ma = sc.nextLine();
       Search_Ma(ma);
 }
-public CuaHangDienThoai[] Search_Ten(String ten){
+public DienThoai[] Search_Ten(String ten){
       int count = 0;
-      CuaHangDienThoai[] kq = new CuaHangDienThoai[0]; 
+      DienThoai[] kq = new DienThoai[0]; 
       boolean found = false;
       for(int i = 0 ; i < num ; i++){
         if(sp[i].getTenSP().toLowerCase().contains(ten.toLowerCase())){
@@ -338,9 +346,9 @@ public void Search_Ten(){
       String ten = sc.nextLine();
       Search_Ten(ten);
 }
-public CuaHangDienThoai[] Search_SoLuong(int soluong){
+public DienThoai[] Search_SoLuong(int soluong){
       int count = 0;
-      CuaHangDienThoai[] kq = new CuaHangDienThoai[0]; 
+      DienThoai[] kq = new DienThoai[0]; 
       boolean found = false;
       for(int i = 0 ; i < num ; i++){
         if(sp[i].getSoLuong() == soluong){
@@ -365,9 +373,9 @@ public void Search_SoLuong(){
       Search_SoLuong(soluong);
 }
 
-public CuaHangDienThoai[] Search_DonGia(double min,double max){
+public DienThoai[] Search_DonGia(double min,double max){
       int count = 0;
-      CuaHangDienThoai[] kq = new CuaHangDienThoai[0]; 
+      DienThoai[] kq = new DienThoai[0]; 
       boolean found = false;
       for(int i = 0 ; i < num ; i++){
         if(sp[i].getDonGia() >= min && sp[i].getDonGia() <= max){
@@ -394,9 +402,9 @@ public void Search_DonGia(){
       sc.nextLine(); 
       Search_DonGia(min, max);
 }
-public CuaHangDienThoai[] Search_HeDieuHanh(String hedieuhanh) {
+public DienThoai[] Search_HeDieuHanh(String hedieuhanh) {
     boolean found = false;
-    CuaHangDienThoai[] kq = new CuaHangDienThoai[0];
+    DienThoai[] kq = new DienThoai[0];
     int count = 0;
 
     for (int i = 0; i < num; i++) {
@@ -424,9 +432,9 @@ public void Search_HeDieuHanh(){
     String hdh = sc.nextLine();
     Search_HeDieuHanh(hdh);
 }
-public CuaHangDienThoai[] Search_DungLuong(String dungluong) {
+public DienThoai[] Search_DungLuong(String dungluong) {
     boolean found = false;
-    CuaHangDienThoai[] kq = new CuaHangDienThoai[0];
+    DienThoai[] kq = new DienThoai[0];
     int count = 0;
 
     for (int i = 0; i < num; i++) {
@@ -454,9 +462,9 @@ public void Search_DungLuong(){
     String dl = sc.nextLine();
     Search_DungLuong(dl);
 }
-public CuaHangDienThoai[] Search_BanPhim(String banphim) {
+public DienThoai[] Search_BanPhim(String banphim) {
     boolean found = false;
-    CuaHangDienThoai[] kq = new CuaHangDienThoai[0];
+    DienThoai[] kq = new DienThoai[0];
     int count = 0;
 
     for (int i = 0; i < num; i++) {
@@ -484,9 +492,9 @@ public void Search_BanPhim(){
     String bp = sc.nextLine();
     Search_BanPhim(bp);
 }
-public CuaHangDienThoai[] Search_ThoiGianThoai(int min , int max) {
+public DienThoai[] Search_ThoiGianThoai(int min , int max) {
     boolean found = false;
-    CuaHangDienThoai[] kq = new CuaHangDienThoai[0];
+    DienThoai[] kq = new DienThoai[0];
     int count = 0;
 
     for (int i = 0; i < num; i++) {
@@ -574,9 +582,9 @@ public double[] ThongKe_HeDieuHanh(){
     other   = (other * 100.0) / tongSoLuong;
 
     // Xuất kết quả
-    System.out.printf("%-40s %.2f%%\n", "Tỷ lệ sản phẩm Android:", android);
-    System.out.printf("%-40s %.2f%%\n", "Tỷ lệ sản phẩm iOS:", ios);
-    System.out.printf("%-40s %.2f%%\n", "Tỷ lệ sản phẩm hệ điều hành khác:", other);
+    System.out.printf("%-40s %.2f%%\n", "Ty le san pham Android:", android);
+    System.out.printf("%-40s %.2f%%\n", "Ty le san pham iOS:", ios);
+    System.out.printf("%-40s %.2f%%\n", "Ty le san pham he dieu hanh khac:", other);
 
     return new double[]{android, ios, other};
 }
@@ -700,10 +708,10 @@ public void GhiFile(String tenFile) {
             pw.println(line); 
         }
 
-        System.out.println(" Ghi file thành công! Tổng sản phẩm: " + num);
+        System.out.println(" Ghi file thanh cong! Tong san pham: " + num);
 
     } catch (Exception e) {
-        System.out.println(" Lỗi ghi file: " + e.getMessage());
+        System.out.println(" Loi ghi file: " + e.getMessage());
     }
 }
 

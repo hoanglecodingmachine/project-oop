@@ -13,7 +13,7 @@ public class MainQLBH {
     public static DanhSachBaoHanh dsbh = new DanhSachBaoHanh();
     public static DanhSachPhuKienDiKem dsphukien = new DanhSachPhuKienDiKem();
 
-    // === Đọc tất cả file vào chương trình ===
+    // === Doc tat ca file vao chuong trinh ===
     public void DocFile() {
         dssp.DocFile("SanPham.txt");
         dshd.DocFile("HoaDon.txt");
@@ -27,7 +27,7 @@ public class MainQLBH {
         dsphukien.DocFile("PhuKienDiKem.txt");
     }
 
-    // === Ghi tất cả dữ liệu ra file ===
+    // === Ghi tat ca du lieu ra file ===
     public void GhiFile() {
         dssp.GhiFile("SanPham.txt");
         dshd.GhiFile("HoaDon.txt");
@@ -39,34 +39,34 @@ public class MainQLBH {
         dsctpnh.GhiFile("ChiTietPhieuNhap.txt");
         dsbh.GhiFile("BaoHanh.txt");
         dsphukien.GhiFile("PhuKienDiKem.txt");
-        System.out.println(" Dữ liệu đã được lưu thành công!");
+        System.out.println("Du lieu da duoc luu thanh cong!");
     }
 
-    // === Ví dụ menu tổng ===
+    // === Menu tong ===
     public void menuChinh() {
         int chon;
         do {
-            System.out.println("\n==== MENU CHÍNH ====");
-            System.out.println("1. Quản lý sản phẩm");
+            System.out.println("\n==== MENU CHINH ====");
+            System.out.println("1. Quan ly san pham");
             QLSP qlsp = new QLSP();
-            System.out.println("2. Quản lý hóa đơn");
+            System.out.println("2. Quan ly hoa don");
             QLHD qlhd = new QLHD();
-            System.out.println("3. Quản lý khách hàng");
+            System.out.println("3. Quan ly khach hang");
             QLKH qlkh = new QLKH();
-            System.out.println("4. Quản lý nhân viên");
+            System.out.println("4. Quan ly nhan vien");
             QLNV qlnv = new QLNV();
-            System.out.println("5. Quản lý nhập hàng");
+            System.out.println("5. Quan ly nhap hang");
             QLPNH qlpnh = new QLPNH();
-            System.out.println("6. Quản lý nhà cung cấp");
+            System.out.println("6. Quan ly nha cung cap");
             QLNCC qlncc = new QLNCC();
-            System.out.println("7. Quản lý bảo hành");
+            System.out.println("7. Quan ly bao hanh");
             QLBH qlbh = new QLBH();
-            System.out.println("8. Quản lý phụ kiện đi kèm");
+            System.out.println("8. Quan ly phu kien di kem");
             QLPK qlpk = new QLPK();
-            System.out.println("9. Thong Ke Tien Trong Khoang Thoi Gian Ban");
-            System.out.println("10. Thong Ke Tien Theo Quy");
-            System.out.println("0. Thoát và lưu dữ liệu");
-            System.out.print("Nhập lựa chọn: ");
+            System.out.println("9. Thong ke tien trong khoang thoi gian ban");
+            System.out.println("10. Thong ke tien theo quy");
+            System.out.println("0. Thoat va luu du lieu");
+            System.out.print("Nhap lua chon: ");
             chon = sc.nextInt();
             sc.nextLine();
 
@@ -92,11 +92,11 @@ public class MainQLBH {
                 case 10:
                     qlhd.ThongKe_TheoQuy(); break;
                 case 0:
-                    GhiFile(); // gọi hàm ghi file trước khi thoát
-                    System.out.println("Thoát chương trình...");
+                    GhiFile(); // goi ham ghi file truoc khi thoat
+                    System.out.println("Thoat chuong trinh...");
                     break;
                 default:
-                    System.out.println("Lựa chọn không hợp lệ!");
+                    System.out.println("Lua chon khong hop le!");
             }
 
         } while (chon != 0);
@@ -104,7 +104,7 @@ public class MainQLBH {
 
     public static void main(String[] args) {
         MainQLBH qlbh = new MainQLBH();
-        qlbh.DocFile(); // đọc dữ liệu ban đầu
-        qlbh.menuChinh(); // chạy menu
+        qlbh.DocFile(); // doc du lieu ban dau
+        qlbh.menuChinh(); // chay menu
     }
 }
